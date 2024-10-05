@@ -1,15 +1,23 @@
 <script setup>
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import InfoSlider from '@/components/InfoSlider/Index.vue'
+import InfoSliderItemVacation from '@/components/InfoSlider/Item/Vacation.vue'
+import InfoSliderItemUpcomingEvent from '@/components/InfoSlider/Item/UpcomingEvent.vue'
+import InfoSliderItemUserData from '@/components/InfoSlider/Item/UserData.vue'
+import InfoSliderItemUpcomingBirthday from '@/components/InfoSlider/Item/UpcomingBirthday.vue'
+import InfoSliderItemUpcomingHoliday from '@/components/InfoSlider/Item/UpcomingHoliday.vue'
+import InfoSliderItemUpcomingVacation from '@/components/InfoSlider/Item/UpcomingVacation.vue'
+import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/OvertimeRequest.vue'
 import WeatcherCard from '@/components/WeatcherCard.vue'
 </script>
 
 <template>
   <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white"
+    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto"
   >
-    <div class="p-2 flex-1">
-      <div class="flex items-center p-4">
-        <img class="me-auto" src="@/images/logo.png" alt="" />
+    <div class="p-4 flex-1">
+      <div class="flex items-center">
+        <img class="me-auto" src="/images/logo.png" alt="" />
 
         <svg
           width="48"
@@ -33,11 +41,10 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           />
         </svg>
 
-        <img src="@/images/user-avatar.png" alt="" />
+        <img src="/images/user-avatar.png" alt="" />
       </div>
 
-      <!-- quick actions -->
-      <div class="flex flex-col gap-y-[6px] mt-[10px]">
+      <div class="mt-4">
         <WeatcherCard />
 
         <div class="flex items-center gap-x-2 mt-4">
@@ -67,44 +74,112 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           <span class="text-[18px] font-semibold"> Hızlı Alanım </span>
         </div>
 
-        <div class="flex gap-x-[10px] -mx-2 px-2 mt-3 overflow-x-auto">
+        <!-- quick actions -->
+        <div class="flex gap-x-[10px] -mx-4 px-4 mt-3 overflow-x-auto">
           <div
             class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
           >
-            <img src="@/images/izin.svg" alt="" />
+            <img src="/images/izin.svg" alt="" />
             <span class="font-semibold text-night-sky"> İzin </span>
           </div>
 
           <div
             class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
           >
-            <img src="@/images/surecler.svg" alt="" />
+            <img src="/images/surecler.svg" alt="" />
             <span class="font-semibold text-night-sky"> Süreçler </span>
           </div>
 
           <div
             class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
           >
-            <img src="@/images/avans.svg" alt="" />
+            <img src="/images/avans.svg" alt="" />
             <span class="font-semibold text-night-sky"> Avans </span>
           </div>
 
           <div
             class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
           >
-            <img src="@/images/harcama.svg" alt="" />
+            <img src="/images/harcama.svg" alt="" />
             <span class="font-semibold text-night-sky"> Harcamalar </span>
           </div>
 
           <div
             class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
           >
-            <img src="@/images/ayarlar.svg" alt="" />
+            <img src="/images/ayarlar.svg" alt="" />
             <span class="font-semibold text-night-sky"> Ayarlar </span>
           </div>
         </div>
+        <!-- quick actions -->
+
+        <InfoSlider class="mt-4">
+          <template #slide0>
+            <InfoSliderItemVacation
+              total-annual-leave="14"
+              remaining-annual-leave="11"
+              annual-leave-end-date="11.11.2011"
+            />
+          </template>
+          <template #slide1>
+            <InfoSliderItemVacation
+              total-annual-leave="14"
+              remaining-annual-leave="5"
+              annual-leave-end-date="11.11.2011"
+              :current-vacation="{ startDate: '01.01.2021', endDate: '01.01.2021', type: 'Yıllık' }"
+            />
+          </template>
+          <template #slide2>
+            <InfoSliderItemUpcomingEvent
+              :upcoming-events="[
+                {
+                  startDate: '01.01.2021',
+                  endDate: '01.01.2021',
+                  title: 'İnsan Kaynakları uygulaması hakkında toplantı.'
+                },
+                {
+                  startDate: '01.01.2021',
+                  endDate: '01.01.2021',
+                  title: 'İnsan Kaynakları uygulaması hakkında toplantı.'
+                }
+              ]"
+            />
+          </template>
+          <template #slide3>
+            <InfoSliderItemUpcomingEvent />
+          </template>
+          <template #slide4>
+            <InfoSliderItemUserData
+              :user-data="{
+                name: 'Mehmet Yılmaz',
+                startDate: '1 Nisan 2022',
+                experience: '2 Yıl 4 Ay 25 Gün',
+                jobTitle: 'CTO',
+                company: 'ByteWave Inno...',
+                workType: 'Tam Zamanlı'
+              }"
+            />
+          </template>
+        </InfoSlider>
+
+        <InfoSlider class="mt-4">
+          <template #slide0>
+            <InfoSliderItemUpcomingBirthday />
+          </template>
+          <template #slide1>
+            <InfoSliderItemUpcomingHoliday />
+          </template>
+        </InfoSlider>
+
+        <InfoSlider class="mt-4">
+          <template #slide0>
+            <InfoSliderItemUpcomingVacation />
+          </template>
+          <template #slide1>
+            <InfoSliderItemOvertimeRequest />
+          </template>
+        </InfoSlider>
       </div>
-      <!-- quick actions -->
     </div>
     <BottomNavigation />
   </div>

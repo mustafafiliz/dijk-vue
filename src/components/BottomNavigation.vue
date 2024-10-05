@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex py-[10px] px-6 sticky left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)]"
+    class="flex py-[10px] px-6 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10"
   >
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="/dasboard/home">
+    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="/dashboard/home">
       <svg
         width="25"
         height="25"
@@ -14,10 +14,15 @@
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M0.90244 7.54994C0.253888 8.90275 0.481552 10.485 0.93688 13.6495L1.2714 15.9742C1.8563 20.0392 2.14875 22.0717 3.55883 23.2858C4.9689 24.5 7.03684 24.5 11.1727 24.5H13.8273C17.9631 24.5 20.0311 24.5 21.4412 23.2858C22.8512 22.0717 23.1436 20.0392 23.7286 15.9742L24.0631 13.6495C24.5185 10.485 24.7461 8.90275 24.0975 7.54994C23.449 6.19712 22.0686 5.37481 19.3077 3.73017L17.6458 2.74024C15.1388 1.24675 13.8852 0.5 12.5 0.5C11.1148 0.5 9.86125 1.24675 7.3541 2.74024L5.69229 3.73017C2.93142 5.37481 1.55099 6.19712 0.90244 7.54994ZM8.00012 19.6998C8.00012 19.2027 8.40307 18.7998 8.90012 18.7998H16.1001C16.5972 18.7998 17.0001 19.2027 17.0001 19.6998C17.0001 20.1968 16.5972 20.5998 16.1001 20.5998H8.90012C8.40307 20.5998 8.00012 20.1968 8.00012 19.6998Z"
-          fill="#2F69FF"
+          :fill="$route.fullPath == '/dashboard/home' ? '#2F69FF' : '#292D32'"
         />
       </svg>
-      <span class="text-[10px] text-gentian-flower font-semibold"> Ana Sayfa </span>
+      <span
+        class="text-[10px] text-gentian-flower font-semibold"
+        :class="$route.fullPath == '/dashboard/home' ? 'text-gentian-flower' : 'text-night-sky'"
+      >
+        Ana Sayfa
+      </span>
     </RouterLink>
 
     <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="#">
@@ -64,7 +69,7 @@
       <span class="text-[10px] text-night-sky font-semibold"> Takvim </span>
     </RouterLink>
 
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="#">
+    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="/dashboard/profile">
       <svg
         width="25"
         height="25"
@@ -77,7 +82,7 @@
             fill-rule="evenodd"
             clip-rule="evenodd"
             d="M12.5 24.5C19.1276 24.5 24.5 19.1276 24.5 12.5C24.5 5.8724 19.1276 0.5 12.5 0.5C5.8724 0.5 0.5 5.8724 0.5 12.5C0.5 19.1276 5.8724 24.5 12.5 24.5ZM16.1 10.1C16.1 11.0548 15.7207 11.9705 15.0456 12.6456C14.3705 13.3207 13.4548 13.7 12.5 13.7C11.5452 13.7 10.6295 13.3207 9.95442 12.6456C9.27928 11.9705 8.9 11.0548 8.9 10.1C8.9 9.14522 9.27928 8.22955 9.95442 7.55442C10.6295 6.87928 11.5452 6.5 12.5 6.5C13.4548 6.5 14.3705 6.87928 15.0456 7.55442C15.7207 8.22955 16.1 9.14522 16.1 10.1ZM5.3 18.5C6.13761 17.3815 7.22452 16.4737 8.47438 15.8488C9.72424 15.2238 11.1026 14.899 12.5 14.9C13.8974 14.899 15.2758 15.2238 16.5256 15.8488C17.7755 16.4737 18.8624 17.3815 19.7 18.5C18.8624 19.6185 17.7755 20.5263 16.5256 21.1512C15.2758 21.7762 13.8974 22.101 12.5 22.1C11.1026 22.101 9.72424 21.7762 8.47438 21.1512C7.22452 20.5263 6.13761 19.6185 5.3 18.5Z"
-            fill="#292D32"
+            :fill="$route.fullPath == '/dashboard/profile' ? '#2F69FF' : '#292D32'"
           />
         </g>
         <defs>
@@ -87,7 +92,12 @@
         </defs>
       </svg>
 
-      <span class="text-[10px] text-night-sky font-semibold"> Profilim </span>
+      <span
+        class="text-[10px] font-semibold"
+        :class="$route.fullPath == '/dashboard/profile' ? 'text-gentian-flower' : 'text-night-sky'"
+      >
+        Profilim
+      </span>
     </RouterLink>
   </div>
 </template>
