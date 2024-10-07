@@ -31,6 +31,6 @@
         <div class="text-12 font-semibold text-end">Güneşli</div>
       </div>
     </div>
-    <img src="/images/weather-bg.jpg" alt="" />
+    <img class="w-full h-full object-cover" src="/images/weather-bg.jpg" alt="" />
   </div>
 </template>

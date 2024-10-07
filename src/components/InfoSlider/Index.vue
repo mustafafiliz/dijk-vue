@@ -34,11 +34,10 @@ register()
 <template>
   <div>
     <swiper-container
-      class="bg-white rounded-2xl"
+      class="bg-white rounded-2xl h-full"
       pagination="true"
       :injectStyles="[paginationStyle]"
       initialSlide="0"
-      autoHeight="true"
     >
       <swiper-slide
         class="pt-2 pe-2 ps-2 pb-[26px] h-auto"

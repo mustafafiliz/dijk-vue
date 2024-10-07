@@ -13,9 +13,9 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
 
 <template>
   <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto"
+    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="p-4 flex-1">
+    <div class="p-4 flex-1 max-w-5xl">
       <div class="flex items-center">
         <img class="me-auto" src="/images/logo.png" alt="" />
 
@@ -44,76 +44,78 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
         <img src="/images/user-avatar.png" alt="" />
       </div>
 
-      <div class="mt-4">
+      <div class="mt-4 flex flex-col gap-4 md:grid md:grid-cols-2">
         <WeatcherCard />
 
-        <div class="flex items-center gap-x-2 mt-4">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 36 36"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="36" height="36" rx="8" fill="#FF8000" />
-            <g clip-path="url(#clip0_280_4126)">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M24.2597 18.9H21.5597C20.0683 18.9 18.9 20.1168 18.9 21.6081V24.3081C18.9 25.7994 20.0683 27 21.5597 27H24.2597C25.7511 27 27 25.7994 27 24.3081V21.6081C27 20.1168 25.7511 18.9 24.2597 18.9ZM14.3597 18.9H11.6597C10.1683 18.9 9 20.1168 9 21.6081V24.3081C9 25.7994 10.1683 27 11.6597 27H14.3597C15.8511 27 17.1 25.7994 17.1 24.3081V21.6081C17.1 20.1168 15.8511 18.9 14.3597 18.9ZM24.2597 9H21.5597C20.0683 9 18.9 10.2168 18.9 11.7081V14.4081C18.9 15.8994 20.0683 17.1 21.5597 17.1H24.2597C25.7511 17.1 27 15.8994 27 14.4081V11.7081C27 10.2168 25.7511 9 24.2597 9ZM14.3597 9H11.6597C10.1683 9 9 10.2168 9 11.7081V14.4081C9 15.8994 10.1683 17.1 11.6597 17.1H14.3597C15.8511 17.1 17.1 15.8994 17.1 14.4081V11.7081C17.1 10.2168 15.8511 9 14.3597 9Z"
-                fill="white"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_280_4126">
-                <rect width="18" height="18" fill="white" transform="translate(9 9)" />
-              </clipPath>
-            </defs>
-          </svg>
+        <div>
+          <div class="flex items-center gap-x-2">
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="36" height="36" rx="8" fill="#FF8000" />
+              <g clip-path="url(#clip0_280_4126)">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M24.2597 18.9H21.5597C20.0683 18.9 18.9 20.1168 18.9 21.6081V24.3081C18.9 25.7994 20.0683 27 21.5597 27H24.2597C25.7511 27 27 25.7994 27 24.3081V21.6081C27 20.1168 25.7511 18.9 24.2597 18.9ZM14.3597 18.9H11.6597C10.1683 18.9 9 20.1168 9 21.6081V24.3081C9 25.7994 10.1683 27 11.6597 27H14.3597C15.8511 27 17.1 25.7994 17.1 24.3081V21.6081C17.1 20.1168 15.8511 18.9 14.3597 18.9ZM24.2597 9H21.5597C20.0683 9 18.9 10.2168 18.9 11.7081V14.4081C18.9 15.8994 20.0683 17.1 21.5597 17.1H24.2597C25.7511 17.1 27 15.8994 27 14.4081V11.7081C27 10.2168 25.7511 9 24.2597 9ZM14.3597 9H11.6597C10.1683 9 9 10.2168 9 11.7081V14.4081C9 15.8994 10.1683 17.1 11.6597 17.1H14.3597C15.8511 17.1 17.1 15.8994 17.1 14.4081V11.7081C17.1 10.2168 15.8511 9 14.3597 9Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_280_4126">
+                  <rect width="18" height="18" fill="white" transform="translate(9 9)" />
+                </clipPath>
+              </defs>
+            </svg>
 
-          <span class="text-[18px] font-semibold"> Hızlı Alanım </span>
+            <span class="text-[18px] font-semibold"> Hızlı Alanım </span>
+          </div>
+
+          <!-- quick actions -->
+          <div class="flex gap-[10px] -mx-4 px-4 mt-3 overflow-x-auto md:flex-wrap">
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/izin.svg" alt="" />
+              <span class="font-semibold text-night-sky"> İzin </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/surecler.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Süreçler </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/avans.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Avans </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/harcama.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Harcamalar </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/ayarlar.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Ayarlar </span>
+            </div>
+          </div>
+          <!-- quick actions -->
         </div>
 
-        <!-- quick actions -->
-        <div class="flex gap-x-[10px] -mx-4 px-4 mt-3 overflow-x-auto">
-          <div
-            class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-          >
-            <img src="/images/izin.svg" alt="" />
-            <span class="font-semibold text-night-sky"> İzin </span>
-          </div>
-
-          <div
-            class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-          >
-            <img src="/images/surecler.svg" alt="" />
-            <span class="font-semibold text-night-sky"> Süreçler </span>
-          </div>
-
-          <div
-            class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-          >
-            <img src="/images/avans.svg" alt="" />
-            <span class="font-semibold text-night-sky"> Avans </span>
-          </div>
-
-          <div
-            class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-          >
-            <img src="/images/harcama.svg" alt="" />
-            <span class="font-semibold text-night-sky"> Harcamalar </span>
-          </div>
-
-          <div
-            class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-          >
-            <img src="/images/ayarlar.svg" alt="" />
-            <span class="font-semibold text-night-sky"> Ayarlar </span>
-          </div>
-        </div>
-        <!-- quick actions -->
-
-        <InfoSlider class="mt-4">
+        <InfoSlider>
           <template #slide0>
             <InfoSliderItemVacation
               total-annual-leave="14"
@@ -162,7 +164,7 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           </template>
         </InfoSlider>
 
-        <InfoSlider class="mt-4">
+        <InfoSlider>
           <template #slide0>
             <InfoSliderItemUpcomingBirthday />
           </template>
@@ -171,7 +173,7 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           </template>
         </InfoSlider>
 
-        <InfoSlider class="mt-4">
+        <InfoSlider>
           <template #slide0>
             <InfoSliderItemUpcomingVacation />
           </template>
@@ -181,6 +183,7 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
         </InfoSlider>
       </div>
     </div>
+
     <BottomNavigation />
   </div>
 </template>

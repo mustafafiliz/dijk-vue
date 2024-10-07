@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex py-[10px] px-6 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10"
+    class="flex py-[10px] px-6 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:static md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-20"
   >
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="/dashboard/home">
+    <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/home">
       <svg
         width="25"
         height="25"
@@ -25,7 +25,7 @@
       </span>
     </RouterLink>
 
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="#">
+    <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/fields">
       <svg
         width="25"
         height="25"
@@ -33,7 +33,14 @@
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="0.833252" y="0.5" width="24" height="24" rx="8" fill="#292D32" />
+        <rect
+          x="0.833252"
+          y="0.5"
+          width="24"
+          height="24"
+          rx="8"
+          :fill="$route.fullPath == '/dashboard/fields' ? '#2F69FF' : '#292D32'"
+        />
         <g clip-path="url(#clip0_2054_332)">
           <path
             fill-rule="evenodd"
@@ -49,10 +56,15 @@
         </defs>
       </svg>
 
-      <span class="text-[10px] text-night-sky font-semibold"> Alanım </span>
+      <span
+        class="text-[10px] font-semibold"
+        :class="$route.fullPath == '/dashboard/fields' ? 'text-gentian-flower' : 'text-night-sky'"
+      >
+        Alanım
+      </span>
     </RouterLink>
 
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="#">
+    <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="#">
       <svg
         width="23"
         height="25"
@@ -69,7 +81,7 @@
       <span class="text-[10px] text-night-sky font-semibold"> Takvim </span>
     </RouterLink>
 
-    <RouterLink class="flex flex-col items-center flex-1 gap-y-1" to="/dashboard/profile">
+    <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/profile">
       <svg
         width="25"
         height="25"

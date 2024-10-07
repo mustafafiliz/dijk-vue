@@ -4,9 +4,9 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
 
 <template>
   <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto"
+    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="p-4 flex-1">
+    <div class="p-4 flex-1 max-w-5xl">
       <button class="py-2" type="button" @click="$router.go(-1)">
         <svg
           width="36"

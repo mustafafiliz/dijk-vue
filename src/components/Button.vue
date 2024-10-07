@@ -7,6 +7,10 @@ defineProps({
   variant: {
     type: String,
     default: 'primary'
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -17,7 +21,12 @@ const variantClasses = {
 </script>
 
 <template>
-  <button class="flex items-center justify-center" :class="variantClasses[variant]" :type="type">
+  <button
+    class="flex items-center justify-center"
+    :class="[variantClasses[variant], { 'opacity-50 cursor-not-allowed': isDisabled }]"
+    :type="type"
+    :disabled="isDisabled"
+  >
     <slot />
   </button>
 </template>

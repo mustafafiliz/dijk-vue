@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import Button from '@/components/Button.vue'
 import PhoneInput from '@/components/PhoneInput.vue'
 import VOtpInput from 'vue3-otp-input'
+import Input from '@/components/Input.vue'
 
 const phoneNumber = ref('')
 const isValidPhoneNumber = ref(false)
+const password = ref('')
 
 const isModalOpen = ref(false)
 const isOpenOtp = ref(false)
@@ -32,15 +34,15 @@ const updateValidity = (isValid) => {
       <img class="max-w-[28.5rem]" src="/images/welcome-splash.png" alt="Dijik" />
       <div class="flex flex-col mt-8">
         <div class="text-night-sky text-28 font-semibold">
-          Faster communication <br />
-          <span class="text-36 text-gentian-flower font-bold"> Stronger Future </span>
+          Daha Hızlı İletişim <br />
+          <span class="text-36 text-gentian-flower font-bold"> Daha Güçlü Gelecek </span>
         </div>
 
         <div class="font-medium text-18 text-squant mt-2 mb-6 md:mt-8 md:mb-12">
-          Human resources, Simplified !
+          İnsan Kaynakları, Basitleştirildi!
         </div>
 
-        <Button @click="isModalOpen = true"> Let’s Get Started </Button>
+        <Button @click="isModalOpen = true"> Hadi Başalayalım </Button>
       </div>
 
       <!-- input modal start -->
@@ -93,11 +95,11 @@ const updateValidity = (isValid) => {
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
             <div class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky">
-              Phone Number
+              Telefon Numarası
             </div>
             <div class="relative flex items-center w-full mt-1 mb-4">
               <PhoneInput @updatePhoneNumber="updatePhoneNumber" @updateValidity="updateValidity" />
-              <button
+              <!-- <button
                 @click="isOpenOtp = true"
                 v-show="isValidPhoneNumber.value"
                 class="absolute cursor-pointer right-4"
@@ -115,8 +117,9 @@ const updateValidity = (isValid) => {
                     fill="#292D32"
                   />
                 </svg>
-              </button>
+              </button> -->
             </div>
+            <Input v-model="password" v-show="!isOpenOtp" placeholder="Parola" type="password" />
             <v-otp-input
               v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
               ref="otpInput"
@@ -127,8 +130,16 @@ const updateValidity = (isValid) => {
               @on-change="isActiveLoginButton = false"
               @on-complete="isActiveLoginButton = true"
             />
+            <Button
+              class="w-full mt-4"
+              @click="isOpenOtp = true"
+              v-show="!isOpenOtp"
+              :is-disabled="!isValidPhoneNumber.value"
+            >
+              Giriş Kodu Gönder
+            </Button>
             <Button class="w-full mt-4" v-show="isActiveLoginButton">
-              <RouterLink to="/dashboard/home"> Login </RouterLink>
+              <RouterLink to="/dashboard/home"> Giriş Yap </RouterLink>
             </Button>
           </div>
         </div>
