@@ -27,13 +27,17 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
       </button>
 
       <div class="grid grid-cols-2 gap-4">
-        <FieldItem title="İzin" />
+        <FieldItem title="İzin" to="/dashboard/permission-request" />
         <FieldItem title="Avans" image="/images/avans.svg" />
         <FieldItem title="Harcama" image="/images/harcama.svg" />
         <FieldItem title="Ekstra Mesai" image="/images/mesai.svg" />
-        <FieldItem title="Takımım" image="/images/team.svg" />
-        <FieldItem title="Rehber" image="/images/rehber.svg" />
-        <FieldItem title="Onayımdaki Süreçler" image="/images/surecler.svg" />
+        <FieldItem title="Takımım" image="/images/team.svg" to="/dashboard/team" />
+        <FieldItem title="Rehber" image="/images/rehber.svg" to="/dashboard/directory" />
+        <FieldItem
+          title="Onayımdaki Süreçler"
+          image="/images/surecler.svg"
+          to="/dashboard/approval-process"
+        />
         <FieldItem title="Ayarlar" image="/images/ayarlar.svg" />
       </div>
     </div>

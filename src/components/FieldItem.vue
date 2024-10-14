@@ -7,13 +7,15 @@ defineProps({
   title: {
     type: String,
     default: 'Başlık'
-  }
+  },
+  to: String
 })
 </script>
 
 <template>
-  <div
+  <RouterLink
     class="relative p-[14px] bg-white rounded-[10px] flex flex-col items-center justify-center gap-y-2"
+    :to="to"
   >
     <div class="absolute top-2 right-2">
       <svg
@@ -31,5 +33,5 @@ defineProps({
     </div>
     <img class="w-16 h-16" :src="image" alt="Field Image" />
     <div class="font-semibold text-12 text-night-sky">{{ title }}</div>
-  </div>
+  </RouterLink>
 </template>

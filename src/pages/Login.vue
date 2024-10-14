@@ -29,32 +29,38 @@ const updateValidity = (isValid) => {
 <template>
   <div class="flex items-center justify-center h-dvh">
     <div
-      class="relative flex flex-col h-dvh w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-[4.8125rem] pb-24 md:bg-none md:w-fit md:h-fit md:text-center"
+      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-[4.8125rem] pb-24 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
-      <img class="max-w-[28.5rem]" src="/images/welcome-splash.png" alt="Dijik" />
-      <div class="flex flex-col mt-8">
-        <div class="text-night-sky text-28 font-semibold">
-          Daha Hızlı İletişim <br />
-          <span class="text-36 text-gentian-flower font-bold"> Daha Güçlü Gelecek </span>
-        </div>
+      <div class="flex-1 md:flex md:flex-col md:items-center md:justify-center">
+        <img
+          class="max-w-full w-[28.5rem] md:mx-auto"
+          src="/images/welcome-splash.png"
+          alt="Dijik"
+        />
+        <div class="flex flex-col mt-8">
+          <div class="text-night-sky text-28 font-semibold">
+            Daha Hızlı İletişim <br />
+            <span class="text-36 text-gentian-flower font-bold"> Daha Güçlü Gelecek </span>
+          </div>
 
-        <div class="font-medium text-18 text-squant mt-2 mb-6 md:mt-8 md:mb-12">
-          İnsan Kaynakları, Basitleştirildi!
-        </div>
+          <div class="font-medium text-18 text-squant mt-2 mb-6 md:mt-8 md:mb-12">
+            İnsan Kaynakları, Basitleştirildi!
+          </div>
 
-        <Button @click="isModalOpen = true"> Hadi Başalayalım </Button>
+          <Button class="md:hidden" @click="isModalOpen = true"> Hadi Başalayalım </Button>
+        </div>
       </div>
 
       <!-- input modal start -->
       <div
-        class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 backdrop-blur-2xl transition-transform md:fixed md:bg-opacity-10 md:backdrop-blur-[100px]"
+        class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 backdrop-blur-2xl transition-transform md:static md:backdrop-blur-[100px] md:flex-1 md:bg-gray-50 md:bg-opacity-100"
         :class="{
           'transform -translate-x-0 md:opacity-100': isModalOpen,
-          '-translate-x-full md:opacity-0': !isModalOpen
+          'max-md:-translate-x-full': !isModalOpen
         }"
       >
         <Button
-          class="absolute top-[57px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl"
+          class="absolute top-[57px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl md:hidden"
           variant="light"
           @click="isModalOpen = false"
         >
@@ -94,7 +100,9 @@ const updateValidity = (isValid) => {
           </div>
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
-            <div class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky">
+            <div
+              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300"
+            >
               Telefon Numarası
             </div>
             <div class="relative flex items-center w-full mt-1 mb-4">
@@ -119,11 +127,17 @@ const updateValidity = (isValid) => {
                 </svg>
               </button> -->
             </div>
-            <Input v-model="password" v-show="!isOpenOtp" placeholder="Parola" type="password" />
+            <Input
+              class="md:border md:border-gray-300"
+              v-model="password"
+              v-show="!isOpenOtp"
+              placeholder="Parola"
+              type="password"
+            />
             <v-otp-input
               v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
               ref="otpInput"
-              class="w-full bg-white py-2 px-3 gap-x-3 text-24 font-semibold rounded-3xl [&>div]:flex-1 [&>div>input]:w-full [&>div>input]:outline-none [&>div>input]:text-center [&>div>input]:bg-smoke [&>div>input]:rounded [&>div>input]:h-12"
+              class="w-full bg-white py-2 px-3 gap-x-3 text-24 font-semibold rounded-3xl [&>div]:flex-1 [&>div>input]:w-full [&>div>input]:outline-none [&>div>input]:text-center [&>div>input]:bg-smoke [&>div>input]:rounded [&>div>input]:h-12 md:border md:border-gray-300"
               inputmode="tel"
               :num-inputs="6"
               :should-focus-order="true"

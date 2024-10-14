@@ -14,7 +14,10 @@ export default {
         orochimaru: '#D9D9D9',
         gamora: '#0FBA00',
         beluga: '#F1F1F1',
-        'wild-dove': '#8A8A8A'
+        'wild-dove': '#8A8A8A',
+        'lusty-red': '#B13A3A',
+        'arch-grey': '#6B6969',
+        'metal-armor': '#898A8D'
       },
       fontSize: {
         12: '0.75rem',

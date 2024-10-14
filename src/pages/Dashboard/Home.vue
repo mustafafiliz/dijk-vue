@@ -1,6 +1,7 @@
 <script setup>
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import InfoSlider from '@/components/InfoSlider/Index.vue'
+import InfoSliderHeader from '@/components/InfoSlider/Header.vue'
 import InfoSliderItemVacation from '@/components/InfoSlider/Item/Vacation.vue'
 import InfoSliderItemUpcomingEvent from '@/components/InfoSlider/Item/UpcomingEvent.vue'
 import InfoSliderItemUserData from '@/components/InfoSlider/Item/UserData.vue'
@@ -9,11 +10,12 @@ import InfoSliderItemUpcomingHoliday from '@/components/InfoSlider/Item/Upcoming
 import InfoSliderItemUpcomingVacation from '@/components/InfoSlider/Item/UpcomingVacation.vue'
 import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/OvertimeRequest.vue'
 import WeatcherCard from '@/components/WeatcherCard.vue'
+import VideoBox from '@/components/VideoBox.vue'
 </script>
 
 <template>
   <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
+    class="flex flex-col max-md:h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
     <div class="p-4 flex-1 max-w-5xl">
       <div class="flex items-center">
@@ -45,9 +47,10 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
       </div>
 
       <div class="mt-4 flex flex-col gap-4 md:grid md:grid-cols-2">
-        <WeatcherCard />
-
-        <div>
+        <div class="col-span-2 flex justify-center">
+          <WeatcherCard class="order-1" />
+        </div>
+        <div class="order-2 md:order-3 md:col-span-2">
           <div class="flex items-center gap-x-2">
             <svg
               width="36"
@@ -76,7 +79,7 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           </div>
 
           <!-- quick actions -->
-          <div class="flex gap-[10px] -mx-4 px-4 mt-3 overflow-x-auto md:flex-wrap">
+          <div class="flex gap-[13px] -mx-4 px-4 mt-3 overflow-x-auto">
             <div
               class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
             >
@@ -111,11 +114,39 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
               <img src="/images/ayarlar.svg" alt="" />
               <span class="font-semibold text-night-sky"> Ayarlar </span>
             </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/izin.svg" alt="" />
+              <span class="font-semibold text-night-sky"> İzin </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/surecler.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Süreçler </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/avans.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Avans </span>
+            </div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
+            >
+              <img src="/images/harcama.svg" alt="" />
+              <span class="font-semibold text-night-sky"> Harcamalar </span>
+            </div>
           </div>
           <!-- quick actions -->
         </div>
 
-        <InfoSlider>
+        <InfoSlider class="order-3">
           <template #slide0>
             <InfoSliderItemVacation
               total-annual-leave="14"
@@ -164,7 +195,7 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           </template>
         </InfoSlider>
 
-        <InfoSlider>
+        <InfoSlider class="order-4">
           <template #slide0>
             <InfoSliderItemUpcomingBirthday />
           </template>
@@ -173,12 +204,52 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
           </template>
         </InfoSlider>
 
-        <InfoSlider>
+        <InfoSlider class="order-5">
           <template #slide0>
             <InfoSliderItemUpcomingVacation />
           </template>
           <template #slide1>
             <InfoSliderItemOvertimeRequest />
+          </template>
+        </InfoSlider>
+
+        <InfoSlider class="order-6">
+          <template #slide0>
+            <InfoSliderHeader title="Eğitimler">
+              <template #icon>
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="36" height="36" rx="8" fill="#FF5454" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M20.9948 13.9878H15.0052C11.9678 13.9878 10.4492 13.9878 9.59609 14.8759C8.74302 15.7641 8.94373 17.1363 9.34516 19.8806L9.72583 22.483C10.0406 24.6351 10.198 25.7111 11.0055 26.3555C11.813 26.9999 13.0039 26.9999 15.3858 26.9999H20.6141C22.9961 26.9999 24.1871 26.9999 24.9945 26.3555C25.802 25.7111 25.9593 24.6351 26.2742 22.483L26.6549 19.8806C27.0563 17.1363 27.257 15.7641 26.4039 14.8759C25.5508 13.9878 24.0322 13.9878 20.9948 13.9878ZM20.3231 21.4148C20.8256 21.1032 20.8256 20.2967 20.3231 19.9851L17.2886 18.104C16.8002 17.8013 16.2 18.1954 16.2 18.8188V22.5811C16.2 23.2045 16.8002 23.5986 17.2886 23.2959L20.3231 21.4148Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.4"
+                    d="M14.8585 9.00001H21.1406C21.3498 8.99995 21.5103 8.99992 21.6505 9.01363C22.6475 9.11117 23.4636 9.71062 23.8097 10.5181H12.1895C12.5355 9.71062 13.3516 9.11117 14.3486 9.01363C14.4889 8.99992 14.6493 8.99995 14.8585 9.00001Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.7"
+                    d="M12.8791 11.4504C11.6275 11.4504 10.6013 12.2062 10.2588 13.2089C10.2517 13.2297 10.2448 13.2508 10.2383 13.2719C10.5966 13.1634 10.9695 13.0925 11.3471 13.0441C12.3194 12.9194 13.5482 12.9195 14.9756 12.9196H21.1785C22.6059 12.9195 23.8348 12.9194 24.8071 13.0441C25.1846 13.0925 25.5576 13.1634 25.9159 13.2719C25.9094 13.2508 25.9024 13.2297 25.8953 13.2089C25.5529 12.2062 24.5266 11.4504 23.2751 11.4504H12.8791Z"
+                    fill="white"
+                  />
+                </svg>
+              </template>
+            </InfoSliderHeader>
+
+            <div class="flex gap-x-2 flex-1 overflow-x-auto mt-2 -mb-[18px]">
+              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
+              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
+              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
+            </div>
           </template>
         </InfoSlider>
       </div>

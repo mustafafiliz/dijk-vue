@@ -1,15 +1,18 @@
 <template>
-  <div class="rounded-2xl overflow-hidden relative">
-    <div class="flex items-center justify-between absolute top-0 left-0 w-full p-[10px] text-white">
+  <div class="rounded-2xl overflow-hidden relative md:aspect-[400/110] w-full">
+    <div
+      class="flex items-center justify-between absolute top-0 left-0 w-full p-[10px] text-white md:p-10"
+    >
       <div class="font-semibold">
-        <div class="text-[20px]">Günaydın, Mehmet</div>
-        <div class="text-12">bugün 20 Eylül, Cuma</div>
+        <div class="text-[20px] md:text-4xl">Günaydın, Mehmet</div>
+        <div class="text-12 md:text-2xl md:mt-4">Bugün 20 Eylül, Cuma</div>
       </div>
 
       <div>
         <div class="flex items-center gap-x-[5px]">
-          <div class="text-[20px] font-semibold">21 °C</div>
+          <div class="text-[20px] md:text-2xl font-semibold">21 °C</div>
           <svg
+            class="w-7 h-7 md:w-16 md:h-16"
             width="31"
             height="30"
             viewBox="0 0 31 30"
@@ -28,9 +31,9 @@
           </svg>
         </div>
 
-        <div class="text-12 font-semibold text-end">Güneşli</div>
+        <div class="text-12 md:text-xl font-semibold text-end">Güneşli</div>
       </div>
     </div>
-    <img class="w-full h-full object-cover" src="/images/weather-bg.jpg" alt="" />
+    <img class="w-full h-full object-cover" src="/images/weather-bg.png" alt="" />
   </div>
 </template>

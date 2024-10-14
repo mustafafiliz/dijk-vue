@@ -40,7 +40,7 @@ register()
       initialSlide="0"
     >
       <swiper-slide
-        class="pt-2 pe-2 ps-2 pb-[26px] h-auto"
+        class="flex flex-col pt-2 pe-2 ps-2 pb-[26px] h-auto"
         v-for="(_, slide, index) in slots"
         :key="index"
       >

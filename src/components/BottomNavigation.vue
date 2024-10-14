@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex py-[10px] px-6 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:static md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-20"
+    class="flex py-[10px] px-6 md:top-5 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-20"
   >
     <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/home">
       <svg

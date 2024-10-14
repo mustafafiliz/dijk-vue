@@ -48,6 +48,7 @@ const handleValidityChange = () => {
   @apply px-4;
   @apply bg-white;
   @apply rounded-3xl;
+  @apply md:border md:border-gray-300;
 }
 
 .iti__country-container {
