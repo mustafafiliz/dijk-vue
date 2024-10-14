@@ -2,7 +2,7 @@
 defineProps({
   image: {
     type: String,
-    default: '/images/izin.svg'
+    default: ''
   },
   title: {
     type: String,
@@ -16,6 +16,7 @@ defineProps({
   <RouterLink
     class="relative p-[14px] bg-white rounded-[10px] flex flex-col items-center justify-center gap-y-2"
     :to="to"
+    :id="'fieldItem' + title"
   >
     <div class="absolute top-2 right-2">
       <svg

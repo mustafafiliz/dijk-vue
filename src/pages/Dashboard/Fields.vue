@@ -1,6 +1,17 @@
 <script setup>
 import FieldItem from '@/components/FieldItem.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import { ref, onMounted } from 'vue'
+import Sortable from 'sortablejs'
+
+const sortableList = ref(null)
+
+onMounted(() => {
+  new Sortable(sortableList.value, {
+    animation: 150,
+    ghostClass: 'sortable-ghost'
+  })
+})
 </script>
 
 <template>
@@ -26,8 +37,8 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
         </svg>
       </button>
 
-      <div class="grid grid-cols-2 gap-4">
-        <FieldItem title="İzin" to="/dashboard/permission-request" />
+      <div class="grid grid-cols-2 gap-4" ref="sortableList">
+        <FieldItem title="İzin" to="/dashboard/permission-request" image="/images/izin.svg" />
         <FieldItem title="Avans" image="/images/avans.svg" />
         <FieldItem title="Harcama" image="/images/harcama.svg" />
         <FieldItem title="Ekstra Mesai" image="/images/mesai.svg" />
