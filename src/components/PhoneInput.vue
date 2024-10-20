@@ -1,39 +1,39 @@
 <script setup>
-import { ref } from 'vue'
-import IntlTelInput from 'intl-tel-input/vueWithUtils'
+import { ref, onMounted } from 'vue'
+import intlTelInput from 'intl-tel-input/intlTelInputWithUtils'
 import 'intl-tel-input/styles'
-import { en } from 'intl-tel-input/i18n'
+import { tr } from 'intl-tel-input/i18n'
 
 const phoneNumber = ref('')
-const isValidPhoneNumber = ref(false)
-const emit = defineEmits(['updatePhoneNumber', 'updateValidity'])
 
-const handlePhoneNumberChange = () => {
-  emit('updatePhoneNumber', phoneNumber)
+const checkPhoneNumberFirstChar = () => {
+  if (phoneNumber.value[0] == '0') {
+    phoneNumber.value = ''
+  }
 }
 
-const handleValidityChange = () => {
-  emit('updateValidity', isValidPhoneNumber)
-}
+onMounted(() => {
+  const input = document.querySelector('#phone')
+
+  intlTelInput(input, {
+    initialCountry: 'tr',
+    strictMode: true,
+    i18n: tr,
+    separateDialCode: true
+  })
+})
 </script>
 
 <template>
-  <IntlTelInput
-    class="w-full outline-none h-16 bg-transparent leading-[3] !pl-2"
-    :options="{
-      initialCountry: 'tr',
-      separateDialCode: true,
-      useFullscreenPopup: false,
-      strictMode: true,
-      i18n: {
-        ...en,
-        searchPlaceholder: 'Search'
-      }
-    }"
-    @changeNumber="phoneNumber = $event"
-    @input="[handlePhoneNumberChange(), handleValidityChange()]"
-    @changeValidity="isValidPhoneNumber = $event"
-  />
+  <div>
+    <input
+      class="w-full outline-none h-16 bg-transparent leading-[3] !ps-1"
+      id="phone"
+      type="tel"
+      v-model="phoneNumber"
+      @input="checkPhoneNumberFirstChar"
+    />
+  </div>
 </template>
 
 <style>

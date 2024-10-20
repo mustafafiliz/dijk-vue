@@ -101,39 +101,32 @@ const updateValidity = (isValid) => {
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
             <div
-              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300"
+              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
             >
               Telefon Numarası
             </div>
-            <div class="relative flex items-center w-full mt-1 mb-4">
-              <PhoneInput @updatePhoneNumber="updatePhoneNumber" @updateValidity="updateValidity" />
-              <!-- <button
-                @click="isOpenOtp = true"
-                v-show="isValidPhoneNumber.value"
-                class="absolute cursor-pointer right-4"
-                type="button"
-              >
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.459 28.0425C12.7532 28.3362 13.1518 28.5011 13.5675 28.5011C13.9832 28.5011 14.3818 28.3362 14.676 28.0425L23.541 19.1865C23.883 18.8445 24.036 18.3825 23.994 17.9355C23.994 17.5305 23.8425 17.127 23.535 16.8195L14.6745 7.959C14.529 7.81353 14.3563 7.69813 14.1663 7.6194C13.9762 7.54067 13.7725 7.50015 13.5667 7.50015C13.361 7.50015 13.1573 7.54067 12.9672 7.6194C12.7772 7.69813 12.6045 7.81353 12.459 7.959C12.3135 8.10447 12.1981 8.27717 12.1194 8.46724C12.0407 8.65731 12.0001 8.86102 12.0001 9.06675C12.0001 9.27248 12.0407 9.47619 12.1194 9.66626C12.1981 9.85633 12.3135 10.029 12.459 10.1745L20.289 18.0045L12.459 25.8285C12.3135 25.9738 12.1981 26.1464 12.1193 26.3363C12.0406 26.5263 12 26.7299 12 26.9355C12 27.1411 12.0406 27.3447 12.1193 27.5347C12.1981 27.7246 12.3135 27.8972 12.459 28.0425Z"
-                    fill="#292D32"
-                  />
-                </svg>
-              </button> -->
+            <div class="relative flex items-center w-full mb-4">
+              <PhoneInput />
+            </div>
+            <div
+              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+              v-show="!isOpenOtp"
+            >
+              Parola
             </div>
             <Input
               class="md:border md:border-gray-300"
               v-model="password"
               v-show="!isOpenOtp"
-              placeholder="Parola"
               type="password"
             />
+
+            <div
+              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+              v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
+            >
+              Doğrulama Kodu
+            </div>
             <v-otp-input
               v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
               ref="otpInput"

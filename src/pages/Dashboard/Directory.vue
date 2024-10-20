@@ -1,6 +1,7 @@
 <script setup>
 import PersonBox from '@/components/PersonBox.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import Input from '@/components/Input.vue'
 </script>
 
 <template>
@@ -33,6 +34,7 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
       </div>
 
       <div class="flex flex-col gap-4">
+        <Input placeholder="Ara..." />
         <PersonBox
           :person="{
             name: 'Mehmet Yılmaz - Siz',

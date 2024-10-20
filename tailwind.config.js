@@ -17,7 +17,9 @@ export default {
         'wild-dove': '#8A8A8A',
         'lusty-red': '#B13A3A',
         'arch-grey': '#6B6969',
-        'metal-armor': '#898A8D'
+        'metal-armor': '#898A8D',
+        uniform: '#A8A8A8',
+        alpine: '#F2F3F7'
       },
       fontSize: {
         12: '0.75rem',

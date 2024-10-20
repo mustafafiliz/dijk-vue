@@ -11,9 +11,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "intl-tel-input": "^24.5.0",
     "sortablejs": "^1.15.3",
     "swiper": "^11.1.14",
+    "v-calendar": "^3.1.2",
     "vue": "^3.4.29",
     "vue-router": "^4.4.5",
     "vue3-otp-input": "^0.5.21"

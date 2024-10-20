@@ -41,7 +41,7 @@ onMounted(() => {
         <FieldItem title="İzin" to="/dashboard/permission-request" image="/images/izin.svg" />
         <FieldItem title="Avans" image="/images/avans.svg" />
         <FieldItem title="Harcama" image="/images/harcama.svg" />
-        <FieldItem title="Ekstra Mesai" image="/images/mesai.svg" />
+        <FieldItem title="Fazla Mesai" image="/images/mesai.svg" />
         <FieldItem title="Takımım" image="/images/team.svg" to="/dashboard/team" />
         <FieldItem title="Rehber" image="/images/rehber.svg" to="/dashboard/directory" />
         <FieldItem

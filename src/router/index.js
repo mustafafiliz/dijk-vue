@@ -7,6 +7,8 @@ import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
 import DashboardPermissionRequest from '@/pages/Dashboard/PermissionRequest.vue'
+import DashboardOvertimeRequest from '@/pages/Dashboard/OvertimeRequest.vue'
+import DashboardCalendar from '@/pages/Dashboard/Calendar.vue'
 import NotFound from '@/pages/NotFound.vue'
 
 const routes = [
@@ -18,6 +20,8 @@ const routes = [
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },
   { path: '/dashboard/permission-request', component: DashboardPermissionRequest },
+  { path: '/dashboard/overtime-request', component: DashboardOvertimeRequest },
+  { path: '/dashboard/calendar', component: DashboardCalendar },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
 

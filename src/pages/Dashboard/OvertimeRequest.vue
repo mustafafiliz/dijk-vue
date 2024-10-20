@@ -4,8 +4,6 @@ import Textarea from '@/components/Textarea.vue'
 import Button from '@/components/Button.vue'
 
 const today = new Date().toISOString().split('T')[0]
-const currentHour = new Date().getHours()
-const currentMinute = new Date().getMinutes()
 </script>
 
 <template>
@@ -33,59 +31,38 @@ const currentMinute = new Date().getMinutes()
         </button>
 
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
-          İzin Oluştur
+          Mesai Oluştur
         </div>
       </div>
 
       <div class="flex flex-col gap-y-5">
         <div class="flex items-center justify-between text-night-sky">
-          <div class="font-semibold text-24">İzin Talebi</div>
-
-          <div class="text-20 font-medium">
-            Seçilen:
-
-            <span class="font-semibold text-gentian-flower text-24"> 1 Gün </span>
-          </div>
+          <div class="font-semibold text-24">Mesai Talebi</div>
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">İzin Türü</div>
-
-          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <div>Yıllık İzin</div>
-
-            <div>
-              Kalan:
-              <select>
-                <option value="14 Gün">14 Gün</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="font-semibold mb-[10px]">Başlangıç Tarihi</div>
+          <div class="font-semibold mb-[10px]">Mesai Tarihi</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
             <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="date" :value="today" />
-            <Input
-              class="!text-12 !py-0 !px-0 !w-fit text-squant"
-              type="time"
-              :value="`${currentHour}:${currentMinute > 10 ? '' : '0'}${currentMinute}`"
-            />
           </div>
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">Bitiş Tarihi</div>
+          <div class="font-semibold mb-[10px]">Mesai Süresi</div>
 
-          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="date" :value="today" />
-            <Input
-              class="!text-12 !py-0 !px-0 !w-fit text-squant"
-              type="time"
-              :value="`${currentHour}:${currentMinute > 10 ? '' : '0'}${currentMinute}`"
-            />
+          <div class="flex gap-x-3">
+            <select class="flex-1 rounded-20 py-3 px-4 text-arch-grey font-medium">
+              <option>Saat Seçiniz</option>
+              <option>1 Saat</option>
+              <option>2 Saat</option>
+            </select>
+
+            <select class="flex-1 rounded-20 py-3 px-4 text-arch-grey font-medium">
+              <option>Dakika Seçiniz</option>
+              <option>1 Dakika</option>
+              <option>2 Dakika</option>
+            </select>
           </div>
         </div>
 
@@ -97,15 +74,6 @@ const currentMinute = new Date().getMinutes()
             placeholder="Eklemek istediğiniz bir şey var mı ?"
             rows="5"
           />
-        </div>
-
-        <div>
-          <div class="flex items-center gap-x-[10px] font-semibold mb-[10px]">
-            Yerine Bakacak Kişi
-            <span class="text-[10px] text-metal-armor">Opsiyonel</span>
-          </div>
-
-          <Input />
         </div>
       </div>
 

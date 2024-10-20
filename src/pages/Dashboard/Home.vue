@@ -11,6 +11,7 @@ import InfoSliderItemUpcomingVacation from '@/components/InfoSlider/Item/Upcomin
 import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/OvertimeRequest.vue'
 import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
+import QuickActions from '@/components/QıickActions.vue'
 </script>
 
 <template>
@@ -51,7 +52,7 @@ import VideoBox from '@/components/VideoBox.vue'
           <WeatcherCard class="order-1" />
         </div>
         <div class="order-2 md:order-3 md:col-span-2">
-          <div class="flex items-center gap-x-2">
+          <div class="flex items-center gap-x-2 mb-4">
             <svg
               width="36"
               height="36"
@@ -78,72 +79,7 @@ import VideoBox from '@/components/VideoBox.vue'
             <span class="text-[18px] font-semibold"> Hızlı Alanım </span>
           </div>
 
-          <!-- quick actions -->
-          <div class="flex gap-[13px] -mx-4 px-4 mt-3 overflow-x-auto">
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/izin.svg" alt="" />
-              <span class="font-semibold text-night-sky"> İzin </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/surecler.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Süreçler </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/avans.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Avans </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/harcama.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Harcamalar </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/ayarlar.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Ayarlar </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/izin.svg" alt="" />
-              <span class="font-semibold text-night-sky"> İzin </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/surecler.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Süreçler </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/avans.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Avans </span>
-            </div>
-
-            <div
-              class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1 shrink-0"
-            >
-              <img src="/images/harcama.svg" alt="" />
-              <span class="font-semibold text-night-sky"> Harcamalar </span>
-            </div>
-          </div>
-          <!-- quick actions -->
+          <QuickActions />
         </div>
 
         <InfoSlider class="order-3">
