@@ -244,7 +244,6 @@ const imageSettings = ref({
                   <span>{{ user?.email }}</span>
                 </div>
 
-                <
                 <div class="flex items-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path
