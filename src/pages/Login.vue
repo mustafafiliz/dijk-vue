@@ -1,31 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-import Button from '@/components/Button.vue'
-import PhoneInput from '@/components/PhoneInput.vue'
-import VOtpInput from 'vue3-otp-input'
-import Input from '@/components/Input.vue'
-
-const phoneNumber = ref('')
-const isValidPhoneNumber = ref(false)
-const password = ref('')
-
-const isModalOpen = ref(false)
-const isOpenOtp = ref(false)
-const isActiveLoginButton = ref(false)
-
-const updatePhoneNumber = (newPhoneNumber) => {
-  phoneNumber.value = newPhoneNumber
-}
-
-const updateValidity = (isValid) => {
-  isValidPhoneNumber.value = isValid
-
-  if (!isValid.value) {
-    isOpenOtp.value = false
-  }
-}
-</script>
-
 <template>
   <div class="flex items-center justify-center h-dvh">
     <div
@@ -47,7 +19,7 @@ const updateValidity = (isValid) => {
             İnsan Kaynakları, Basitleştirildi!
           </div>
 
-          <Button class="md:hidden" @click="isModalOpen = true"> Hadi Başalayalım </Button>
+          <VButton class="md:hidden" @click="isModalOpen = true"> Hadi Başalayalım </VButton>
         </div>
       </div>
 
@@ -59,7 +31,7 @@ const updateValidity = (isValid) => {
           'max-md:-translate-x-full': !isModalOpen
         }"
       >
-        <Button
+        <VButton
           class="absolute top-[57px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl md:hidden"
           variant="light"
           @click="isModalOpen = false"
@@ -79,7 +51,7 @@ const updateValidity = (isValid) => {
               stroke-linejoin="round"
             />
           </svg>
-        </Button>
+        </VButton>
 
         <div class="flex flex-col items-center justify-center h-full p-4">
           <div class="bg-white rounded-full">
@@ -106,7 +78,7 @@ const updateValidity = (isValid) => {
               Telefon Numarası
             </div>
             <div class="relative flex items-center w-full mb-4">
-              <PhoneInput />
+              <PhoneInput v-model="phoneNumber" />
             </div>
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
@@ -114,7 +86,7 @@ const updateValidity = (isValid) => {
             >
               Parola
             </div>
-            <Input
+            <VInput
               class="md:border md:border-gray-300"
               v-model="password"
               v-show="!isOpenOtp"
@@ -123,35 +95,104 @@ const updateValidity = (isValid) => {
 
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
-              v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
+              v-show="isOpenOtp && phoneNumber"
             >
               Doğrulama Kodu
             </div>
             <v-otp-input
-              v-show="isOpenOtp && phoneNumber && isValidPhoneNumber.value"
+              v-show="isOpenOtp && phoneNumber"
               ref="otpInput"
               class="w-full bg-white py-2 px-3 gap-x-3 text-24 font-semibold rounded-3xl [&>div]:flex-1 [&>div>input]:w-full [&>div>input]:outline-none [&>div>input]:text-center [&>div>input]:bg-smoke [&>div>input]:rounded [&>div>input]:h-12 md:border md:border-gray-300"
               inputmode="tel"
               :num-inputs="6"
               :should-focus-order="true"
               @on-change="isActiveLoginButton = false"
-              @on-complete="isActiveLoginButton = true"
+              @on-complete="handleOTP"
             />
-            <Button
-              class="w-full mt-4"
-              @click="isOpenOtp = true"
-              v-show="!isOpenOtp"
-              :is-disabled="!isValidPhoneNumber.value"
-            >
+            <VButton class="w-full mt-4" @click="getSmsCode" v-show="!isOpenOtp">
               Giriş Kodu Gönder
-            </Button>
-            <Button class="w-full mt-4" v-show="isActiveLoginButton">
-              <RouterLink to="/dashboard/home"> Giriş Yap </RouterLink>
-            </Button>
+            </VButton>
+            <VButton class="w-full mt-4" @click="sendOTP" v-show="isActiveLoginButton">
+              <span> Giriş Yap </span>
+            </VButton>
           </div>
         </div>
       </div>
-      <!-- input modal end -->
     </div>
   </div>
 </template>
+
+<script>
+import VButton from '@/components/Button.vue'
+import PhoneInput from '@/components/PhoneInput.vue'
+import VOtpInput from 'vue3-otp-input'
+import VInput from '@/components/Input.vue'
+
+export default {
+  name: 'Login',
+
+  components: {
+    VButton,
+    PhoneInput,
+    VOtpInput,
+    VInput
+  },
+
+  data() {
+    return {
+      phoneNumber: '',
+      isValidPhoneNumber: false,
+      password: '',
+      isModalOpen: false,
+      isOpenOtp: false,
+      isActiveLoginButton: false,
+      smsCode: '',
+    }
+  },
+
+  methods: {
+    getSmsCode() {
+      const phone = this.phoneNumber.replace(/\D/g, '')
+      this.$axios
+        .post('/auth/get-sms', {
+          phone,
+          password: this.password
+        })
+        .then((response) => {
+          this.isOpenOtp = true
+          console.log(response)
+        })
+        .catch((error) => {
+          // TODO: delete this line
+          this.isOpenOtp = true
+
+          console.error(error)
+        })
+    },
+    sendOTP() {
+      const phone = this.phoneNumber.replace(/\D/g, '')
+      this.$axios
+        .post('/auth/login', {
+          phone,
+          password: this.password,
+          sms_verification_code: this.smsCode
+        })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    handleOTP(value) {
+      if (!value || value.length !== 6) {
+        this.isActiveLoginButton = false
+        return
+      }
+
+      this.smsCode = value
+      this.isActiveLoginButton = true
+    }
+  }
+}
+</script>

@@ -1,40 +1,49 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import intlTelInput from 'intl-tel-input/intlTelInputWithUtils'
-import 'intl-tel-input/styles'
-import { tr } from 'intl-tel-input/i18n'
-
-const phoneNumber = ref('')
-
-const checkPhoneNumberFirstChar = () => {
-  if (phoneNumber.value[0] == '0') {
-    phoneNumber.value = ''
-  }
-}
-
-onMounted(() => {
-  const input = document.querySelector('#phone')
-
-  intlTelInput(input, {
-    initialCountry: 'tr',
-    strictMode: true,
-    i18n: tr,
-    separateDialCode: true
-  })
-})
-</script>
-
 <template>
   <div>
     <input
       class="w-full outline-none h-16 bg-transparent leading-[3] !ps-1"
       id="phone"
       type="tel"
-      v-model="phoneNumber"
-      @input="checkPhoneNumberFirstChar"
+      :value="modelValue"
+      @input="updateValue"
     />
   </div>
 </template>
+
+<script>
+import intlTelInput from 'intl-tel-input/intlTelInputWithUtils'
+import 'intl-tel-input/styles'
+import { tr } from 'intl-tel-input/i18n'
+
+export default {
+  props: {
+    modelValue: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    updateValue(event) {
+      this.checkPhoneNumberFirstChar()
+      this.$emit('update:modelValue', event.target.value)
+    },
+    checkPhoneNumberFirstChar() {
+      if (this.modelValue[0] === '0') {
+        this.$emit('update:modelValue', '')
+      }
+    }
+  },
+  mounted() {
+    const input = document.querySelector('#phone')
+    intlTelInput(input, {
+      initialCountry: 'tr',
+      strictMode: true,
+      i18n: tr,
+      separateDialCode: true
+    })
+  }
+}
+</script>
 
 <style>
 :root {

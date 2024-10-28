@@ -1,23 +1,31 @@
-<script setup>
-defineProps({
-  type: {
-    type: String,
-    default: 'text'
-  },
-  value: {
-    type: String,
-    default: ''
-  }
-})
-</script>
-
 <template>
   <input
     class="w-full relative outline-none rounded-3xl text-24 py-[14px] px-4"
     :type="type"
-    :value="value"
+    :value="modelValue"
+    @input="updateValue"
   />
 </template>
+
+<script>
+export default {
+  props: {
+    type: {
+      type: String,
+      default: 'text'
+    },
+    modelValue: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    updateValue(event) {
+      this.$emit('update:modelValue', event.target.value)
+    }
+  }
+}
+</script>
 
 <style>
 input[type='date']::-webkit-inner-spin-button,
