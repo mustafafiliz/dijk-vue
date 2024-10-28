@@ -31,10 +31,11 @@ const background = ref('#ffffff')
 const foreground = ref('#000000')
 const margin = ref(0)
 const imageSettings = ref({
+  src: '/images/company-logo.jpg', // Add this line
   width: 50,
   height: 50,
-  x: 10,
-  y: 10,
+  x: 75,
+  y: 75,
   excavate: true
 })
 </script>
