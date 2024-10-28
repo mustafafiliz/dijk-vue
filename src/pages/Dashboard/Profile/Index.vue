@@ -10,15 +10,18 @@ const user = computed(() => meStore.getUser)
 
 const qrIsActive = ref(false)
 const contactInfo = computed(() => {
+  if (!user.value) return ''
+
   return `BEGIN:VCARD
-          VERSION:3.0
-          FN:${user.value?.full_name}
-          ORG:${user.value?.erp_company_text}
-          TITLE:${user.value?.work_title_text}
-          TEL:${user.value?.phone}
-          EMAIL:${user.value?.email}
-          ADR:;;${user.value?.city || ''};Türkiye
-          END:VCARD`
+VERSION:3.0
+N:${user.value.full_name}
+FN:${user.value.full_name}
+ORG:${user.value.erp_company_text}
+TITLE:${user.value.work_title_text}
+TEL:+90${user.value.phone}
+EMAIL:${user.value.email}
+ADR:;;${user.value.city || ''};Türkiye
+END:VCARD`
 })
 
 const value = computed(() => contactInfo.value)
@@ -212,7 +215,8 @@ const imageSettings = ref({
               </div>
 
               <qrcode-vue
-                :value="value"
+                v-if="contactInfo"
+                :value="contactInfo"
                 :level="level"
                 :render-as="renderAs"
                 :background="background"
