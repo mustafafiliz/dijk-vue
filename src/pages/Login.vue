@@ -23,7 +23,6 @@
         </div>
       </div>
 
-      <!-- input modal start -->
       <div
         class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 backdrop-blur-2xl transition-transform md:static md:backdrop-blur-[100px] md:flex-1 md:bg-gray-50 md:bg-opacity-100"
         :class="{
@@ -80,6 +79,7 @@
             <div class="relative flex items-center w-full mb-4">
               <PhoneInput v-model="phoneNumber" />
             </div>
+
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
               v-show="!isOpenOtp"
@@ -92,7 +92,6 @@
               v-show="!isOpenOtp"
               type="password"
             />
-
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
               v-show="isOpenOtp && phoneNumber"
@@ -109,11 +108,24 @@
               @on-change="isActiveLoginButton = false"
               @on-complete="handleOTP"
             />
-            <VButton class="w-full mt-4" @click="getSmsCode" v-show="!isOpenOtp">
+            <ErrorLabel :text="errorMessage" centered />
+            <VButton
+              :is-loading="isLoading"
+              :disabled="!isSmsFormValid"
+              class="w-full mt-4"
+              @click="getSmsCode"
+              v-show="!isOpenOtp"
+            >
               Giriş Kodu Gönder
             </VButton>
-            <VButton class="w-full mt-4" @click="sendOTP" v-show="isActiveLoginButton">
-              <span> Giriş Yap </span>
+            <VButton
+              :is-loading="isLoading"
+              :disabled="!isOtpFormValid"
+              class="w-full mt-4"
+              @click="sendOTP"
+              v-show="isActiveLoginButton"
+            >
+              Giriş Yap
             </VButton>
           </div>
         </div>
@@ -127,6 +139,8 @@ import VButton from '@/components/Button.vue'
 import PhoneInput from '@/components/PhoneInput.vue'
 import VOtpInput from 'vue3-otp-input'
 import VInput from '@/components/Input.vue'
+import ErrorLabel from '@/components/ErrorLabel.vue'
+import { useSessionStore } from '@/stores/session'
 
 export default {
   name: 'Login',
@@ -135,7 +149,8 @@ export default {
     VButton,
     PhoneInput,
     VOtpInput,
-    VInput
+    VInput,
+    ErrorLabel
   },
 
   data() {
@@ -147,11 +162,29 @@ export default {
       isOpenOtp: false,
       isActiveLoginButton: false,
       smsCode: '',
+      errorMessage: '',
+      isLoading: false
+    }
+  },
+
+  watch: {
+    phoneNumber() {
+      this.errorMessage = ''
+    },
+    password() {
+      this.errorMessage = ''
+    },
+    smsCode() {
+      this.errorMessage = ''
     }
   },
 
   methods: {
     getSmsCode() {
+      const sessionStore = useSessionStore()
+      console.log('Current token:', sessionStore.getToken)
+
+      this.isLoading = true
       const phone = this.phoneNumber.replace(/\D/g, '')
       this.$axios
         .post('/auth/get-sms', {
@@ -160,17 +193,20 @@ export default {
         })
         .then((response) => {
           this.isOpenOtp = true
-          console.log(response)
         })
         .catch((error) => {
-          // TODO: delete this line
-          this.isOpenOtp = true
-
-          console.error(error)
+          this.errorMessage = error.response.data.message
+        })
+        .finally(() => {
+          this.isLoading = false
         })
     },
+
     sendOTP() {
+      this.isLoading = true
+      const sessionStore = useSessionStore()
       const phone = this.phoneNumber.replace(/\D/g, '')
+
       this.$axios
         .post('/auth/login', {
           phone,
@@ -178,12 +214,17 @@ export default {
           sms_verification_code: this.smsCode
         })
         .then((response) => {
-          console.log(response)
+          sessionStore.setSession(response.data)
+          window.location.href = '/dashboard/home'
         })
         .catch((error) => {
-          console.error(error)
+          this.errorMessage = error.response.data.message
+        })
+        .finally(() => {
+          this.isLoading = false
         })
     },
+
     handleOTP(value) {
       if (!value || value.length !== 6) {
         this.isActiveLoginButton = false
@@ -192,6 +233,16 @@ export default {
 
       this.smsCode = value
       this.isActiveLoginButton = true
+    }
+  },
+  computed: {
+    isSmsFormValid() {
+      const phone = this.phoneNumber.replace(/\D/g, '')
+      return phone.length >= 1 && this.password.length >= 1
+    },
+
+    isOtpFormValid() {
+      return this.smsCode.length === 6
     }
   }
 }

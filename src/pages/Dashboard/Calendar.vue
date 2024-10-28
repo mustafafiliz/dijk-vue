@@ -1,6 +1,7 @@
 <script setup>
 import { DatePicker } from 'v-calendar'
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import Button from '@/components/Button.vue'
 import { ref } from 'vue'
 
 const date = new Date()
@@ -61,11 +62,15 @@ const attributes = ref([
           class="w-full rounded-2xl border-none p-4 md:max-w-[300px] md:sticky md:top-4"
           title-position="left"
           v-model="date"
-          is-dark="system"
+          :is-dark="false"
           :attributes="attributes"
         ></DatePicker>
+        <div class="flex flex-col gap-y-3 pb-4 w-full">
+          <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">
+            <input type="checkbox" id="showOnlyMe" />
+            <label for="showOnlyMe">Bana Ait Olanları Göster</label>
+          </label>
 
-        <div class="flex flex-col gap-y-3 pb-4">
           <template v-for="i in 5" :key="i">
             <div class="text-12 font-medium px-2">9-15 Eylül 2024</div>
             <div

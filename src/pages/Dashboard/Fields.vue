@@ -18,7 +18,7 @@ onMounted(() => {
   <div
     class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="p-4 flex-1 max-w-5xl">
+    <div class="relative p-4 flex-1 max-w-5xl">
       <button class="py-2" type="button" @click="$router.go(-1)">
         <svg
           width="36"
@@ -36,12 +36,13 @@ onMounted(() => {
           />
         </svg>
       </button>
+      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Alanım</div>
 
       <div class="grid grid-cols-2 gap-4" ref="sortableList">
         <FieldItem title="İzin" to="/dashboard/permission-request" image="/images/izin.svg" />
         <FieldItem title="Avans" image="/images/avans.svg" />
         <FieldItem title="Harcama" image="/images/harcama.svg" />
-        <FieldItem title="Fazla Mesai" image="/images/mesai.svg" />
+        <FieldItem title="Fazla Mesai" image="/images/mesai.svg" to="/dashboard/overtime-request" />
         <FieldItem title="Takımım" image="/images/team.svg" to="/dashboard/team" />
         <FieldItem title="Rehber" image="/images/rehber.svg" to="/dashboard/directory" />
         <FieldItem
@@ -49,7 +50,7 @@ onMounted(() => {
           image="/images/surecler.svg"
           to="/dashboard/approval-process"
         />
-        <FieldItem title="Ayarlar" image="/images/ayarlar.svg" />
+        <FieldItem title="Ayarlar" image="/images/ayarlar.svg" to="/dashboard/settings" />
       </div>
     </div>
 

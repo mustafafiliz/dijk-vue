@@ -1,8 +1,8 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
+import { useSessionStore } from '@/stores/session'
 
 const api = axios.create({
-  baseURL: 'https://dijikapi.test/api',
+  baseURL: 'https://dijikapi.maverabilisim.com/api/v1',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
@@ -11,7 +11,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('token')
+    const sessionStore = useSessionStore()
+    const token = sessionStore.getToken
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -27,10 +29,10 @@ api.interceptors.response.use(
     return response.data
   },
   (error) => {
-    if (error.response?.status === 401) {
-      Cookies.remove('token')
-      window.location.href = '/login'
-    }
+    // if (error.response?.status === 401) {
+    //   Cookies.remove('token')
+    //   // window.location.href = '/login'
+    // }
     return Promise.reject(error)
   }
 )

@@ -1,4 +1,6 @@
 <script setup>
+import Spinner from './Spinner.vue'
+
 defineProps({
   type: {
     type: String,
@@ -9,6 +11,10 @@ defineProps({
     default: 'primary'
   },
   isDisabled: {
+    type: Boolean,
+    default: false
+  },
+  isLoading: {
     type: Boolean,
     default: false
   }
@@ -22,11 +28,12 @@ const variantClasses = {
 
 <template>
   <button
-    class="flex items-center justify-center"
-    :class="[variantClasses[variant], { 'opacity-50 cursor-not-allowed': isDisabled }]"
+    class="flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+    :class="[variantClasses[variant], { 'opacity-50 cursor-not-allowed': isDisabled || isLoading }]"
     :type="type"
-    :disabled="isDisabled"
+    :disabled="isDisabled || isLoading"
   >
-    <slot />
+    <Spinner v-if="isLoading" />
+    <slot v-else />
   </button>
 </template>

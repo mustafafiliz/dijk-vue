@@ -49,20 +49,18 @@ const today = new Date().toISOString().split('T')[0]
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">Mesai Süresi</div>
+          <div class="font-semibold mb-[10px]">Başlangıç Saati</div>
 
-          <div class="flex gap-x-3">
-            <select class="flex-1 rounded-20 py-3 px-4 text-arch-grey font-medium">
-              <option>Saat Seçiniz</option>
-              <option>1 Saat</option>
-              <option>2 Saat</option>
-            </select>
+          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
+            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="time" value="00:00" />
+          </div>
+        </div>
 
-            <select class="flex-1 rounded-20 py-3 px-4 text-arch-grey font-medium">
-              <option>Dakika Seçiniz</option>
-              <option>1 Dakika</option>
-              <option>2 Dakika</option>
-            </select>
+        <div>
+          <div class="font-semibold mb-[10px]">Bitiş Saati</div>
+
+          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
+            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="time" value="00:00" />
           </div>
         </div>
 

@@ -1,12 +1,46 @@
 <script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useMeStore } from '@/stores/me'
+import QrcodeVue from 'qrcode.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import Button from '@/components/Button.vue'
+
+const meStore = useMeStore()
+const user = computed(() => meStore.getUser)
+
+const qrIsActive = ref(false)
+const contactInfo = computed(() => {
+  return `BEGIN:VCARD
+          VERSION:3.0
+          FN:${user.value?.full_name}
+          ORG:${user.value?.erp_company_text}
+          TITLE:${user.value?.work_title_text}
+          TEL:${user.value?.phone}
+          EMAIL:${user.value?.email}
+          ADR:;;${user.value?.city || ''};Türkiye
+          END:VCARD`
+})
+
+const value = computed(() => contactInfo.value)
+const level = ref('M')
+const renderAs = ref('svg')
+const background = ref('#ffffff')
+const foreground = ref('#000000')
+const margin = ref(0)
+const imageSettings = ref({
+  width: 50,
+  height: 50,
+  x: 10,
+  y: 10,
+  excavate: true
+})
 </script>
 
 <template>
   <div
     class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="p-4 flex-1 max-w-5xl">
+    <div class="relative p-4 flex-1 max-w-5xl">
       <button class="py-2" type="button" @click="$router.go(-1)">
         <svg
           width="36"
@@ -24,6 +58,8 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
           />
         </svg>
       </button>
+
+      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Profil</div>
 
       <div class="flex items-center justify-evenly">
         <div
@@ -83,13 +119,15 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
             <span
               class="text-white bg-gamora font-semibold text-14 rounded-lg py-[2px] px-[13px] absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
-              Uygun
+              {{ user?.is_active ? 'Aktif' : 'Pasif' }}
             </span>
           </div>
 
           <div class="text-center mt-6">
-            <div class="font-semibold">Mehmet Yılmaz</div>
-            <div class="text-12 font-bold">ByteWave Innovations</div>
+            <div class="font-semibold">{{ user?.full_name }}</div>
+            <div class="text-12 font-bold">
+              {{ user?.erp_company_text }} - {{ user?.work_title_text }}
+            </div>
           </div>
         </div>
         <div
@@ -135,6 +173,97 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
       </div>
 
       <div class="flex flex-col gap-y-2 p-2">
+        <!-- QR Start -->
+        <Button @click="qrIsActive = true" class="!text-black" variant="light">
+          QR Kod Oluştur
+        </Button>
+
+        <div
+          v-show="qrIsActive"
+          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          @click="qrIsActive = false"
+        >
+          <div class="bg-white w-full max-w-md mx-4 rounded-20 p-6 relative md:mx-0" @click.stop>
+            <button @click="qrIsActive = false" class="absolute right-4 top-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M18 6L6 18M6 6L18 18"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div class="flex flex-col items-center gap-6">
+              <div class="flex flex-col items-center gap-2">
+                <img
+                  class="w-20 h-20 rounded-full object-cover border-4 border-gamora"
+                  src="/images/user-image.jpg"
+                  alt="Profil Fotoğrafı"
+                />
+                <div class="text-center">
+                  <h3 class="font-bold text-xl">{{ user?.full_name }}</h3>
+                  <p class="text-squant">
+                    {{ user?.erp_company_text }} - {{ user?.work_title_text }}
+                  </p>
+                </div>
+              </div>
+
+              <qrcode-vue
+                :value="value"
+                :level="level"
+                :render-as="renderAs"
+                :background="background"
+                :foreground="foreground"
+                :image-settings="imageSettings"
+                :size="200"
+              />
+
+              <div class="w-full space-y-3 text-14">
+                <div class="flex items-center gap-2 text-squant">
+                  <span>Kişisel Bilgiler</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M17 3.5H7c-3 0-5 1.5-5 5v7c0 3.5 2 5 5 5h10c3 0 5-1.5 5-5v-7c0-3.5-2-5-5-5zm-13.25 4c0-.41.34-.75.75-.75h13c.41 0 .75.34.75.75s-.34.75-.75.75h-13c-.41 0-.75-.34-.75-.75z"
+                    />
+                  </svg>
+                  <span>+90 {{ user?.phone }}</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M17 3H7C4 3 2 4.5 2 8v7c0 3.5 2 5 5 5h10c3 0 5-1.5 5-5V8c0-3.5-2-5-5-5zm0 4.75l-3.75 3c-.75.6-1.75.6-2.5 0L7 7.75V7l3.75 3c.75.6 1.75.6 2.5 0L17 7v.75z"
+                    />
+                  </svg>
+                  <span>{{ user?.email }}</span>
+                </div>
+
+                <
+                <div class="flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 13.43c3.03 0 5.5-2.47 5.5-5.5S15.03 2.43 12 2.43s-5.5 2.47-5.5 5.5 2.47 5.5 5.5 5.5zm0-9c1.93 0 3.5 1.57 3.5 3.5S13.93 11.43 12 11.43s-3.5-1.57-3.5-3.5 1.57-3.5 3.5-3.5z"
+                    />
+                    <path
+                      d="M12 22.43c-4.04 0-7.5-1.83-7.5-4.5v-1c0-2.67 3.46-4.5 7.5-4.5s7.5 1.83 7.5 4.5v1c0 2.67-3.46 4.5-7.5 4.5z"
+                    />
+                  </svg>
+                  <span>{{ user?.city || 'İstanbul' }}, Türkiye</span>
+                </div>
+              </div>
+
+              <Button @click="qrIsActive = false" class="w-full" variant="light"> Kapat </Button>
+            </div>
+          </div>
+        </div>
+        <!-- QR End -->
+
         <div class="font-semibold ps-2">Üstleri</div>
         <div class="flex items-center bg-white rounded-2xl py-3 px-4 gap-x-[18px]">
           <img
@@ -208,9 +337,12 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
         <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px]">
           <img class="w-16 h-16 rounded-[10px] object-cover" src="/images/company-logo.jpg" />
           <div class="text-14 text-squant font-semibold">
-            <div class="text-black">ByteWave Innovations</div>
-            <div class="font-bold">CFO</div>
-            <div class="text-12">Ağustos 2019 - Ağustos 2024 (5 Yıl)</div>
+            <div class="text-black">{{ user?.erp_company_text }}</div>
+            <div class="font-bold">{{ user?.work_title_text }}</div>
+            <div class="text-12">
+              {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }} -
+              {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
+            </div>
           </div>
         </div>
       </div>
