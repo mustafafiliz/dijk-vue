@@ -99,8 +99,10 @@
               Doğrulama Kodu
             </div>
             <v-otp-input
+              :key="resetOtpInput"
               v-show="isOpenOtp && phoneNumber"
               ref="otpInput"
+              id="otpInput"
               class="w-full bg-white py-2 px-3 gap-x-3 text-24 font-semibold rounded-3xl [&>div]:flex-1 [&>div>input]:w-full [&>div>input]:outline-none [&>div>input]:text-center [&>div>input]:bg-smoke [&>div>input]:rounded [&>div>input]:h-12 md:border md:border-gray-300"
               inputmode="tel"
               :num-inputs="6"
@@ -178,7 +180,8 @@ export default {
       isLoading: false,
       countdown: 120,
       countdownActive: false,
-      countdownInterval: null
+      countdownInterval: null,
+      resetOtpInput: false
     }
   },
 
@@ -218,9 +221,15 @@ export default {
           phone,
           password: this.password
         })
-        .then((response) => {
+        .then((_) => {
           this.isOpenOtp = true
           this.startCountdown()
+          this.$nextTick(() => {
+            const firstInput = document.querySelector('#otpInput input[type="tel"]')
+            if (firstInput) {
+              firstInput.focus()
+            }
+          })
         })
         .catch((error) => {
           this.errorMessage = error.response.data.message
@@ -247,6 +256,17 @@ export default {
         })
         .catch((error) => {
           this.errorMessage = error.response.data.message
+          this.smsCode = ''
+          this.resetOtpInput = !this.resetOtpInput
+
+          this.$nextTick(() => {
+            //reset otp input
+
+            const firstInput = document.querySelector('#otpInput input[type="tel"]')
+            if (firstInput) {
+              firstInput.focus()
+            }
+          })
         })
         .finally(() => {
           this.isLoading = false
