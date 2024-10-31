@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import Cookies from 'js-cookie'
 import CryptoJS from 'crypto-js'
+import axios from 'axios'
 
 const SECRET_KEY = 'PKAMVrB7XHiZJCbqVrvtszSk1ntpKa6b'
 
@@ -44,6 +45,33 @@ export const useSessionStore = defineStore('session', {
           // Invalid or malformed session data, clear it
           this.clearSession()
         }
+      }
+    },
+
+    async refreshSession() {
+      const refreshToken = this.session.refresh_token
+
+      if (!refreshToken) return null
+
+      try {
+        const response = await axios.post(
+          'https://dijikapi.maverabilisim.com/api/v1/auth/refresh',
+          {
+            refresh_token: 'xyz'
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+
+        this.setSession(response.data) // Update session with new tokens
+        return response.data.access_token
+      } catch (error) {
+        this.clearSession()
+        window.location.href = '/login'
+        return null
       }
     },
 

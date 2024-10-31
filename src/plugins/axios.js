@@ -25,14 +25,22 @@ api.interceptors.request.use(
 )
 
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
     return response.data
   },
-  (error) => {
-    // if (error.response?.status === 401) {
-    //   Cookies.remove('token')
-    //   // window.location.href = '/login'
-    // }
+  async (error) => {
+    console.log('error', error)
+    const sessionStore = useSessionStore()
+
+    if (error.response?.status === 401) {
+      const newToken = await sessionStore.refreshSession()
+      if (newToken) {
+        // Retry the original request with the new token
+        error.config.headers.Authorization = `Bearer ${newToken}`
+        return api.request(error.config) // Retry the request
+      }
+    }
+
     return Promise.reject(error)
   }
 )

@@ -23,6 +23,7 @@ EMAIL:${user.value.email}
 ADR:;;${user.value.city || ''};Türkiye
 END:VCARD`
 })
+console.log(user.value)
 
 const value = computed(() => contactInfo.value)
 const level = ref('M')
@@ -281,7 +282,10 @@ const imageSettings = ref({
           </div>
         </div>
         <div class="flex gap-x-2">
-          <div
+          <a
+            v-if="user?.phone"
+            target="_blank"
+            :href="`tel:${user?.phone}`"
             class="flex items-center flex-1 justify-center text-14 font-medium gap-x-2 bg-white rounded-[10px] p-2 text-gamora"
           >
             <svg
@@ -308,8 +312,11 @@ const imageSettings = ref({
             </svg>
 
             Arama Yap
-          </div>
-          <div
+          </a>
+          <a
+            v-if="user?.phone"
+            target="_blank"
+            :href="`https://wa.me/${user?.phone}`"
             class="flex items-center flex-1 justify-center text-14 font-medium gap-x-2 bg-white rounded-[10px] p-2"
           >
             <svg
@@ -332,7 +339,7 @@ const imageSettings = ref({
               </defs>
             </svg>
             Mesaj Gönder
-          </div>
+          </a>
         </div>
       </div>
 
