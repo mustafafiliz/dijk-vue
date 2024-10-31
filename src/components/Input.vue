@@ -4,6 +4,7 @@
     :type="type"
     :value="modelValue"
     @input="updateValue"
+    :class="{ '!border-red-500': error }"
   />
 </template>
 
@@ -17,6 +18,10 @@ export default {
     modelValue: {
       type: String,
       default: ''
+    },
+    error: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

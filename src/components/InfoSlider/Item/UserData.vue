@@ -39,33 +39,35 @@ defineProps({
 
     <div class="text-12 font-semibold mt-2">{{ userData.name }}</div>
     <table class="text-12 font-semibold">
-      <tr>
-        <td class="py-2">
-          İşe Başlama Tarihi
-          <div class="text-gentian-flower mt-1">{{ userData.startDate }}</div>
-        </td>
+      <tbody>
+        <tr>
+          <td class="py-2">
+            İşe Başlama Tarihi
+            <div class="text-gentian-flower mt-1">{{ userData.startDate }}</div>
+          </td>
 
-        <td class="py-2">
-          Deneyim
-          <div class="text-gentian-flower mt-1">{{ userData.experience }}</div>
-        </td>
+          <td class="py-2">
+            Deneyim
+            <div class="text-gentian-flower mt-1">{{ userData.experience }}</div>
+          </td>
 
-        <td class="py-2">
-          İş Ünvanı
-          <div class="text-gentian-flower mt-1">{{ userData.jobTitle }}</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="py-2">
-          Çalıştığı Şirket
-          <div class="text-gentian-flower mt-1">{{ userData.company }}</div>
-        </td>
+          <td class="py-2">
+            İş Ünvanı
+            <div class="text-gentian-flower mt-1">{{ userData.jobTitle }}</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="py-2">
+            Çalıştığı Şirket
+            <div class="text-gentian-flower mt-1">{{ userData.company }}</div>
+          </td>
 
-        <td class="py-2">
-          Çalışma Şekli
-          <div class="text-gentian-flower mt-1">{{ userData.workType }}</div>
-        </td>
-      </tr>
+          <td class="py-2">
+            Çalışma Şekli
+            <div class="text-gentian-flower mt-1">{{ userData.workType }}</div>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>

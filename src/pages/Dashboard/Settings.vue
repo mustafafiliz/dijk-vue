@@ -14,7 +14,9 @@ const currentPassword = ref('')
 const newPassword = ref('')
 const newPasswordConfirm = ref('')
 const isLoading = ref(false)
-const confirmError = ref('')
+const currentPasswordError = ref('') // Mevcut parola hatası
+const newPasswordError = ref('') // Yeni parola hatası
+const confirmPasswordError = ref('') // Yeni parola tekrar hatası
 
 const isFormValid = computed(() => {
   return (
@@ -27,12 +29,15 @@ const isFormValid = computed(() => {
 const handleChangePassword = async () => {
   if (!isFormValid.value) return
 
+  currentPasswordError.value = ''
+  newPasswordError.value = ''
+  confirmPasswordError.value = ''
+
   if (newPassword.value !== newPasswordConfirm.value) {
-    confirmError.value = 'Parolalar eşleşmiyor'
+    confirmPasswordError.value = 'Parolalar eşleşmiyor'
     return
   }
 
-  confirmError.value = ''
   isLoading.value = true
 
   try {
@@ -48,7 +53,17 @@ const handleChangePassword = async () => {
     newPassword.value = ''
     newPasswordConfirm.value = ''
   } catch (error) {
-    toast.error(error.response.data.message)
+    const errorData = error?.response?.data?.data
+
+    if (errorData?.new_password) {
+      newPasswordError.value = errorData?.new_password
+    }
+    if (errorData?.current_password) {
+      currentPasswordError.value = errorData?.current_password
+    }
+    if (errorData?.new_password_confirm) {
+      confirmPasswordError.value = errorData?.new_password_confirm
+    }
   } finally {
     isLoading.value = false
   }
@@ -91,7 +106,17 @@ const handleChangePassword = async () => {
           >
             Mevcut Parola
           </div>
-          <Input v-model="currentPassword" class="md:border md:border-gray-300" type="password" />
+          <Input
+            :error="currentPasswordError?.length > 0"
+            v-model="currentPassword"
+            class="md:border md:border-gray-300"
+            type="password"
+          />
+          <ErrorLabel
+            v-if="currentPasswordError"
+            v-for="message in currentPasswordError || []"
+            :text="message"
+          />
         </div>
 
         <div>
@@ -100,7 +125,17 @@ const handleChangePassword = async () => {
           >
             Yeni Parola
           </div>
-          <Input v-model="newPassword" class="md:border md:border-gray-300" type="password" />
+          <Input
+            :error="newPasswordError?.length > 0"
+            v-model="newPassword"
+            class="md:border md:border-gray-300"
+            type="password"
+          />
+          <ErrorLabel
+            v-if="newPasswordError"
+            v-for="message in newPasswordError || []"
+            :text="message"
+          />
         </div>
 
         <div>
@@ -110,18 +145,23 @@ const handleChangePassword = async () => {
             Yeni Parola Tekrar
           </div>
           <Input
+            :error="confirmPasswordError?.length > 0"
             v-model="newPasswordConfirm"
             class="md:border md:border-gray-300"
             type="password"
           />
-          <ErrorLabel v-if="confirmError" :text="confirmError" />
+          <ErrorLabel
+            v-if="confirmPasswordError"
+            v-for="message in confirmPasswordError || []"
+            :text="message"
+          />
         </div>
 
         <div>
           <Button
             :is-loading="isLoading"
             :disabled="!isFormValid"
-            class="w-full lg:w-auto"
+            class="w-full lg:w-[220px]"
             @click="handleChangePassword"
           >
             Parolayı Güncelle

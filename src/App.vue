@@ -40,8 +40,13 @@ export default {
         router.push('/dashboard/home')
       }
     } catch (error) {
-      sessionStore.clearSession()
-      router.push('/')
+      //todo: will be remove
+      if (router.currentRoute.value.path === '/') {
+        router.push('/dashboard/home')
+      }
+      //todo: will be uncomment
+      //sessionStore.clearSession()
+      //router.push('/')
     } finally {
       this.isLoading = false
     }

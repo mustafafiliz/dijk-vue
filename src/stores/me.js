@@ -26,6 +26,8 @@ export const useMeStore = defineStore('me', {
         this.user = response.data
         return response
       } catch (error) {
+        //todo: will be remove
+        this.user = error.response?.data.data
         this.error = error.response?.data?.message || 'An error occurred'
         throw error
       } finally {
