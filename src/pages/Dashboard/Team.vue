@@ -49,9 +49,9 @@ import Input from '@/components/Input.vue'
             name: 'Kişi A',
             role: 'Team Lead of Yaz-1',
             image: '/images/user-image.jpg',
-            email: '1',
-            whatsapp: '1',
-            phone: '1'
+            email: 'test@gmail.com',
+            whatsapp: '+905466481680',
+            phone: '+905466481680'
           }"
         />
       </div>
