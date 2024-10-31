@@ -24,9 +24,11 @@ defineProps({
     </div>
 
     <div class="flex items-center gap-x-4 ms-auto">
-      <button
+      <a
+        target="_blank"
         v-if="person.phone"
         class="bg-white rounded-full flex items-center justify-center shadow-[0_0_10px_0_rgba(0,0,0,0.1)] w-[36px] h-[36px]"
+        :href="`tel:${person.phone}`"
       >
         <svg
           width="18"
@@ -50,11 +52,13 @@ defineProps({
             fill="#2F69FF"
           />
         </svg>
-      </button>
+      </a>
 
-      <button
+      <a
         v-if="person.email"
+        target="_blank"
         class="bg-white rounded-full flex items-center justify-center shadow-[0_0_10px_0_rgba(0,0,0,0.1)] w-[36px] h-[36px]"
+        :href="`mailto:${person.email}`"
       >
         <svg
           width="18"
@@ -96,11 +100,13 @@ defineProps({
             </linearGradient>
           </defs>
         </svg>
-      </button>
+      </a>
 
-      <button
+      <a
         v-if="person.whatsapp"
+        target="_blank"
         class="bg-white rounded-full flex items-center justify-center shadow-[0_0_10px_0_rgba(0,0,0,0.1)] w-[36px] h-[36px]"
+        :href="`https://wa.me/${person.whatsapp}`"
       >
         <svg
           width="18"
@@ -123,7 +129,7 @@ defineProps({
             </clipPath>
           </defs>
         </svg>
-      </button>
+      </a>
     </div>
   </div>
 </template>
