@@ -6,6 +6,7 @@
       type="tel"
       :value="modelValue"
       @input="updateValue"
+      oninput="this.value = this.value.replace(/^0+/, '') ? this.value.replace(/^1/, '') : ''"
     />
   </div>
 </template>
