@@ -109,6 +109,18 @@
               @on-complete="handleOTP"
             />
             <ErrorLabel :text="errorMessage" centered />
+            <div v-if="countdownActive" class="my-4 w-full flex flex-col items-center gap-2">
+              <div class="text-24 font-semibold text-center">
+                {{ countdown }}
+              </div>
+              <button
+                @click="getSmsCode"
+                class="text-xs underline disabled:text-gray-400 text-gray-700 disabled:cursor-not-allowed cursor-pointer"
+                :disabled="countdown !== 0"
+              >
+                Kodu Tekrar Gönder
+              </button>
+            </div>
             <VButton
               :is-loading="isLoading"
               :disabled="!isSmsFormValid"
@@ -120,7 +132,7 @@
             </VButton>
             <VButton
               :is-loading="isLoading"
-              :disabled="!isOtpFormValid"
+              :disabled="!isOtpFormValid || countdown === 0"
               class="w-full mt-4"
               @click="sendOTP"
               v-show="isActiveLoginButton"
@@ -163,7 +175,10 @@ export default {
       isActiveLoginButton: false,
       smsCode: '',
       errorMessage: '',
-      isLoading: false
+      isLoading: false,
+      countdown: 120,
+      countdownActive: false,
+      countdownInterval: null
     }
   },
 
@@ -180,6 +195,18 @@ export default {
   },
 
   methods: {
+    startCountdown() {
+      this.countdownActive = true
+      this.countdown = 120
+      this.countdownInterval = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--
+        } else {
+          clearInterval(this.countdownInterval)
+        }
+      }, 1000)
+    },
+
     getSmsCode() {
       const sessionStore = useSessionStore()
       console.log('Current token:', sessionStore.getToken)
@@ -193,6 +220,7 @@ export default {
         })
         .then((response) => {
           this.isOpenOtp = true
+          this.startCountdown()
         })
         .catch((error) => {
           this.errorMessage = error.response.data.message
@@ -235,6 +263,11 @@ export default {
       this.isActiveLoginButton = true
     }
   },
+
+  beforeDestroy() {
+    clearInterval(this.countdownInterval)
+  },
+
   computed: {
     isSmsFormValid() {
       const phone = this.phoneNumber.replace(/\D/g, '')

@@ -1910,6 +1910,16 @@ vite@^5.3.1:
   optionalDependencies:
     fsevents "~2.3.3"
 
+vue-circle-progress@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-circle-progress/-/vue-circle-progress-0.0.2.tgz#0b591ff41119480a3fcbcc5d302feb7a5fa3d23f"
+  integrity sha512-z4CurmGLpfmAGNWtWLggrId71H+VVMTIkkxipWEGaS3ytJx655RFL83pqHOLMVBOTLkMmt4C6j9MKQKKHOrK0g==
+
+vue-countdown@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vue-countdown/-/vue-countdown-1.0.4.tgz#cb2baa4a99644ba6ebb33a9b688cd4138fcddc11"
+  integrity sha512-2aT5FNOZI7yqDRkFz7GwxIoNVF+pZALtX98d1jPo4bqdrs5pEda9DoOdtS3ZzDVrIY6EEoqUUbT4p/nDxwWgHw==
+
 vue-demi@^0.14.10:
   version "0.14.10"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.10.tgz#afc78de3d6f9e11bf78c55e8510ee12814522f04"
