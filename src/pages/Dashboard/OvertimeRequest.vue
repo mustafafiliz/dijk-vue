@@ -2,8 +2,14 @@
 import Input from '@/components/Input.vue'
 import Textarea from '@/components/Textarea.vue'
 import Button from '@/components/Button.vue'
+import Datepicker from 'vue3-datepicker'
+import { ref } from 'vue'
+import { tr } from 'date-fns/locale'
+import Timepicker from 'vue3-timepicker'
 
-const today = new Date().toISOString().split('T')[0]
+const overtimeDate = ref(new Date())
+const startTime = ref('')
+const endTime = ref('')
 </script>
 
 <template>
@@ -44,7 +50,7 @@ const today = new Date().toISOString().split('T')[0]
           <div class="font-semibold mb-[10px]">Mesai Tarihi</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="date" :value="today" />
+            <Datepicker v-model="overtimeDate" :locale="tr" class="outline-none w-full" />
           </div>
         </div>
 
@@ -52,7 +58,12 @@ const today = new Date().toISOString().split('T')[0]
           <div class="font-semibold mb-[10px]">Başlangıç Saati</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="time" value="00:00" />
+            <Timepicker
+              v-model="startTime"
+              :minuteInterval="15"
+              class="outline-none border-0"
+              placeholder="_ _ : _ _"
+            />
           </div>
         </div>
 
@@ -60,7 +71,12 @@ const today = new Date().toISOString().split('T')[0]
           <div class="font-semibold mb-[10px]">Bitiş Saati</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Input class="text-base !py-0 !px-0 !w-fit text-arch-grey" type="time" value="00:00" />
+            <Timepicker
+              v-model="endTime"
+              :minuteInterval="15"
+              class="outline-none border-0"
+              placeholder="_ _ : _ _"
+            />
           </div>
         </div>
 
