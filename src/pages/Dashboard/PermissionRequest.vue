@@ -2,10 +2,24 @@
 import Input from '@/components/Input.vue'
 import Textarea from '@/components/Textarea.vue'
 import Button from '@/components/Button.vue'
+import { ref, onMounted } from 'vue'
+import { useAxios } from '@/plugins/axios'
 
+const { axios } = useAxios()
 const today = new Date().toISOString().split('T')[0]
 const currentHour = new Date().getHours()
 const currentMinute = new Date().getMinutes()
+
+const permitGroups = ref([])
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('/permit-groups')
+    permitGroups.value = response.data
+  } catch (error) {
+    console.error('Veri alınırken bir hata oluştu:', error)
+  }
+})
 </script>
 
 <template>
