@@ -1,3 +1,37 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+
+const cityName = ref('Istanbul')
+const cities = ref('')
+const weatherData = ref({})
+const dateTime = ref('')
+const temperature = ref('')
+const weatherCondition = ref('')
+
+const fetchWeather = async (city) => {
+  try {
+    const res = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b0a3675677fbedb10de64b9a0a783430&units=metric` // Santigrat için 'metric' birimini kullan
+    )
+    cities.value = res.data.name
+    weatherData.value = res.data.main
+    const date = new Date(res.data.dt * 1000).toLocaleString('en-US')
+    dateTime.value = date.toString()
+
+    temperature.value = weatherData.value.temp.toFixed(0)
+    const weather = res.data.weather[0].main
+    weatherCondition.value = weather
+  } catch (error) {
+    console.log(error, 'error found!')
+  }
+}
+
+onMounted(async () => {
+  await fetchWeather(cityName.value)
+})
+</script>
+
 <template>
   <div class="rounded-2xl overflow-hidden relative md:aspect-[400/110] w-full">
     <div
@@ -10,7 +44,7 @@
 
       <div>
         <div class="flex items-center gap-x-[5px]">
-          <div class="text-[20px] md:text-2xl font-semibold">21 °C</div>
+          <div class="text-[20px] md:text-2xl font-semibold">{{ temperature }} °C</div>
           <svg
             class="w-7 h-7 md:w-16 md:h-16"
             width="31"
@@ -31,7 +65,7 @@
           </svg>
         </div>
 
-        <div class="text-12 md:text-xl font-semibold text-end">Güneşli</div>
+        <div class="text-12 md:text-xl font-semibold text-end">{{ weatherCondition }}</div>
       </div>
     </div>
     <img class="w-full h-full object-cover" src="/images/weather-bg.png" alt="" />
