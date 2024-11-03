@@ -28,20 +28,22 @@ export default {
 
     sessionStore.loadSessionFromCookie()
 
-    if (!sessionStore.getToken) {
-      router.push('/')
+    console.log(router.currentRoute.value.name)
+
+    if (!sessionStore.getToken && !router.currentRoute.value.path.includes('/auth')) {
+      router.push('/auth/login')
       this.isLoading = false
       return
     }
 
     try {
       await meStore.fetchUserProfile()
-      if (router.currentRoute.value.path === '/') {
+      if (router.currentRoute.value.path.includes('/auth')) {
         router.push('/dashboard/home')
       }
     } catch (error) {
       //todo: will be remove
-      if (router.currentRoute.value.path === '/') {
+      if (router.currentRoute.value.path.includes('/auth')) {
         router.push('/dashboard/home')
       }
       //todo: will be uncomment

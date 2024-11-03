@@ -45,7 +45,7 @@ export const useMeStore = defineStore('me', {
         await axios.get('/auth/logout')
         this.user = null
         sessionStore.clearSession() // Clear the session data
-        window.location.href = '/'
+        window.location.href = '/auth/login'
       } catch (error) {
         this.error = error.response?.data?.message || 'An error occurred'
         throw error

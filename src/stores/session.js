@@ -70,7 +70,7 @@ export const useSessionStore = defineStore('session', {
         return response.data.access_token
       } catch (error) {
         this.clearSession()
-        window.location.href = '/login'
+        window.location.href = '/auth/login'
         return null
       }
     },

@@ -72,11 +72,12 @@
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
             <div
+              v-show="!isOpenOtp"
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
             >
               Telefon Numarası
             </div>
-            <div class="relative flex items-center w-full mb-4">
+            <div v-show="!isOpenOtp" class="relative flex items-center w-full mb-4">
               <PhoneInput v-model="phoneNumber" />
             </div>
 
@@ -84,16 +85,44 @@
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
               v-show="!isOpenOtp"
             >
-              Parola
+              TC Kimlik Numarası
             </div>
             <VInput
               class="md:border md:border-gray-300"
-              v-model="password"
+              v-model="idNumber"
               v-show="!isOpenOtp"
-              type="password"
+              type="text"
             />
+
+            <ErrorLabel :text="errorMessage" centered />
+            <div v-show="isOpenOtp" class="flex flex-col items-start w-full mb-4">
+              <div
+                class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+              >
+                Yeni Parola
+              </div>
+              <VInput
+                id="newPassword"
+                class="mt-1 block w-full md:border md:border-gray-300"
+                v-model="newPassword"
+                type="password"
+              />
+            </div>
+            <div v-show="isOpenOtp" class="flex flex-col items-start w-full mb-4">
+              <div
+                class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+              >
+                Yeni Parola Tekrar
+              </div>
+              <VInput
+                id="newPasswordConfirmation"
+                class="mt-1 block w-full md:border md:border-gray-300"
+                v-model="newPasswordConfirmation"
+                type="password"
+              />
+            </div>
             <div
-              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+              class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-4"
               v-show="isOpenOtp && phoneNumber"
             >
               Doğrulama Kodu
@@ -110,43 +139,27 @@
               @on-change="isActiveLoginButton = false"
               @on-complete="handleOTP"
             />
-            <ErrorLabel :text="errorMessage" centered />
-            <div v-if="countdownActive" class="my-4 w-full flex flex-col items-center gap-2">
-              <div class="text-24 font-semibold text-center">
-                {{ countdown }}
-              </div>
-              <button
-                @click="getSmsCode"
-                class="text-xs underline disabled:text-gray-400 text-gray-700 disabled:cursor-not-allowed cursor-pointer"
-                :disabled="countdown !== 0"
-              >
-                Kodu Tekrar Gönder
-              </button>
+            <div class="pl-3">
+              <ErrorLabel v-for="message in errorMessages" :text="message" />
             </div>
-            <router-link
-              v-if="!isOpenOtp"
-              to="/auth/reset-password"
-              class="underline font-medium text-12 mt-4 ml-3"
-            >
-              Şifremi Unuttum
-            </router-link>
             <VButton
+              v-if="isOpenOtp"
+              :is-loading="isLoading"
+              :disabled="isChangePasswordButtonDisabled"
+              class="w-full mt-4"
+              @click="changePassword"
+            >
+              Parolayı Değiştir
+            </VButton>
+            <VButton
+              v-if="!isOpenOtp"
               :is-loading="isLoading"
               :disabled="!isSmsFormValid"
               class="w-full mt-4"
               @click="getSmsCode"
               v-show="!isOpenOtp"
             >
-              Giriş Kodu Gönder
-            </VButton>
-            <VButton
-              :is-loading="isLoading"
-              :disabled="!isOtpFormValid || countdown === 0"
-              class="w-full mt-4"
-              @click="sendOTP"
-              v-show="isActiveLoginButton"
-            >
-              Giriş Yap
+              Sıfırlama Kodu Gönder
             </VButton>
           </div>
         </div>
@@ -161,7 +174,7 @@ import PhoneInput from '@/components/PhoneInput.vue'
 import VOtpInput from 'vue3-otp-input'
 import VInput from '@/components/Input.vue'
 import ErrorLabel from '@/components/ErrorLabel.vue'
-import { useSessionStore } from '@/stores/session'
+import { toast } from 'vue3-toastify'
 
 export default {
   name: 'Login',
@@ -178,17 +191,20 @@ export default {
     return {
       phoneNumber: '',
       isValidPhoneNumber: false,
-      password: '',
+      idNumber: '',
       isModalOpen: false,
       isOpenOtp: false,
       isActiveLoginButton: false,
       smsCode: '',
       errorMessage: '',
+      errorMessages: [],
       isLoading: false,
       countdown: 120,
       countdownActive: false,
       countdownInterval: null,
-      resetOtpInput: false
+      resetOtpInput: false,
+      newPassword: '',
+      newPasswordConfirmation: ''
     }
   },
 
@@ -196,7 +212,7 @@ export default {
     phoneNumber() {
       this.errorMessage = ''
     },
-    password() {
+    idNumber() {
       this.errorMessage = ''
     },
     smsCode() {
@@ -218,25 +234,16 @@ export default {
     },
 
     getSmsCode() {
-      const sessionStore = useSessionStore()
-      console.log('Current token:', sessionStore.getToken)
-
       this.isLoading = true
       const phone = this.phoneNumber.replace(/\D/g, '')
       this.$axios
-        .post('/auth/get-sms', {
+        .post('/auth/forgot-password-send-sms', {
           phone,
-          password: this.password
+          tc_no: this.idNumber
         })
         .then((_) => {
           this.isOpenOtp = true
           this.startCountdown()
-          this.$nextTick(() => {
-            const firstInput = document.querySelector('#otpInput input[type="tel"]')
-            if (firstInput) {
-              firstInput.focus()
-            }
-          })
         })
         .catch((error) => {
           this.errorMessage = error.response.data.message
@@ -246,32 +253,35 @@ export default {
         })
     },
 
-    sendOTP() {
+    changePassword() {
       this.isLoading = true
-      const sessionStore = useSessionStore()
       const phone = this.phoneNumber.replace(/\D/g, '')
 
       this.$axios
-        .post('/auth/login', {
+        .post('/auth/forgot-password', {
           phone,
-          password: this.password,
-          sms_verification_code: this.smsCode
+          tc_no: this.idNumber,
+          sms_verification_code: this.smsCode,
+          new_password: this.newPassword,
+          new_password_confirmation: this.newPasswordConfirmation
         })
         .then((response) => {
-          sessionStore.setSession(response.data)
-          window.location.href = '/dashboard/home'
+          // Redirect to login page on success
+          toast.success(response?.data?.data?.message)
+          window.location.href = '/auth/login'
         })
         .catch((error) => {
-          this.errorMessage = error.response.data.message
+          const errorMessage = error.response.data.data
+          const fields = ['sms_verification_code', 'new_password', 'new_password_confirmation']
+
           this.smsCode = ''
           this.resetOtpInput = !this.resetOtpInput
 
-          this.$nextTick(() => {
-            //reset otp input
-
-            const firstInput = document.querySelector('#otpInput input[type="tel"]')
-            if (firstInput) {
-              firstInput.focus()
+          fields.forEach((field) => {
+            if (errorMessage[field]) {
+              errorMessage[field].forEach((message) => {
+                this.errorMessages.push(message)
+              })
             }
           })
         })
@@ -298,11 +308,20 @@ export default {
   computed: {
     isSmsFormValid() {
       const phone = this.phoneNumber.replace(/\D/g, '')
-      return phone.length >= 1 && this.password.length >= 1
+      return phone.length >= 1 && this.idNumber.length === 11
     },
 
     isOtpFormValid() {
       return this.smsCode.length === 6
+    },
+
+    isChangePasswordButtonDisabled() {
+      return (
+        !this.isSmsFormValid ||
+        !this.newPassword ||
+        this.newPassword !== this.newPasswordConfirmation ||
+        !this.smsCode
+      )
     }
   }
 }

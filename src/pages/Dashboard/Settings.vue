@@ -44,7 +44,7 @@ const handleChangePassword = async () => {
     const response = await axios.post('/auth/change-password', {
       current_password: currentPassword.value,
       new_password: newPassword.value,
-      new_password_confirm: newPasswordConfirm.value
+      new_password_confirmation: newPasswordConfirm.value
     })
 
     toast.success(response.message)
@@ -61,8 +61,8 @@ const handleChangePassword = async () => {
     if (errorData?.current_password) {
       currentPasswordError.value = errorData?.current_password
     }
-    if (errorData?.new_password_confirm) {
-      confirmPasswordError.value = errorData?.new_password_confirm
+    if (errorData?.new_password_confirmation) {
+      confirmPasswordError.value = errorData?.new_password_confirmation
     }
   } finally {
     isLoading.value = false

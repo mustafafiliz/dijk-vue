@@ -12,9 +12,11 @@ import DashboardCalendar from '@/pages/Dashboard/Calendar.vue'
 import DashboardSettings from '@/pages/Dashboard/Settings.vue'
 import TestApi from '@/pages/TestApi.vue'
 import NotFound from '@/pages/NotFound.vue'
+import ResetPassword from '@/pages/ResetPassword.vue'
 
 const routes = [
-  { path: '/', component: Login },
+  { path: '/auth/login', component: Login },
+  { path: '/auth/reset-password', component: ResetPassword },
   { path: '/dashboard/home', component: DashboardHome },
   { path: '/dashboard/profile', component: DashboardProfile },
   { path: '/dashboard/fields', component: DashboardFields },
