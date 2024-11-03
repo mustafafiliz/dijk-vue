@@ -1,8 +1,8 @@
 <script setup>
-import { defineProps, ref, watch } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
-  value: {
+  modelValue: {
     type: String,
     default: ''
   },
@@ -16,29 +16,21 @@ const props = defineProps({
   }
 })
 
-const currentValue = ref(props.value)
-const maxLength = ref(216)
-
-watch(
-  () => props.value,
-  (newValue) => {
-    currentValue.value = newValue
-  }
-)
+const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
   <div>
     <textarea
       class="w-full relative outline-none rounded-20 text-12 font-medium py-[14px] px-4"
-      v-model="currentValue"
-      :rows="5"
+      :value="props.modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      :rows="rows"
       :placeholder="placeholder"
-      >{{ props.value }}</textarea
-    >
+    ></textarea>
 
     <div class="mt-1 text-[10px] text-metal-armor font-medium">
-      {{ maxLength - currentValue.length }} / {{ maxLength }} karakter kaldı.
+      {{ 216 - props.modelValue.length }} / 216 karakter kaldı.
     </div>
   </div>
 </template>
