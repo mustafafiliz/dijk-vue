@@ -1,25 +1,48 @@
-<script setup>
+<script>
 import Input from '@/components/Input.vue'
 import Textarea from '@/components/Textarea.vue'
 import Button from '@/components/Button.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useAxios } from '@/plugins/axios'
 
-const { axios } = useAxios()
-const today = new Date().toISOString().split('T')[0]
-const currentHour = new Date().getHours()
-const currentMinute = new Date().getMinutes()
-
-const permitGroups = ref([])
-
-onMounted(async () => {
-  try {
-    const response = await axios.get('/permit-groups')
-    permitGroups.value = response.data
-  } catch (error) {
-    console.error('Veri alınırken bir hata oluştu:', error)
+export default {
+  components: {
+    Input,
+    Textarea,
+    Button
+  },
+  data() {
+    return {
+      today: ref(new Date().toISOString().split('T')[0]),
+      currentHour: ref(new Date().getHours()),
+      currentMinute: ref(new Date().getMinutes()),
+      permitGroups: ref([])
+    }
+  },
+  methods: {
+    async getPermitGroups() {
+      const { axios } = useAxios()
+      try {
+        const response = await axios.get('/permit-groups')
+        console.log('heyy')
+        this.permitGroups = response.data.data.map((item) => {
+          console.log(item)
+          return {
+            id: item.code,
+            name: item.name,
+            available_day: item.available_day
+          }
+        })
+        console.log(response.data.data)
+      } catch (error) {
+        console.error('Veri alınırken bir hata oluştu:', error)
+      }
+    }
+  },
+  mounted() {
+    this.getPermitGroups()
   }
-})
+}
 </script>
 
 <template>
@@ -66,12 +89,11 @@ onMounted(async () => {
           <div class="font-semibold mb-[10px]">İzin Türü</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <div>Yıllık İzin</div>
-
             <div>
-              Kalan:
-              <select>
-                <option value="14 Gün">14 Gün</option>
+              <select v-model="selectedPermitGroup">
+                <option v-for="group in permitGroups" :key="group.id" :value="group.id">
+                  {{ group.name }} - Kalan: {{ group.available_day }} Gün
+                </option>
               </select>
             </div>
           </div>

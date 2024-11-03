@@ -28,8 +28,6 @@ export default {
 
     sessionStore.loadSessionFromCookie()
 
-    console.log(router.currentRoute.value.name)
-
     if (!sessionStore.getToken && !router.currentRoute.value.path.includes('/auth')) {
       router.push('/auth/login')
       this.isLoading = false
