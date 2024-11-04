@@ -13,6 +13,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.7",
+    "canvas-confetti": "^1.9.3",
     "crypto-js": "^4.2.0",
     "intl-tel-input": "^24.5.0",
     "js-cookie": "^3.0.5",
@@ -22,6 +23,7 @@
     "swiper": "^11.1.14",
     "v-calendar": "^3.1.2",
     "vue": "^3.4.29",
+    "vue-confetti": "^2.3.0",
     "vue-router": "^4.4.5",
     "vue3-datepicker": "^0.4.0",
     "vue3-otp-input": "^0.5.21",

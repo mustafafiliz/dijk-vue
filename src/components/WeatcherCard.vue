@@ -1,34 +1,31 @@
+src/components/WeatcherCard.vue
 <script setup>
+import { useMeStore } from '@/stores/me'
 import { onMounted, ref } from 'vue'
-import axios from 'axios'
 
-const cityName = ref('Istanbul')
-const cities = ref('')
-const weatherData = ref({})
-const dateTime = ref('')
-const temperature = ref('')
-const weatherCondition = ref('')
+const greeting = ref('')
+const imageSrc = ref('')
+const meStore = useMeStore()
 
-const fetchWeather = async (city) => {
-  try {
-    const res = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b0a3675677fbedb10de64b9a0a783430&units=metric` // Santigrat için 'metric' birimini kullan
-    )
-    cities.value = res.data.name
-    weatherData.value = res.data.main
-    const date = new Date(res.data.dt * 1000).toLocaleString('en-US')
-    dateTime.value = date.toString()
-
-    temperature.value = weatherData.value.temp.toFixed(0)
-    const weather = res.data.weather[0].main
-    weatherCondition.value = weather
-  } catch (error) {
-    console.log(error, 'error found!')
+const updateGreetingAndImage = () => {
+  const hour = new Date().getHours()
+  if (hour >= 6 && hour < 12) {
+    greeting.value = `Günaydın ${meStore.user.name}`
+    imageSrc.value = '/images/gunaydin.png'
+  } else if (hour >= 12 && hour < 17) {
+    greeting.value = `İyi Günler ${meStore.user.name}`
+    imageSrc.value = '/images/iyigunler.png'
+  } else if (hour >= 17 && hour < 21) {
+    greeting.value = `İyi Akşamlar ${meStore.user.name}`
+    imageSrc.value = '/images/iyiaksamlar.png'
+  } else {
+    greeting.value = `İyi Geceler ${meStore.user.name}`
+    imageSrc.value = '/images/iyigeceler.png'
   }
 }
 
-onMounted(async () => {
-  await fetchWeather(cityName.value)
+onMounted(() => {
+  updateGreetingAndImage()
 })
 </script>
 
@@ -38,36 +35,9 @@ onMounted(async () => {
       class="flex items-center justify-between absolute top-0 left-0 w-full p-[10px] text-white md:p-10"
     >
       <div class="font-semibold">
-        <div class="text-[20px] md:text-4xl">Günaydın, Mehmet</div>
-        <div class="text-12 md:text-2xl md:mt-4">Bugün 20 Eylül, Cuma</div>
-      </div>
-
-      <div>
-        <div class="flex items-center gap-x-[5px]">
-          <div class="text-[20px] md:text-2xl font-semibold">{{ temperature }} °C</div>
-          <svg
-            class="w-7 h-7 md:w-16 md:h-16"
-            width="31"
-            height="30"
-            viewBox="0 0 31 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              opacity="0.6"
-              d="M26.1546 15.0001C26.1546 13.9167 28.1174 12.59 27.8505 11.5908C27.574 10.5568 25.2031 10.3903 24.6793 9.4851C24.1479 8.56702 25.1835 6.43162 24.4386 5.68649C23.6934 4.94129 21.558 5.97682 20.6398 5.44567C19.7346 4.92194 19.5681 2.55082 18.5343 2.27444C17.535 2.00744 16.2084 3.97027 15.125 3.97027C14.0416 3.97027 12.7149 2.00744 11.7159 2.27444C10.6818 2.55089 10.5153 4.92194 9.6101 5.44567C8.69202 5.97705 6.55677 4.94129 5.81157 5.68649C5.06645 6.43162 6.10182 8.56702 5.57067 9.48517C5.0471 10.3902 2.67582 10.5568 2.39945 11.5907C2.1326 12.5899 4.09542 13.9166 4.09542 15C4.09542 16.0831 2.1326 17.4099 2.39945 18.4091C2.6759 19.443 5.0471 19.6096 5.57067 20.5147C6.10205 21.433 5.06645 23.5682 5.81157 24.3133C6.55677 25.0585 8.69202 24.023 9.61032 24.5542C10.5153 25.0779 10.6818 27.449 11.7159 27.7254C12.7149 27.9924 14.0417 26.0294 15.125 26.0294C16.2083 26.0294 17.535 27.9924 18.5343 27.7254C19.5681 27.4489 19.7346 25.0779 20.64 24.5542C21.558 24.0228 23.6934 25.0585 24.4386 24.3133C25.1836 23.5681 24.1482 21.433 24.6793 20.5146C25.203 19.6096 27.574 19.443 27.8505 18.4091C28.1174 17.41 26.1546 16.0832 26.1546 15.0001Z"
-              fill="#FDE403"
-            />
-            <path
-              d="M23.6399 15.0001C23.6399 19.3007 20.4513 22.8568 16.3087 23.4329C15.9166 23.4877 15.5212 23.515 15.1254 23.5147C10.4227 23.5147 6.60986 19.7025 6.60986 15.0001C6.60986 10.2973 10.4226 6.48532 15.1254 6.48532C15.5269 6.48532 15.9221 6.51292 16.3087 6.567C20.4513 7.143 23.6399 10.6991 23.6399 15.0001Z"
-              fill="#FDE403"
-            />
-          </svg>
-        </div>
-
-        <div class="text-12 md:text-xl font-semibold text-end">{{ weatherCondition }}</div>
+        <div class="text-[20px] md:text-4xl">{{ greeting }}</div>
       </div>
     </div>
-    <img class="w-full h-full object-cover" src="/images/weather-bg.png" alt="" />
+    <img class="w-full h-full object-cover" :src="imageSrc" alt="" />
   </div>
 </template>
