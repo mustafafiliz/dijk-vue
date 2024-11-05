@@ -12,14 +12,14 @@
     class="fixed inset-0 p-4 flex flex-col gap-5 lg:gap-10 items-center justify-end bg-opacity-80 text-center shadow-xl bg-gradient-to-b pb-32 from-cornflower via-lucid-dreams via-25% to-lynx-white"
   >
     <h1 class="text-2xl lg:text-5xl font-medium text-gray-800">
-      Doğum gününüz kutlu olsun, <br />
+      Doğum günün kutlu olsun, <br />
       {{ userName }} !
     </h1>
     <p class="text-base lg:text-lg max-w-[600px] text-gray-700">
-      Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününüzde, tüm
+      Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününde, tüm
       dilekleriniz gerçekleşsin!
     </p>
-    <VButton class="px-20" @click="() => stopConfetti()"> Devam Et </VButton>
+    <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
   </div>
   <RouterView v-else />
 </template>
@@ -105,7 +105,7 @@ export default {
           startVelocity: 30,
           decay: 0.9,
           scalar: random(1, 3),
-          origin: { x: random(0, 1), y: 0.1 }
+          origin: { x: random(0, 1), y: 0 }
         })
 
         if (Date.now() < end) {

@@ -44,7 +44,9 @@ import QuickActions from '@/components/QıickActions.vue'
           />
         </svg>
 
-        <img src="/images/user-avatar.png" alt="" />
+        <Link to="/dashboard/profile" class="flex w-10 h-10">
+          <img src="/images/user-avatar.png" alt="" />
+        </Link>
       </div>
 
       <div class="mt-4 flex flex-col gap-4 md:grid md:grid-cols-2">

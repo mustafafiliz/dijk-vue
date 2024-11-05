@@ -83,7 +83,7 @@ export default {
       const { axios } = useAxios()
       this.loading = true
       try {
-        const response = await axios.post('/permits/add', {
+        const response = await axios.post('/permits', {
           permit_code: this.selectedPermit,
           permit_start_date: this.formatDateTime(this.permitStartDate, this.permitStartTime),
           permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime),

@@ -117,7 +117,7 @@
               </div>
               <button
                 @click="getSmsCode"
-                class="text-xs underline disabled:text-gray-400 text-gray-700 disabled:cursor-not-allowed cursor-pointer"
+                class="text-xs underline disabled:text-gray-600 text-gray-700 font-medium disabled:cursor-not-allowed cursor-pointer"
                 :disabled="countdown !== 0"
               >
                 Kodu Tekrar Gönder
