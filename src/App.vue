@@ -8,16 +8,39 @@
     </div>
   </div>
   <div
-    v-else-if="birthday"
-    class="fixed inset-0 p-4 flex flex-col gap-5 lg:gap-10 items-center justify-end bg-opacity-80 text-center shadow-xl bg-gradient-to-b pb-32 from-cornflower via-lucid-dreams via-25% to-lynx-white"
+    v-else-if="birthdayEvent || seniorEvent"
+    class="fixed inset-0 p-4 flex flex-col gap-5 lg:gap-10 items-center justify-end bg-opacity-80 text-center shadow-xl bg-gradient-to-b pb-44 from-cornflower via-lucid-dreams via-25% to-lynx-white"
   >
+    <div class="flex items-center justify-center">
+      <img
+        :src="seniorEvent ? '/images/confetti.png' : '/images/birthday-cake.png'"
+        alt="birthday-cake"
+        class="w-20 h-20 mb-4"
+      />
+    </div>
     <h1 class="text-2xl lg:text-5xl font-medium text-gray-800">
-      Doğum günün kutlu olsun, <br />
-      {{ userName }} !
+      <template v-if="birthdayEvent">
+        Doğum günün kutlu olsun, <br />
+        {{ userName }} !
+      </template>
+      <template v-else-if="seniorEvent">
+        Yıl dönümünüz kutlu olsun, <br />
+        {{ userName }} !
+      </template>
     </h1>
     <p class="text-base lg:text-lg max-w-[600px] text-gray-700">
-      Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününde, tüm
-      dilekleriniz gerçekleşsin!
+      <template v-if="birthdayEvent">
+        Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününde, tüm
+        dilekleriniz gerçekleşsin!
+      </template>
+      <template v-else-if="seniorEvent">
+        <span v-if="yearsWorked === 5">5. yılınız kutlu olsun!</span>
+        <span v-else-if="yearsWorked > 0">Çalıştığınız yıl: {{ yearsWorked }} yıl!</span>
+        <span v-else
+          >Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Yıl dönümünüzde, tüm
+          dilekleriniz gerçekleşsin!</span
+        >
+      </template>
     </p>
     <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
   </div>
@@ -38,8 +61,10 @@ export default {
   data() {
     return {
       isLoading: true,
-      birthday: false,
-      userName: ''
+      birthdayEvent: false,
+      seniorEvent: false,
+      userName: '',
+      yearsWorked: 0
     }
   },
 
@@ -59,7 +84,7 @@ export default {
     try {
       const { data } = await meStore.fetchUserProfile()
       this.userName = data?.name
-      this.checkBirthday(data?.birthday)
+      this.checkEvents(data?.birthday, data?.senior_date)
     } catch (error) {
       if (router.currentRoute.value.path.includes('/auth')) {
         router.push('/dashboard/home')
@@ -70,23 +95,36 @@ export default {
   },
 
   methods: {
-    checkBirthday(birthday) {
+    checkEvents(birthday, seniorDate) {
       const today = new Date()
       const birthdayDate = new Date(birthday)
+      const seniorDateObj = new Date(seniorDate)
       birthdayDate.setFullYear(today.getFullYear())
+      seniorDateObj.setFullYear(today.getFullYear())
 
       const todayString = today.toISOString().split('T')[0]
       const birthdayString = birthdayDate.toISOString().split('T')[0]
+      const birthdayMonthDay = today.toISOString().slice(5, 10)
+      const seniorMonthDay = seniorDateObj.toISOString().slice(5, 10)
       const hasSeenConfetti = localStorage.getItem('hasSeenConfetti')
 
       if (todayString === birthdayString && !hasSeenConfetti) {
-        this.birthday = true
+        this.birthdayEvent = true
         this.startConfetti()
         localStorage.setItem('hasSeenConfetti', 'true')
       }
+      if (birthdayMonthDay === seniorMonthDay) {
+        this.seniorEvent = true
+        this.calculateYearsWorked(seniorDate)
+        this.startConfetti()
+      }
 
       const router = useRouter()
-      if (router.currentRoute.value.path.includes('/auth') && todayString !== birthdayString) {
+      if (
+        router.currentRoute.value.path.includes('/auth') &&
+        todayString !== birthdayString &&
+        birthdayMonthDay !== seniorMonthDay
+      ) {
         router.push('/dashboard/home')
       }
     },
@@ -117,6 +155,13 @@ export default {
     stopConfetti() {
       document.getElementsByTagName('canvas')[0].remove()
       this.birthday = false
+      this.seniorEvent = false
+    },
+
+    calculateYearsWorked(seniorDate) {
+      const seniorYear = new Date(seniorDate).getFullYear()
+      const currentYear = new Date().getFullYear()
+      this.yearsWorked = currentYear - seniorYear
     }
   }
 }
