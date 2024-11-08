@@ -12,6 +12,7 @@ import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/Overtime
 import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
 import QuickActions from '@/components/QıickActions.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
 </script>
 
 <template>
@@ -44,9 +45,7 @@ import QuickActions from '@/components/QıickActions.vue'
           />
         </svg>
 
-        <Link to="/dashboard/profile" class="flex w-10 h-10">
-          <img src="/images/user-avatar.png" alt="" />
-        </Link>
+        <UserAvatar />
       </div>
 
       <div class="mt-4 flex flex-col gap-4 md:grid md:grid-cols-2">

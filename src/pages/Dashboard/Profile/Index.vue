@@ -117,12 +117,24 @@ const imageSettings = ref({
         <div class="flex flex-col items-center">
           <div class="relative">
             <img
-              class="border-gamora border-[6px] w-24 h-24 object-cover rounded-20"
+              v-if="user?.photo"
+              :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+              class="border-[6px] w-24 h-24 object-cover rounded-20"
               src="/images/user-image.jpg"
               alt=""
             />
+            <div
+              v-else
+              :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+              class="w-24 h-24 rounded-20 border-[6px] bg-white flex items-center justify-center"
+            >
+              <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
+                (user?.name.charAt(0) + user?.surname.charAt(0)).toUpperCase()
+              }}</span>
+            </div>
             <span
-              class="text-white bg-gamora font-semibold text-14 rounded-lg py-[2px] px-[13px] absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
+              :class="user?.is_active ? 'bg-gamora' : 'bg-gray-500'"
+              class="text-white font-semibold text-14 rounded-lg py-[2px] px-[13px] absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
               {{ user?.is_active ? 'Aktif' : 'Pasif' }}
             </span>
@@ -204,10 +216,20 @@ const imageSettings = ref({
             <div class="flex flex-col items-center gap-6">
               <div class="flex flex-col items-center gap-2">
                 <img
-                  class="w-20 h-20 rounded-full object-cover border-4 border-gamora"
-                  src="/images/user-image.jpg"
+                  v-if="user?.photo"
+                  :src="user.photo"
                   alt="Profil Fotoğrafı"
+                  class="w-20 h-20 rounded-full object-cover border-4 border-gamora"
                 />
+                <div
+                  v-else
+                  :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+                  class="w-24 h-24 rounded-full border-[4px] bg-white flex items-center justify-center"
+                >
+                  <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
+                    (user?.name.charAt(0) + user?.surname.charAt(0)).toUpperCase()
+                  }}</span>
+                </div>
                 <div class="text-center">
                   <h3 class="font-bold text-xl">{{ user?.full_name }}</h3>
                   <p class="text-squant">
