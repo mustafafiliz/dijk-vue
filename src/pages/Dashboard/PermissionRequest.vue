@@ -18,7 +18,7 @@ export default {
     return {
       today: new Date().toISOString().split('T')[0],
       permitGroups: [],
-      selectedPermit: '11', // default permit code
+      selectedPermit: '', // default permit code
       permitStartDate: new Date(),
       permitEndDate: new Date(),
       permitStartTime: '09:00',
@@ -39,6 +39,7 @@ export default {
           title: item.title,
           available_day: item.available_day
         }))
+        this.selectedPermit = response.data.find((item) => item?.title === 'Yıllık İzin')?.code
       } catch (error) {
         toast.error(error.response.data.message)
       }
