@@ -11,7 +11,7 @@ import InfoSliderItemUpcomingVacation from '@/components/InfoSlider/Item/Upcomin
 import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/OvertimeRequest.vue'
 import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
-import QuickActions from '@/components/QıickActions.vue'
+import QuickActions from '@/components/QuickActions.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 </script>
 

@@ -7,7 +7,6 @@ export default {
   async created() {
     try {
       const response = await this.$axios.get('/me')
-      console.log(response)
     } catch (error) {
       console.error(error)
     }

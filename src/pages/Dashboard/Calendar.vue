@@ -64,6 +64,7 @@ const attributes = ref([
           v-model="date"
           :is-dark="false"
           :attributes="attributes"
+          locale="tr"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">
           <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">

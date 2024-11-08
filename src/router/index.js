@@ -6,8 +6,10 @@ import DashboardFields from '@/pages/Dashboard/Fields.vue'
 import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
-import DashboardPermissionRequest from '@/pages/Dashboard/PermissionRequest.vue'
-import DashboardOvertimeRequest from '@/pages/Dashboard/OvertimeRequest.vue'
+import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
+import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
+import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
+import DashboardOvertimeRequestNew from '@/pages/Dashboard/OvertimeRequest/NewRequest.vue'
 import DashboardCalendar from '@/pages/Dashboard/Calendar.vue'
 import DashboardSettings from '@/pages/Dashboard/Settings.vue'
 import TestApi from '@/pages/TestApi.vue'
@@ -23,8 +25,10 @@ const routes = [
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },
-  { path: '/dashboard/permission-request', component: DashboardPermissionRequest },
-  { path: '/dashboard/overtime-request', component: DashboardOvertimeRequest },
+  { path: '/dashboard/permission-request/list', component: DashboardPermissionRequestList },
+  { path: '/dashboard/permission-request/new', component: DashboardPermissionRequestNew },
+  { path: '/dashboard/overtime-request/list', component: DashboardOvertimeRequestList },
+  { path: '/dashboard/overtime-request/new', component: DashboardOvertimeRequestNew },
   { path: '/dashboard/calendar', component: DashboardCalendar },
   { path: '/dashboard/settings', component: DashboardSettings },
   { path: '/test-api', component: TestApi },

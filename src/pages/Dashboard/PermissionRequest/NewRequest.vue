@@ -53,7 +53,7 @@ export default {
           permit_start_date: this.formatDateTime(this.permitStartDate, this.permitStartTime),
           permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime)
         })
-        this.remainingDays = response.data.remaining_days
+        this.remainingDays = response.data
       } catch (error) {
         toast.error(error.response.data.message)
       }
@@ -90,7 +90,9 @@ export default {
           permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime),
           permit_message: `${this.permitMessage} Yerine Bakacak Kişi: ${this.substitutePerson}` // Combine messages
         })
-        toast.success(response.data.message)
+        console.log(response.data)
+        toast.success(response?.data?.message || 'İzin talebi oluşturuldu.')
+        this.$router.push('/dashboard/permission-request/list')
       } catch (error) {
         toast.error(error.response.data.message)
       } finally {
@@ -102,8 +104,7 @@ export default {
     permitStartDate: 'validateDatesAndTimes',
     permitEndDate: 'validateDatesAndTimes',
     permitStartTime: 'validateDatesAndTimes',
-    permitEndTime: 'validateDatesAndTimes',
-    selectedPermit: 'calculateRemainingDays'
+    permitEndTime: 'validateDatesAndTimes'
   },
 
   mounted() {
@@ -150,7 +151,7 @@ export default {
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">İzin Türü</div>
+          <div class="font-semibold mb-[10px]">İzin Türü <span class="text-red-500">*</span></div>
           <div
             class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
           >
@@ -167,7 +168,9 @@ export default {
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">Başlangıç Tarihi</div>
+          <div class="font-semibold mb-[10px]">
+            Başlangıç Tarihi <span class="text-red-500">*</span>
+          </div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
             <Datepicker v-model="permitStartDate" :locale="tr" class="outline-none w-full" />
             <Input
@@ -179,7 +182,9 @@ export default {
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">Bitiş Tarihi</div>
+          <div class="font-semibold mb-[10px]">
+            Bitiş Tarihi <span class="text-red-500">*</span>
+          </div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
             <Datepicker v-model="permitEndDate" :locale="tr" class="outline-none w-full" />
             <Input
@@ -191,7 +196,7 @@ export default {
         </div>
 
         <div>
-          <div class="font-semibold mb-[10px]">Mesaj</div>
+          <div class="font-semibold mb-[10px]">Mesaj <span class="text-red-500">*</span></div>
           <Textarea
             class="text-arch-grey"
             placeholder="Eklemek istediğiniz bir şey var mı ?"

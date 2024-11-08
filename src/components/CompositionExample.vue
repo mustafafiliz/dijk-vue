@@ -1,7 +1,5 @@
 <template>
-    <div>
-
-    </div>
+  <div></div>
 </template>
 
 <script setup>
@@ -11,13 +9,10 @@ const { axios } = useAxios()
 
 const fetchData = async () => {
   const data = await axios.get('/me')
-  console.log(data);
   return data
 }
 
 fetchData()
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

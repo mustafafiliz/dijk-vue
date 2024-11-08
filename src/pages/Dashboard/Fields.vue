@@ -15,9 +15,9 @@ onMounted(() => {
     onEnd: (event) => {
       const newOrder = Array.from(fieldsStore.items)
       const movedItem = newOrder.splice(event.oldIndex, 1)[0]
+
       newOrder.splice(event.newIndex, 0, movedItem)
-      console.log(newOrder)
-      fieldsStore.updateItems(newOrder) // Update the store with the new order
+      fieldsStore.updateItems(newOrder) 
     }
   })
 })

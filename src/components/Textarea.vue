@@ -22,7 +22,7 @@ const emit = defineEmits(['update:modelValue'])
 <template>
   <div>
     <textarea
-      class="w-full relative outline-none rounded-20 text-12 font-medium py-[14px] px-4"
+      class="w-full relative outline-none rounded-20 text-12 font-medium py-[14px] px-4 resize-none"
       :value="props.modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       :rows="rows"

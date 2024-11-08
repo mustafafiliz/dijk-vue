@@ -23,7 +23,6 @@ EMAIL:${user.value.email}
 ADR:;;${user.value.city || ''};Türkiye
 END:VCARD`
 })
-console.log(user.value)
 
 const value = computed(() => contactInfo.value)
 const level = ref('M')

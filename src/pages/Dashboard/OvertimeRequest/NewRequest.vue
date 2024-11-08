@@ -57,11 +57,10 @@ const endTime = ref('')
           <div class="font-semibold mb-[10px]">Başlangıç Saati</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Timepicker
+            <Input
+              class="!text-12 !py-0 !px-0 !w-fit text-squant"
+              type="time"
               v-model="startTime"
-              :minuteInterval="15"
-              class="outline-none border-0"
-              placeholder="_ _ : _ _"
             />
           </div>
         </div>
@@ -70,12 +69,7 @@ const endTime = ref('')
           <div class="font-semibold mb-[10px]">Bitiş Saati</div>
 
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Timepicker
-              v-model="endTime"
-              :minuteInterval="15"
-              class="outline-none border-0"
-              placeholder="_ _ : _ _"
-            />
+            <Input class="!text-12 !py-0 !px-0 !w-fit text-squant" type="time" v-model="endTime" />
           </div>
         </div>
 

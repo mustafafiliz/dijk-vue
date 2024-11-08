@@ -24,7 +24,7 @@
       </div>
 
       <div
-        class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 backdrop-blur-2xl transition-transform md:static md:backdrop-blur-[100px] md:flex-1 md:bg-gray-50 md:bg-opacity-100"
+        class="absolute top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-2xl transition-transform md:static md:backdrop-blur-[100px] md:flex-1 md:bg-gray-50 md:bg-opacity-100"
         :class="{
           'transform -translate-x-0 md:opacity-100': isModalOpen,
           'max-md:-translate-x-full': !isModalOpen
@@ -33,7 +33,7 @@
         <VButton
           class="absolute top-[57px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl md:hidden"
           variant="light"
-          @click="isModalOpen = false"
+          @click="$router.go(-1)"
         >
           <svg
             width="36"
@@ -192,7 +192,7 @@ export default {
       phoneNumber: '',
       isValidPhoneNumber: false,
       idNumber: '',
-      isModalOpen: false,
+      isModalOpen: true,
       isOpenOtp: false,
       isActiveLoginButton: false,
       smsCode: '',
