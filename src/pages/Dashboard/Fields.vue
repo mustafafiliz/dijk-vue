@@ -3,13 +3,22 @@ import FieldItem from '@/components/FieldItem.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import { ref, onMounted } from 'vue'
 import Sortable from 'sortablejs'
+import { useFieldsStore } from '@/stores/fields'
 
+const fieldsStore = useFieldsStore()
 const sortableList = ref(null)
 
 onMounted(() => {
   new Sortable(sortableList.value, {
     animation: 150,
-    ghostClass: 'sortable-ghost'
+    ghostClass: 'sortable-ghost',
+    onEnd: (event) => {
+      const newOrder = Array.from(fieldsStore.items)
+      const movedItem = newOrder.splice(event.oldIndex, 1)[0]
+      newOrder.splice(event.newIndex, 0, movedItem)
+      console.log(newOrder)
+      fieldsStore.updateItems(newOrder) // Update the store with the new order
+    }
   })
 })
 </script>
@@ -39,18 +48,9 @@ onMounted(() => {
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Alanım</div>
 
       <div class="grid grid-cols-2 gap-4" ref="sortableList">
-        <FieldItem title="İzin" to="/dashboard/permission-request" image="/images/izin.svg" />
-        <FieldItem title="Avans" image="/images/avans.svg" />
-        <FieldItem title="Harcama" image="/images/harcama.svg" />
-        <FieldItem title="Fazla Mesai" image="/images/mesai.svg" to="/dashboard/overtime-request" />
-        <FieldItem title="Takımım" image="/images/team.svg" to="/dashboard/team" />
-        <FieldItem title="Rehber" image="/images/rehber.svg" to="/dashboard/directory" />
-        <FieldItem
-          title="Onayımdaki Süreçler"
-          image="/images/surecler.svg"
-          to="/dashboard/approval-process"
-        />
-        <FieldItem title="Ayarlar" image="/images/ayarlar.svg" to="/dashboard/settings" />
+        <template v-for="item in fieldsStore.items" :key="item.title">
+          <FieldItem :title="item.title" :to="item.to" :image="item.image" />
+        </template>
       </div>
     </div>
 

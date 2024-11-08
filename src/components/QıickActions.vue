@@ -1,69 +1,10 @@
 <script setup>
 import { register } from 'swiper/element/bundle'
 import { onMounted } from 'vue'
+import { useFieldsStore } from '@/stores/fields'
 
-const actionItems = [
-  {
-    image: '/images/izin.svg',
-    label: 'İzin'
-  },
-  {
-    image: '/images/surecler.svg',
-    label: 'Süreçler'
-  },
-  {
-    image: '/images/avans.svg',
-    label: 'Avans'
-  },
-  {
-    image: '/images/harcama.svg',
-    label: 'Harcamalar'
-  },
-  {
-    image: '/images/ayarlar.svg',
-    label: 'Ayarlar'
-  },
-  {
-    image: '/images/izin.svg',
-    label: 'İzin'
-  },
-  {
-    image: '/images/surecler.svg',
-    label: 'Süreçler'
-  },
-  {
-    image: '/images/avans.svg',
-    label: 'Avans'
-  },
-  {
-    image: '/images/avans.svg',
-    label: 'Avans'
-  },
-  {
-    image: '/images/harcama.svg',
-    label: 'Harcamalar'
-  },
-  {
-    image: '/images/ayarlar.svg',
-    label: 'Ayarlar'
-  },
-  {
-    image: '/images/izin.svg',
-    label: 'İzin'
-  },
-  {
-    image: '/images/surecler.svg',
-    label: 'Süreçler'
-  },
-  {
-    image: '/images/avans.svg',
-    label: 'Avans'
-  },
-  {
-    image: '/images/harcama.svg',
-    label: 'Harcamalar'
-  }
-]
+const fieldsStore = useFieldsStore()
+const actionItems = fieldsStore.items
 
 register()
 
@@ -101,13 +42,22 @@ onMounted(() => {
       space-between="10"
       free-mode="true"
     >
-      <swiper-slide class="w-fit" v-for="(item, i) in actionItems" :key="i">
-        <div
-          class="flex flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1"
+      <swiper-slide class="w-fit" v-for="item in actionItems" :key="i?.title">
+        <RouterLink
+          :to="item.to"
+          class="flex cursor-pointer flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1"
         >
-          <img :src="item.image" :alt="item.label" />
-          <span class="font-semibold text-night-sky"> {{ item.label }} </span>
-        </div>
+          <div class="h-[45px]">
+            <img
+              :src="item.image"
+              :alt="item?.title"
+              width="40"
+              height="40"
+              style="object-fit: cover"
+            />
+          </div>
+          <span class="font-semibold text-night-sky"> {{ item?.title }} </span>
+        </RouterLink>
       </swiper-slide>
     </swiper-container>
     <div class="custom-button-next cursor-pointer max-md:hidden">
