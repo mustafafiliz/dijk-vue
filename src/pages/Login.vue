@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center justify-center h-dvh">
+  <div class="flex items-center justify-center h-dvh overflow-hidden">
     <div
-      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-10 pb-24 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
+      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
       <div class="flex-1 md:flex md:flex-col md:items-center md:justify-center">
         <img
