@@ -1,9 +1,9 @@
 <template>
   <div class="flex items-center justify-center h-dvh overflow-hidden">
     <div
-      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
+      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 py-20 lg:py-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
-      <div class="flex-1 md:flex md:flex-col md:items-center md:justify-center">
+      <div class="flex-1 flex flex-col md:justify-center justify-between gap-y-10 h-[100dvh]">
         <img
           class="max-w-full w-[28.5rem] md:mx-auto"
           src="/images/welcome-splash.png"
