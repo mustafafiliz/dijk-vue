@@ -4,8 +4,8 @@ export const useFieldsStore = defineStore('fields', {
   state: () => ({
     items: JSON.parse(localStorage.getItem('fieldsItems')) || [
       { title: 'İzin', to: '/dashboard/permission-request/list', image: '/images/izin.svg' },
-      { title: 'Avans', image: '/images/avans.svg' },
-      { title: 'Harcama', image: '/images/harcama.svg' },
+      { title: 'Avans', to: '/dashboard/advance-request/list', image: '/images/avans.svg' },
+      { title: 'Harcama', to: '/dashboard/expense-request/list', image: '/images/harcama.svg' },
       { title: 'Fazla Mesai', to: '/dashboard/overtime-request/list', image: '/images/mesai.svg' },
       { title: 'Takımım', to: '/dashboard/team', image: '/images/team.svg' },
       { title: 'Rehber', to: '/dashboard/directory', image: '/images/rehber.svg' },
