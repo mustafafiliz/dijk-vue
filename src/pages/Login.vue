@@ -9,7 +9,7 @@
           src="/images/welcome-splash.png"
           alt="Dijik"
         />
-        <div class="flex flex-col mt-4 pb-10">
+        <div class="flex flex-col mt-4 pb-5">
           <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
             <span class="text-3xl lg:text-36 text-gentian-flower font-bold">
