@@ -21,7 +21,7 @@
             İnsan Kaynakları, Basitleştirildi!
           </div>
 
-          <VButton class="md:hidden" @click="isModalOpen = true"> Hadi Başalayalım </VButton>
+          <VButton class="md:hidden" @click="isModalOpen = true"> Hadi Başlayalım </VButton>
         </div>
       </div>
 
