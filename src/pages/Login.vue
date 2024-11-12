@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center h-dvh">
     <div
-      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-[4.8125rem] pb-24 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
+      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 pt-10 pb-24 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
       <div class="flex-1 md:flex md:flex-col md:items-center md:justify-center">
         <img
@@ -9,10 +9,12 @@
           src="/images/welcome-splash.png"
           alt="Dijik"
         />
-        <div class="flex flex-col mt-8">
-          <div class="text-night-sky text-28 font-semibold">
+        <div class="flex flex-col mt-4">
+          <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
-            <span class="text-36 text-gentian-flower font-bold"> Daha Güçlü Gelecek </span>
+            <span class="text-3xl lg:text-36 text-gentian-flower font-bold">
+              Daha Güçlü Gelecek
+            </span>
           </div>
 
           <div class="font-medium text-18 text-squant mt-2 mb-6 md:mt-8 md:mb-12">
