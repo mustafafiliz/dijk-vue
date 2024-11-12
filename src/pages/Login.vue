@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center h-dvh overflow-hidden">
     <div
-      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 py-20 lg:py-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
+      class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 py-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
       <div class="flex-1 flex flex-col md:justify-center justify-between gap-y-10 h-[100dvh]">
         <img
@@ -9,7 +9,7 @@
           src="/images/welcome-splash.png"
           alt="Dijik"
         />
-        <div class="flex flex-col mt-4">
+        <div class="flex flex-col mt-4 pb-10">
           <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
             <span class="text-3xl lg:text-36 text-gentian-flower font-bold">
