@@ -13,35 +13,51 @@ const attributes = ref([])
 const showOnlyMe = ref(false)
 
 const meStore = useMeStore()
-
 const updateFilteredRequests = (data) => {
   const dateOnly = (date) => date.toISOString().split('T')[0]
 
   const _data = data || requests.value
 
   filteredRequests.value = _data.filter((item) => {
-    const isSameDate = dateOnly(new Date(item.start_date)) === dateOnly(date.value)
     const isUserRequest = !showOnlyMe.value || item.user_id === meStore.getUser?.id
-    return isSameDate && isUserRequest
+    const targetDate = dateOnly(date.value)
+    const startDate = dateOnly(new Date(item.start_date))
+    const endDate = dateOnly(new Date(item.end_date))
+    const isDateInRange = startDate <= targetDate && targetDate <= endDate
+
+    return isUserRequest && isDateInRange
   })
+
+  attributes.value = _data
+    .filter((item) => !showOnlyMe.value || item.user_id === meStore.getUser?.id)
+    .map((item) => {
+      const startDate = new Date(item.start_date)
+      const endDate = new Date(item.end_date)
+      const dates = []
+
+      while (startDate <= endDate) {
+        dates.push(startDate.toISOString().split('T')[0])
+        startDate.setDate(startDate.getDate() + 1)
+      }
+
+      return {
+        dot: item.statu === '0' ? 'red' : 'green',
+        dates: dates
+      }
+    })
 }
 
 const handleCalendarChange = () => {
-  updateFilteredRequests()
+  updateFilteredRequests(requests.value)
 }
 
 onMounted(async () => {
   const { axios } = useAxios()
   try {
     const response = await axios.get('/permits')
-    const formattedAttributes = response.data.slice(0, 3).map((item) => ({
-      dot: item.statu === '0' ? 'red' : 'green',
-      dates: [new Date(item.start_date).toISOString().split('T')[0]]
-    }))
 
     requests.value = response.data
     updateFilteredRequests(response.data)
-    attributes.value = formattedAttributes
   } catch (error) {
     console.error('Failed to fetch permits:', error)
   }
@@ -108,10 +124,16 @@ onMounted(async () => {
             :key="item.id"
             class="bg-white pt-1 pb-2 px-4 font-medium text-12 rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
           >
-            <div>{{ item.start_date }}</div>
+            <div class="flex items-center justify-between text-[10px]">
+              <div>Baş: {{ item.start_date }} / {{ item.start_hour }}</div>
+              <div>Bit: {{ item.end_date }} / {{ item.end_hour }}</div>
+            </div>
 
             <div class="flex items-center gap-x-[10px] mt-[10px]">
-              <div class="shrink-0 bg-blue-500 h-9 w-9 rounded-md flex items-center justify-center">
+              <div
+                :class="item.user._id === meStore.user._id ? 'bg-blue-500' : 'bg-orange-500'"
+                class="shrink-0 h-9 w-9 rounded-md flex items-center justify-center"
+              >
                 <svg
                   width="24px"
                   height="24px"
@@ -130,12 +152,12 @@ onMounted(async () => {
               </div>
 
               <div>
-                <div class="text-night-sky">{{ item.user_id }}</div>
-                <div class="text-[10px] text-squant">{{ item.message }}</div>
+                <div class="text-night-sky">{{ item.user.full_name }}</div>
+                <div class="text-[10px] text-squant">{{ item.message || 'Mesaj yok.' }}</div>
               </div>
             </div>
           </div>
-          <div v-else class="bg-white w-full py-10 rounded-2xl mt-5">
+          <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
             <div class="text-center text-12 text-night-sky">Bu tarihte izin talebi yok</div>
           </div>
         </div>

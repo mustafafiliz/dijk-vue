@@ -46,7 +46,7 @@ watchEffect(updateCurrentTime, { flush: 'post' })
 
 <template>
   <div
-    class="rounded-lg overflow-hidden relative md:aspect-[400/110] aspect-[400/150] w-full h-auto"
+    class="rounded-lg overflow-hidden relative md:aspect-[400/90] aspect-[400/150] w-full h-auto"
   >
     <div class="absolute inset-0 z-10 bg-black bg-opacity-5" />
     <div
@@ -54,7 +54,7 @@ watchEffect(updateCurrentTime, { flush: 'post' })
     >
       <div class="font-semibold">
         <div class="text-[20px] md:text-4xl mt-5">{{ greeting }}</div>
-        <div class="text-[20px] md:text-4xl mt-5">{{ currentTime }}</div>
+        <div class="text-[25px] md:text-5xl mt-5">{{ currentTime }}</div>
       </div>
     </div>
     <img class="w-full h-full object-cover" :src="imageSrc" alt="" />

@@ -2,6 +2,17 @@
 defineProps({
   person: Object
 })
+
+function getAvatarInitials(fullName) {
+  if (!fullName) return ''
+
+  const names = fullName.split(' ')
+
+  return names
+    .slice(0, 2)
+    .map((name) => name.charAt(0))
+    .join('')
+}
 </script>
 
 <template>
@@ -9,10 +20,16 @@ defineProps({
     class="flex items-center gap-x-4 bg-white w-full py-[13px] px-[9px] rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
   >
     <img
+      v-if="person?.image"
       class="border-gamora border-[3px] w-12 h-12 box-content object-cover rounded-full"
-      :src="person.image"
+      :src="person?.image"
       alt=""
     />
+    <div v-else class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+      <span class="text-white">
+        {{ getAvatarInitials(person.name) }}
+      </span>
+    </div>
 
     <div class="font-medium">
       <div class="text-night-sky">

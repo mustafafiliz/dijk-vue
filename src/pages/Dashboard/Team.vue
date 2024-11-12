@@ -2,6 +2,31 @@
 import PersonBox from '@/components/PersonBox.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import Input from '@/components/Input.vue'
+import { useAxios } from '@/plugins/axios'
+import { computed, onMounted, ref } from 'vue'
+import { useMeStore } from '@/stores/me'
+
+const { axios } = useAxios()
+const { user } = useMeStore()
+const teamMembers = ref([])
+const searchQuery = ref('')
+
+onMounted(async () => {
+  try {
+    const { data } = await axios.get('/my-team')
+    const teams = [user, ...data.subordinates]
+    console.log(teams)
+    teamMembers.value = teams
+  } catch (error) {
+    console.error('Error fetching team members:', error)
+  }
+})
+
+const filteredTeamMembers = computed(() => {
+  return teamMembers.value.filter((member) =>
+    member.full_name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
 </script>
 
 <template>
@@ -34,24 +59,18 @@ import Input from '@/components/Input.vue'
       </div>
 
       <div class="flex flex-col gap-4">
-        <Input placeholder="Ara..." />
+        <Input class="!text-sm !placeholder::text-sm" placeholder="Ara..." v-model="searchQuery" />
         <PersonBox
+          v-for="member in filteredTeamMembers"
+          :key="member._id"
           :person="{
-            name: 'Mehmet Yılmaz - Siz',
-            role: 'CTO',
-            image: '/images/user-image.jpg'
-          }"
-        />
-        <PersonBox
-          v-for="i in 10"
-          :key="i"
-          :person="{
-            name: 'Kişi A',
-            role: 'Team Lead of Yaz-1',
-            image: '/images/user-image.jpg',
-            email: 'test@gmail.com',
-            whatsapp: '+905466481680',
-            phone: '+905466481680'
+            name:
+              user.full_name === member.full_name ? member.full_name + ' - Siz' : member.full_name,
+            role: member.work_title_text,
+            image: member?.image,
+            email: member.email,
+            whatsapp: member.whatsapp,
+            phone: member.phone
           }"
         />
       </div>

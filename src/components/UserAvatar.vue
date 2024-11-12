@@ -6,9 +6,9 @@ src/components/UserAvatar.vue
     :class="avatarClass"
   >
     <img
-      v-if="user?.photo"
-      :src="user.photo"
-      alt="User Avatar"
+      v-if="user?.image"
+      :src="user.image"
+      :alt="user.full_name"
       class="w-full h-full rounded-full"
     />
     <span v-else>{{ userName }}</span>
