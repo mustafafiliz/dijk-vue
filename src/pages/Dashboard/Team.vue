@@ -14,8 +14,9 @@ const searchQuery = ref('')
 onMounted(async () => {
   try {
     const { data } = await axios.get('/my-team')
+
     const teams = [user, ...data.subordinates]
-    console.log(teams)
+
     teamMembers.value = teams
   } catch (error) {
     console.error('Error fetching team members:', error)
@@ -69,7 +70,7 @@ const filteredTeamMembers = computed(() => {
             role: member.work_title_text,
             image: member?.image,
             email: member.email,
-            whatsapp: member.whatsapp,
+            whatsapp: member.phone,
             phone: member.phone
           }"
         />
