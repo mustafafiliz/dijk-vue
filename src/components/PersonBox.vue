@@ -25,7 +25,10 @@ function getAvatarInitials(fullName) {
       :src="person?.image"
       alt=""
     />
-    <div v-else class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+    <div
+      v-else
+      class="w-12 h-12 min-w-12 min-h-12 bg-gray-300 rounded-full flex items-center justify-center"
+    >
       <span class="text-white">
         {{ getAvatarInitials(person.name) }}
       </span>

@@ -22,7 +22,8 @@ defineProps({
 
 const variantClasses = {
   primary: 'bg-gentian-flower pt-[19px] pb-[18px] px-5 text-white text-18 font-semibold rounded-20',
-  light: 'bg-white pt-[19px] pb-[18px] px-5 text-gentian-flower text-18 font-semibold rounded-20'
+  light: 'bg-white pt-[19px] pb-[18px] px-5 text-gentian-flower text-18 font-semibold rounded-20',
+  soft: 'bg-black bg-opacity-5 pt-[19px] pb-[18px] px-5 text-black text-18 font-semibold rounded-20'
 }
 </script>
 

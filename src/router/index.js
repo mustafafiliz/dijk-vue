@@ -12,6 +12,7 @@ import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Inde
 import DashboardOvertimeRequestNew from '@/pages/Dashboard/OvertimeRequest/NewRequest.vue'
 import DashboardCalendar from '@/pages/Dashboard/Calendar.vue'
 import DashboardSettings from '@/pages/Dashboard/Settings.vue'
+import DashboardPerformance from '@/pages/Dashboard/Performance.vue'
 import TestApi from '@/pages/TestApi.vue'
 import NotFound from '@/pages/NotFound.vue'
 import ResetPassword from '@/pages/ResetPassword.vue'
@@ -31,6 +32,7 @@ const routes = [
   { path: '/dashboard/overtime-request/new', component: DashboardOvertimeRequestNew },
   { path: '/dashboard/calendar', component: DashboardCalendar },
   { path: '/dashboard/settings', component: DashboardSettings },
+  { path: '/dashboard/performance', component: DashboardPerformance },
   { path: '/test-api', component: TestApi },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]

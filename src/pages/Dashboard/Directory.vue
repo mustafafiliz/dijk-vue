@@ -1,7 +1,53 @@
 <script setup>
 import PersonBox from '@/components/PersonBox.vue'
+import Button from '@/components/Button.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import Input from '@/components/Input.vue'
+import { useAxios } from '@/plugins/axios'
+import { watch, onMounted, ref } from 'vue'
+import { debounce } from 'lodash'
+
+const { axios } = useAxios()
+const contacts = ref([])
+const searchQuery = ref('')
+const page = ref(1)
+const hasNextPage = ref(false)
+const isLoading = ref(false)
+
+const fetchContacts = async () => {
+  try {
+    isLoading.value = true
+    const { data } = await axios.get(`/contacts?page=${page.value}&search=${searchQuery.value}`)
+
+    hasNextPage.value = Boolean(data.next_page_url)
+    contacts.value.push(...data.data)
+  } catch (error) {
+    console.error('Error fetching team members:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const loadMoreContacts = async () => {
+  if (hasNextPage.value) {
+    page.value += 1
+  }
+  await fetchContacts()
+}
+
+const fetchContactsDebounced = debounce(async () => {
+  page.value = 1
+  contacts.value = []
+  await fetchContacts()
+}, 300)
+
+onMounted(async () => {
+  await fetchContacts()
+})
+
+watch(searchQuery, (newQuery) => {
+  fetchContactsDebounced()
+})
 </script>
 
 <template>
@@ -34,26 +80,28 @@ import Input from '@/components/Input.vue'
       </div>
 
       <div class="flex flex-col gap-4">
-        <Input placeholder="Ara..." />
+        <Input class="!text-sm !placeholder::text-sm" placeholder="Ara..." v-model="searchQuery" />
+        <div v-if="contacts.length === 0" class="h-[60dvh] flex items-center justify-center">
+          Kayıt bulunamadı.
+        </div>
         <PersonBox
+          v-for="member in contacts"
+          :key="member._id"
           :person="{
-            name: 'Mehmet Yılmaz - Siz',
-            role: 'CTO',
-            image: '/images/user-image.jpg'
+            name: member.full_name,
+            role: member.work_title_text,
+            image: member?.image,
+            email: member.email,
+            whatsapp: member.phone,
+            phone: member.phone
           }"
         />
-        <PersonBox
-          v-for="i in 10"
-          :key="i"
-          :person="{
-            name: 'Kişi A',
-            role: 'Team Lead of Yaz-1',
-            image: '/images/user-image.jpg',
-            email: 'test@gmail.com',
-            whatsapp: '+905466481680',
-            phone: '+905466481680'
-          }"
-        />
+        <Button
+          v-if="hasNextPage && !isLoading"
+          class="!py-2 !rounded-xl !text-base"
+          @click="loadMoreContacts"
+          >Daha Fazla Yükle</Button
+        >
       </div>
     </div>
 
