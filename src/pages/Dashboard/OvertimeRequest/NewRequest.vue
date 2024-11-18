@@ -27,7 +27,7 @@ export default {
   },
   mounted() {
     const { user } = useMeStore()
-    this.startTime = user?.value?.start_time || '18:00'
+    this.startTime = user?.value?.job_end_time || '18:00'
   },
   watch: {
     endTime(newValue) {

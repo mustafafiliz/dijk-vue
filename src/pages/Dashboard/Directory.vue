@@ -80,7 +80,11 @@ watch(searchQuery, (newQuery) => {
       </div>
 
       <div class="flex flex-col gap-4">
-        <Input class="!text-sm !placeholder::text-sm" placeholder="Ara..." v-model="searchQuery" />
+        <Input
+          class="!text-sm !placeholder::text-sm"
+          placeholder="Ad, Soyad, Telefon, Görev ..."
+          v-model="searchQuery"
+        />
         <div v-if="contacts.length === 0" class="h-[60dvh] flex items-center justify-center">
           Kayıt bulunamadı.
         </div>

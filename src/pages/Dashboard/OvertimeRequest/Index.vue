@@ -132,9 +132,22 @@ onMounted(async () => {
                 </svg>
               </div>
 
-              <div>
+              <div class="w-full">
                 <div class="text-night-sky">{{ item.user.full_name }}</div>
-                <div class="text-[10px] text-squant">{{ item.message || 'Mesaj yok.' }}</div>
+                <div class="text-[10px] text-squant flex items-center justify-between w-full">
+                  {{ item.message || 'Mesaj yok.' }}
+                  <span
+                    :class="
+                      item.statu === 1
+                        ? 'bg-success text-green-900'
+                        : item.confirm_statu === 2
+                          ? 'bg-danger text-red-900'
+                          : 'bg-gray-200'
+                    "
+                    class="px-2 py-1 text-[10px] rounded-md"
+                    >{{ item.statu === 1 ? item.payment_statu_text : item.statu_text }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>

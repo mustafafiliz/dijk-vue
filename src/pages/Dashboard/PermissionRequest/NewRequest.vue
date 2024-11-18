@@ -118,8 +118,8 @@ export default {
   mounted() {
     this.getPermitGroups()
     const meStore = useMeStore()
-    this.permitStartTime = meStore.getUser?.start_time || '09:00'
-    this.permitEndTime = meStore.getUser?.end_time || '18:00'
+    this.permitStartTime = meStore.getUser?.job_start_time || '09:00'
+    this.permitEndTime = meStore.getUser?.job_end_time || '18:00'
   }
 }
 </script>

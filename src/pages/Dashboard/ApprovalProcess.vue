@@ -60,10 +60,6 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
             endDate: '17.09.2024 18:00'
           }"
         />
-
-        <div class="text-[10px] text-center font-medium text-squant">
-          1 Haftadan eski istekler geçmiş isteklere taşınır.
-        </div>
       </div>
     </div>
 

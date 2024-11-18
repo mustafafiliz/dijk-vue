@@ -19,7 +19,9 @@ export default {
         'arch-grey': '#6B6969',
         'metal-armor': '#898A8D',
         uniform: '#A8A8A8',
-        alpine: '#F2F3F7'
+        alpine: '#F2F3F7',
+        success: '#22c55e',
+        danger: '#ef4444'
       },
       fontSize: {
         12: '0.75rem',

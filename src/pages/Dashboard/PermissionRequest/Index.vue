@@ -122,7 +122,7 @@ onMounted(async () => {
             v-if="filteredRequests.length > 0"
             v-for="item in filteredRequests"
             :key="item.id"
-            class="bg-white pt-1 pb-2 px-4 font-medium text-12 rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
+            class="bg-white relative pt-1 pb-2 px-4 font-medium text-12 rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
           >
             <div class="flex items-center justify-between text-[10px]">
               <div>Baş: {{ item.start_date }} / {{ item.start_hour }}</div>
@@ -151,9 +151,22 @@ onMounted(async () => {
                 </svg>
               </div>
 
-              <div>
+              <div class="w-full">
                 <div class="text-night-sky">{{ item.user.full_name }}</div>
-                <div class="text-[10px] text-squant">{{ item.message || 'Mesaj yok.' }}</div>
+                <div class="text-[10px] text-squant flex items-center justify-between w-full">
+                  <span class="flex-1">{{ item.message || 'Mesaj yok.' }}</span>
+                  <span
+                    :class="
+                      item.confirm_statu === 1
+                        ? 'bg-success text-green-900'
+                        : item.confirm_statu === 2
+                          ? 'bg-danger text-red-900'
+                          : 'bg-gray-200'
+                    "
+                    class="px-2 py-1 text-[10px] rounded-md"
+                    >{{ item.confirm_text }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
