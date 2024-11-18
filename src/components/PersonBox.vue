@@ -17,7 +17,7 @@ function getAvatarInitials(fullName) {
 
 <template>
   <div
-    class="flex items-center gap-x-4 bg-white w-full py-[13px] px-[9px] rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
+    class="flex items-center gap-x-3 bg-white w-full py-[13px] px-[9px] rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
   >
     <img
       v-if="person?.image"
@@ -35,7 +35,7 @@ function getAvatarInitials(fullName) {
     </div>
 
     <div class="font-medium">
-      <div class="text-night-sky">
+      <div class="text-night-sky lg:text-base text-[13px]">
         {{ person.name }}
       </div>
       <div class="text-12">
@@ -43,7 +43,7 @@ function getAvatarInitials(fullName) {
       </div>
     </div>
 
-    <div class="flex items-center gap-x-4 ms-auto">
+    <div class="flex items-center gap-x-2 ms-auto">
       <a
         target="_blank"
         v-if="person.phone"
