@@ -54,7 +54,7 @@ const handleCloseHtmlModal = () => {
             {{ application.title }}
           </div>
           <div class="font-medium text-gray-800 text-xs mb-2">
-            {{ application.description || 'Açıklama mevdut değil.' }}
+            {{ application.description || 'Açıklama mevcut değil.' }}
           </div>
         </div>
 
