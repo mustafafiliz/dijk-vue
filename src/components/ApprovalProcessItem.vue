@@ -19,7 +19,7 @@ const html = ref(props.application.html)
 
 const handleStatusChange = async (_status, message) => {
   try {
-    await axios.post(`processes-in-my-approval/${props.application.id}`, {
+    await axios.put(`/processes-in-my-approval/${props.application.id}`, {
       status: _status,
       message: message
     })
