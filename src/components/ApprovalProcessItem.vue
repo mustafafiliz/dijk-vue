@@ -244,7 +244,7 @@ const handleCloseHtmlModal = () => {
             >
             <button
               @click="handleStatusChange(true, approveMessage)"
-              class="flex-1 flex items-center justify-center gap-x-2 bg-gray-100 rounded-[10px] p-2 text-gamora font-medium text-14"
+              class="flex-1 h-12 flex items-center justify-center gap-x-2 bg-gray-100 rounded-[10px] p-2 text-gamora font-medium text-14"
               type="button"
             >
               <svg
