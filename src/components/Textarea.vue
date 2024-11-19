@@ -20,7 +20,7 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <div>
+  <div class="relative">
     <textarea
       class="w-full relative outline-none rounded-20 text-12 font-medium py-[14px] px-4 resize-none"
       :value="props.modelValue"
@@ -29,7 +29,7 @@ const emit = defineEmits(['update:modelValue'])
       :placeholder="placeholder"
     ></textarea>
 
-    <div class="mt-1 text-[10px] text-metal-armor font-medium">
+    <div class="absolute bottom-2 left-2 text-[10px] text-metal-armor font-medium">
       {{ 216 - props.modelValue.length }} / 216 karakter kaldı.
     </div>
   </div>

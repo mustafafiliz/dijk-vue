@@ -1,6 +1,68 @@
 <script setup>
 import ApprovalProcessItem from '@/components/ApprovalProcessItem.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
+import { useAxios } from '@/plugins/axios'
+import { onMounted, ref } from 'vue'
+import Button from '@/components/Button.vue'
+
+const { axios } = useAxios()
+const approvalProcesses = ref([])
+const page = ref(1)
+const loading = ref(false)
+const hasNextPage = ref(false)
+
+onMounted(async () => {
+  await fetchApprovalProcesses()
+})
+
+const fetchApprovalProcesses = async () => {
+  try {
+    const { data } = await axios.get('/processes-in-my-approval', {
+      params: {
+        page: page.value
+      }
+    })
+
+    if (data.data.length === 0) {
+      refreshApprovalProcesses()
+      return
+    }
+
+    hasNextPage.value = Boolean(data.next_page_url)
+
+    approvalProcesses.value.push(...data.data)
+  } catch (error) {
+    console.error('Error fetching team members:', error)
+  }
+}
+
+const loadMoreApprovalProcesses = async () => {
+  if (hasNextPage.value) {
+    page.value += 1
+  }
+  await fetchApprovalProcesses()
+}
+
+const refreshApprovalProcesses = async () => {
+  loading.value = true
+  try {
+    const { data } = await axios.get('/processes-in-my-approval', {
+      params: {
+        page: page.value,
+        ['get-from-source']: true
+      },
+      timeout: 35000
+    })
+
+    hasNextPage.value = Boolean(data.next_page_url)
+
+    approvalProcesses.value = data.data
+  } catch (error) {
+    console.error('Error fetching team members:', error)
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -32,37 +94,38 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
         </div>
       </div>
 
+      <Button
+        :is-disabled="loading"
+        :is-loading="loading"
+        @click="refreshApprovalProcesses"
+        class="!py-2 !text-base mb-5 w-full"
+      >
+        Yenile
+      </Button>
+
       <div class="flex flex-col gap-4">
         <ApprovalProcessItem
+          v-for="item in approvalProcesses"
           :application="{
-            userName: 'Mehmet Yılmaz',
-            userImage: '/images/user-image.jpg',
-            type: 'Yıllık İzin',
-            startDate: '17.09.2024 09:00',
-            endDate: '17.09.2024 18:00'
-          }"
-        />
-        <ApprovalProcessItem
-          :application="{
-            userName: 'Mehmet Yılmaz',
-            userImage: '/images/user-image.jpg',
-            type: 'Yıllık İzin',
-            startDate: '17.09.2024 09:00',
-            endDate: '17.09.2024 18:00'
-          }"
-        />
-        <ApprovalProcessItem
-          :application="{
-            userName: 'Mehmet Yılmaz',
-            userImage: '/images/user-image.jpg',
-            type: 'Yıllık İzin',
-            startDate: '17.09.2024 09:00',
-            endDate: '17.09.2024 18:00'
+            id: item._id,
+            title: item.title,
+            description: item.description,
+            start_date: item.start_date,
+            is_active: item.is_active,
+            status: item.status,
+            html: item.html
           }"
         />
       </div>
+      <Button
+        v-if="hasNextPage && !isLoading"
+        class="!py-2 !text-base mt-5 w-full"
+        @click="loadMoreApprovalProcesses"
+        >Daha Fazla Yükle</Button
+      >
     </div>
 
     <BottomNavigation />
   </div>
 </template>
+c

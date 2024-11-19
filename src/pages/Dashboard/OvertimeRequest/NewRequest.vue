@@ -2,7 +2,6 @@
 import Textarea from '@/components/Textarea.vue'
 import Button from '@/components/Button.vue'
 import Datepicker from 'vue3-datepicker'
-import { tr } from 'date-fns/locale'
 import { useMeStore } from '@/stores/me'
 import { toast } from 'vue3-toastify'
 import { useAxios } from '@/plugins/axios'
