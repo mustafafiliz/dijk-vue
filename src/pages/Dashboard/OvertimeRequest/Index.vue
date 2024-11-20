@@ -21,12 +21,12 @@ const updateFilteredRequests = (data) => {
 
   filteredRequests.value = _data.filter((item) => {
     const isSameDate = dateOnly(new Date(item.start_date)) === dateOnly(date.value)
-    const isUserRequest = !showOnlyMe.value || item.user_id === meStore.getUser?.id
+    const isUserRequest = !showOnlyMe.value || item.user._id === meStore.getUser?.id
     return isSameDate && isUserRequest
   })
 
   attributes.value = _data
-    .filter((item) => !showOnlyMe.value || item.user_id === meStore.getUser?.id)
+    .filter((item) => !showOnlyMe.value || item.user._id === meStore.getUser?.id)
     .map((item) => ({
       dot: item.statu === '0' ? 'red' : 'green',
       dates: [new Date(item.start_date).toISOString().split('T')[0]]

@@ -19,7 +19,7 @@ const updateFilteredRequests = (data) => {
   const _data = data || requests.value
 
   filteredRequests.value = _data.filter((item) => {
-    const isUserRequest = !showOnlyMe.value || item.user_id === meStore.getUser?.id
+    const isUserRequest = !showOnlyMe.value || item.user?._id === meStore.getUser?.id
     const targetDate = dateOnly(date.value)
     const startDate = dateOnly(new Date(item.start_date))
     const endDate = dateOnly(new Date(item.end_date))
@@ -29,7 +29,7 @@ const updateFilteredRequests = (data) => {
   })
 
   attributes.value = _data
-    .filter((item) => !showOnlyMe.value || item.user_id === meStore.getUser?.id)
+    .filter((item) => !showOnlyMe.value || item.user?._id === meStore.getUser?.id)
     .map((item) => {
       const startDate = new Date(item.start_date)
       const endDate = new Date(item.end_date)
