@@ -11,6 +11,11 @@ const user = computed(() => meStore.getUser)
 const { axios } = useAxios()
 const manager = ref(null)
 
+const handleLogout = async () => {
+  const meStore = useMeStore()
+  await meStore.logout()
+}
+
 onMounted(async () => {
   try {
     const { data } = await axios.get('/my-team')
@@ -201,8 +206,19 @@ const imageSettings = ref({
 
       <div class="flex flex-col gap-y-2 p-2">
         <!-- QR Start -->
-        <Button @click="qrIsActive = true" class="!text-black" variant="light">
+        <Button
+          @click="qrIsActive = true"
+          class="!text-black !py-3 lg:text-base text-sm"
+          variant="light"
+        >
           QR Kod Oluştur
+        </Button>
+        <Button
+          @click="handleLogout"
+          class="lg:hidden !py-3 lg:text-base text-sm"
+          variant="primary"
+        >
+          Çıkış Yap
         </Button>
 
         <div
