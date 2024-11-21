@@ -10,14 +10,15 @@ const sortableList = ref(null)
 
 onMounted(() => {
   new Sortable(sortableList.value, {
-    animation: 150,
+    animation: 300,
     ghostClass: 'sortable-ghost',
+    handle: '.handle-field',
     onEnd: (event) => {
       const newOrder = Array.from(fieldsStore.items)
       const movedItem = newOrder.splice(event.oldIndex, 1)[0]
 
       newOrder.splice(event.newIndex, 0, movedItem)
-      fieldsStore.updateItems(newOrder) 
+      fieldsStore.updateItems(newOrder)
     }
   })
 })

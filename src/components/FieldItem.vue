@@ -18,7 +18,7 @@ defineProps({
     :href="to"
     :id="'fieldItem' + title"
   >
-    <div class="absolute top-2 right-2">
+    <div class="absolute top-2 right-2 z-10 handle-field">
       <svg
         width="24"
         height="24"
