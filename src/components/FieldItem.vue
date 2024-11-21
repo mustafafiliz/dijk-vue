@@ -13,11 +13,11 @@ defineProps({
 </script>
 
 <template>
-  <RouterLink
+  <div
     class="relative p-[14px] bg-white rounded-[10px] flex flex-col items-center justify-center gap-y-2"
-    :to="to"
     :id="'fieldItem' + title"
   >
+    <RouterLink :to="to" class="absolute inset-0 z-[9]" />
     <div class="absolute top-2 right-2 z-10 handle-field">
       <svg
         width="24"
@@ -34,5 +34,5 @@ defineProps({
     </div>
     <img class="w-16 h-16" :src="image" alt="Field Image" />
     <div class="font-semibold text-12 text-night-sky">{{ title }}</div>
-  </RouterLink>
+  </div>
 </template>
