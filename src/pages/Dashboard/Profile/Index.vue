@@ -10,7 +10,7 @@ const meStore = useMeStore()
 const user = computed(() => meStore.getUser)
 const { axios } = useAxios()
 const manager = ref(null)
-
+const managerFirstLetters = ref('')
 const handleLogout = async () => {
   const meStore = useMeStore()
   await meStore.logout()
@@ -41,6 +41,17 @@ EMAIL:${user.value.email}
 ADR:;;${user.value.city || ''};Türkiye
 END:VCARD`
 })
+
+function getAvatarInitials(fullName) {
+  if (!fullName) return ''
+
+  const names = fullName.split(' ')
+
+  return names
+    .slice(0, 2)
+    .map((name) => name.charAt(0))
+    .join('')
+}
 
 const level = ref('M')
 const renderAs = ref('svg')
@@ -317,15 +328,23 @@ const imageSettings = ref({
         </div>
         <!-- QR End -->
 
-        <div class="font-semibold ps-2">Üstleri</div>
+        <div class="font-semibold ps-2">Yöneticisi</div>
         <template v-if="manager">
           <div class="flex items-center bg-white rounded-2xl py-3 px-4 gap-x-[18px]">
             <img
+              v-if="manager?.logo"
               class="rounded-full border-[3px] border-gamora w-16 h-16 object-cover"
               src="/images/user-image.jpg"
             />
+            <div
+              v-else
+              class="w-12 h-12 min-w-12 min-h-12 bg-gray-300 rounded-full flex items-center justify-center"
+            >
+              <span class="text-white">
+                {{ getAvatarInitials(manager?.full_name) }}
+              </span>
+            </div>
             <div class="text-14 text-squant font-semibold">
-              <div>Yönetici</div>
               <div class="text-black">{{ manager.full_name }}</div>
               <div class="font-medium">{{ manager.work_title_text }}</div>
             </div>
