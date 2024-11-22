@@ -89,7 +89,10 @@
       </span>
     </RouterLink>
 
-    <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/profile">
+    <a
+      class="flex flex-col items-center flex-1 gap-1 md:flex-row"
+      :href="`/dashboard/profile/${meStore?.getUser?._id}`"
+    >
       <svg
         width="25"
         height="25"
@@ -102,7 +105,7 @@
             fill-rule="evenodd"
             clip-rule="evenodd"
             d="M12.5 24.5C19.1276 24.5 24.5 19.1276 24.5 12.5C24.5 5.8724 19.1276 0.5 12.5 0.5C5.8724 0.5 0.5 5.8724 0.5 12.5C0.5 19.1276 5.8724 24.5 12.5 24.5ZM16.1 10.1C16.1 11.0548 15.7207 11.9705 15.0456 12.6456C14.3705 13.3207 13.4548 13.7 12.5 13.7C11.5452 13.7 10.6295 13.3207 9.95442 12.6456C9.27928 11.9705 8.9 11.0548 8.9 10.1C8.9 9.14522 9.27928 8.22955 9.95442 7.55442C10.6295 6.87928 11.5452 6.5 12.5 6.5C13.4548 6.5 14.3705 6.87928 15.0456 7.55442C15.7207 8.22955 16.1 9.14522 16.1 10.1ZM5.3 18.5C6.13761 17.3815 7.22452 16.4737 8.47438 15.8488C9.72424 15.2238 11.1026 14.899 12.5 14.9C13.8974 14.899 15.2758 15.2238 16.5256 15.8488C17.7755 16.4737 18.8624 17.3815 19.7 18.5C18.8624 19.6185 17.7755 20.5263 16.5256 21.1512C15.2758 21.7762 13.8974 22.101 12.5 22.1C11.1026 22.101 9.72424 21.7762 8.47438 21.1512C7.22452 20.5263 6.13761 19.6185 5.3 18.5Z"
-            :fill="$route.fullPath == '/dashboard/profile' ? '#2F69FF' : '#292D32'"
+            :fill="$route.fullPath.includes('/dashboard/profile') ? '#2F69FF' : '#292D32'"
           />
         </g>
         <defs>
@@ -114,11 +117,13 @@
 
       <span
         class="text-[10px] font-semibold"
-        :class="$route.fullPath == '/dashboard/profile' ? 'text-gentian-flower' : 'text-night-sky'"
+        :class="
+          $route.fullPath.includes('/dashboard/profile/') ? 'text-gentian-flower' : 'text-night-sky'
+        "
       >
         Profilim
       </span>
-    </RouterLink>
+    </a>
 
     <button
       class="hidden md:flex flex-row items-center flex-1 gap-1 mt-4 pt-4 border-t border-gray-200"
@@ -147,8 +152,9 @@
 <script setup>
 import { useMeStore } from '@/stores/me'
 
+const meStore = useMeStore()
+
 const handleLogout = async () => {
-  const meStore = useMeStore()
   await meStore.logout()
 }
 </script>

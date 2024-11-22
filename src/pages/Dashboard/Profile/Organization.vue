@@ -9,30 +9,61 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useMeStore } from '@/stores/me'
 import VueZoomable from 'vue-zoomable'
 import 'vue-zoomable/dist/style.css'
+import MemberNode from '@/components/Organization/MemberNode.vue'
+import { useRoute } from 'vue-router'
+import Button from '@/components/Button.vue'
 
 const { axios } = useAxios()
 const { user } = useMeStore()
 const allMembers = ref([])
-const buildHierarchy = (members) => {
+const organizations = ref([])
+
+const managerId = useRoute().params.id
+
+const showUpperManager = () => {
+  if (allMembers.value.length > 0) {
+    const newManagerId = allMembers.value[0].manager_person_id
+    buildHierarchy(organizations.value, newManagerId)
+  }
+}
+
+// Function to build the organization hierarchy
+const buildHierarchy = (members, managerId) => {
   const map = new Map()
+
+  // Map all members
   members.forEach((member) => {
-    map.set(member._id, { ...member, subMembers: [] })
+    map.set(member._id, {
+      ...member,
+      subMembers: [],
+      collapse: member.id === managerId
+    })
   })
 
+  // Check each member's manager and add sub members
   members.forEach((member) => {
     if (member.manager_person_id) {
-      map.get(member.manager_person_id)?.subMembers.push(map.get(member._id))
+      const manager = map.get(member.manager_person_id)
+      if (manager) {
+        manager.subMembers.push(map.get(member._id))
+      }
     }
   })
-  return Array.from(map.values())
+
+  // Return the top element with the specified managerId
+  const hierarchy = map.get(managerId)
+
+  console.log([hierarchy])
+
+  allMembers.value = hierarchy ? [hierarchy] : []
 }
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get('/my-team')
+    const { data } = await axios.get('/organization')
+    organizations.value = data
 
-    const hierarchy = buildHierarchy([...data.subordinates, data.manager])
-    allMembers.value = hierarchy
+    buildHierarchy(data, managerId)
   } catch (error) {
     console.error('Error fetching team members:', error)
   }
@@ -64,124 +95,42 @@ onMounted(async () => {
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">
         Organizasyon Şeması
       </div>
-
+      <Button
+        class="!py-1 !text-xs mb-5 absolute bottom-1 right-9 z-10 border border-gray-300"
+        type="button"
+        variant="soft"
+        @click="buildHierarchy(organizations, managerId)"
+        >Sıfırla</Button
+      >
       <VueZoomable
-        class="w-full h-[calc(100dvh-5.5rem)] border border-gray-300 bg-white rounded-2xl"
+        class="w-full h-[calc(100dvh-5.5rem)] flex flex-col items-center justify-center border border-gray-300 bg-white rounded-2xl"
         selector="#organization-schema"
         :minZoom="0.01"
         :maxZoom="10"
+        :initial-zoom="1"
       >
         <div
           id="organization-schema"
-          class="bg-white w-full h-full flex gap-4 items-center justify-center"
+          class="bg-white w-full h-full flex gap-4 items-start pt-10 justify-center"
         >
-          <div v-for="member in allMembers" :key="member._id" class="relative flex items-center">
-            <PersonBox
-              vertical
-              :person="{
-                name: member.full_name,
-                role: member.work_title_text,
-                image: member?.image,
-                email: member.email,
-                whatsapp: member.phone,
-                phone: member.phone
-              }"
+          <div class="relative flex flex-col items-center">
+            <Button
+              v-if="allMembers?.[0]?.manager_person_id"
+              class="!py-2 !text-xs mb-5"
+              type="button"
+              @click="showUpperManager"
+              >Üst Yöneticiye Git</Button
+            >
+            <MemberNode
+              v-for="member in allMembers"
+              :key="member._id"
+              :member="member"
+              :parentId="managerId"
+              :firstChild="true"
             />
-            <button
-              v-if="member.subMembers.length > 0"
-              class="absolute top-full left-1/2 -translate-x-1/2"
-            >
-              <svg
-                class="-rotate-90"
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M21 25.5L13.5 18L21 10.5"
-                  stroke="black"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-            <div
-              class="absolute flex gap-4 items-center top-full mt-10 left-1/2 -translate-1/2 -translate-x-1/2"
-            >
-              <template v-for="subMember in member?.subMembers">
-                <PersonBox
-                  v-if="subMember"
-                  :key="subMember._id"
-                  vertical
-                  :person="{
-                    name: subMember.full_name,
-                    role: subMember.work_title_text,
-                    image: subMember?.image,
-                    email: subMember.email,
-                    whatsapp: subMember.phone,
-                    phone: subMember.phone
-                  }"
-                />
-              </template>
-            </div>
           </div>
         </div>
       </VueZoomable>
     </div>
   </div>
 </template>
-
-<style>
-.btn {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: #fff;
-  cursor: pointer;
-  outline: none;
-}
-
-.node-item {
-  display: flex;
-  width: 12rem;
-  border-radius: 0.35rem;
-  border: 1px solid #e2e8f0;
-  padding: 0.5rem;
-}
-
-.node-item > :not([hidden]) ~ :not([hidden]) {
-  margin-left: 1rem;
-}
-.node-item:hover {
-  background-color: rgb(226 232 240);
-}
-.node-item.active {
-  border-color: rgb(165 180 252);
-  background-color: rgb(224 231 255);
-}
-.node-item.passive {
-  background-color: rgb(248 250 252);
-}
-
-.node-item .avatar {
-  height: 3rem;
-  width: 3rem;
-  border-radius: 9999px;
-}
-
-.node-btn-toggle {
-  padding: 1px;
-  cursor: pointer;
-  height: 1rem;
-  width: 1rem;
-  border: 1px solid #e2e8f0;
-  background-color: rgb(255 255 255);
-  font-size: 0.75rem;
-  line-height: 10px;
-}
-</style>

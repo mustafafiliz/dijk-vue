@@ -1,4 +1,3 @@
-src/components/PersonBox.vue
 <script setup>
 defineProps({
   person: Object,
@@ -24,29 +23,36 @@ function getAvatarInitials(fullName) {
   <div
     :class="[
       'flex',
-      vertical ? 'flex-col w-[170px] text-center' : 'gap-x-3  w-full',
+      vertical ? 'relative flex-col w-[170px] h-[200px] text-center' : 'gap-x-3  w-full',
       'bg-white py-[13px] px-[9px] items-center rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]'
     ]"
   >
-    <img
-      v-if="person?.image"
-      class="border-gamora border-[3px] w-12 h-12 box-content object-cover rounded-full"
-      :src="person?.image"
-      alt=""
-    />
-    <div
-      v-else
-      class="w-12 h-12 min-w-12 min-h-12 bg-gray-300 rounded-full flex items-center justify-center"
-    >
-      <span class="text-white">
-        {{ getAvatarInitials(person.name) }}
-      </span>
-    </div>
-
-    <div class="font-medium">
-      <div class="text-night-sky lg:text-base text-[13px]">
-        {{ person.name }}
+    <RouterLink :to="`/dashboard/profile/${person?._id}`">
+      <img
+        v-if="person?.image"
+        class="border-gamora border-[3px] w-12 h-12 box-content object-cover rounded-full"
+        :src="person?.image"
+        alt=""
+      />
+      <div
+        v-else
+        class="w-12 h-12 min-w-12 min-h-12 bg-gray-300 rounded-full flex items-center justify-center"
+      >
+        <span class="text-white" :class="vertical ? 'text-[13px]' : ''">
+          {{ getAvatarInitials(person.name) }}
+        </span>
       </div>
+    </RouterLink>
+
+    <div class="font-medium" :class="vertical ? 'h-20 mt-2' : ''">
+      <RouterLink :to="`/dashboard/profile/${person?._id}`">
+        <div
+          class="text-night-sky lg:text-base text-[13px]"
+          :class="vertical ? 'text-[13px]' : 'lg:text-base text-[13px]'"
+        >
+          {{ person.name }}
+        </div>
+      </RouterLink>
       <div class="text-12">
         {{ person.role }}
       </div>

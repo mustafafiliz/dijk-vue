@@ -1,4 +1,3 @@
-src/components/WeatcherCard.vue
 <script setup>
 import { useMeStore } from '@/stores/me'
 import { onMounted, ref, watchEffect } from 'vue'

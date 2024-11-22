@@ -5,12 +5,19 @@ import QrcodeVue from 'qrcode.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import Button from '@/components/Button.vue'
 import { useAxios } from '@/plugins/axios'
+import { useRoute } from 'vue-router'
 
 const meStore = useMeStore()
-const user = computed(() => meStore.getUser)
+const storeUser = computed(() => meStore.getUser)
+const user = ref(null)
 const { axios } = useAxios()
 const manager = ref(null)
 const managerFirstLetters = ref('')
+
+const userId = useRoute().params.id
+
+console.log(userId)
+
 const handleLogout = async () => {
   const meStore = useMeStore()
   await meStore.logout()
@@ -18,9 +25,15 @@ const handleLogout = async () => {
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get('/my-team')
+    if (userId !== storeUser.value._id) {
+      const { data: userData } = await axios.get(`/auth/me/${userId}`)
+      user.value = userData
+    } else {
+      user.value = storeUser.value
+    }
 
-    manager.value = data.manager
+    const { data: teamData } = await axios.get(`/my-team/${userId}`)
+    manager.value = teamData.manager
   } catch (error) {
     console.error('Error fetching team members:', error)
   }
@@ -67,7 +80,7 @@ const imageSettings = ref({
 })
 </script>
 
-<template>
+<template v-if="!user">
   <div
     class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
@@ -91,56 +104,7 @@ const imageSettings = ref({
       </button>
 
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Profil</div>
-
-      <div class="flex items-center justify-evenly">
-        <RouterLink
-          to="/dashboard/profile/organization"
-          class="flex items-center shrink-0 justify-center w-12 h-12 rounded-full bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g clip-path="url(#clip0_342_1476)">
-              <path
-                d="M9.79085 10.4969C9.78483 10.4514 9.77269 10.406 9.75755 10.3636C9.64856 9.94885 9.4033 9.19807 9.29132 8.85896C9.27921 8.8015 9.26104 8.74394 9.2338 8.68942V8.68639C9.16419 8.54104 9.05517 8.41695 8.91591 8.3352C8.90686 8.32912 8.89172 8.32007 8.86747 8.30796C8.85836 8.30193 8.84931 8.29884 8.84022 8.29585C8.57078 8.16872 7.73822 7.8357 7.73822 7.8357C7.32349 7.65708 6.89362 7.50268 6.45464 7.34522C6.37586 7.67222 5.63113 9.83686 5.51303 10.1396L5.41918 8.12634C5.44945 8.0779 5.4737 8.02341 5.49789 7.97194L5.80972 7.35733C5.59177 7.53898 5.26175 7.65405 4.89546 7.65405C4.53818 7.65405 4.2173 7.54506 3.99926 7.36947L4.30201 7.96894C4.32626 8.02038 4.34742 8.0749 4.38079 8.12334L4.28687 10.1366C4.16886 9.83689 3.42404 7.66922 3.34533 7.34222C2.90634 7.49663 2.47647 7.65106 2.06168 7.8327C2.06168 7.8327 1.23221 8.16573 0.959739 8.29285C0.950627 8.29588 0.941514 8.30196 0.932492 8.30496C0.908242 8.31707 0.893105 8.32612 0.884052 8.33221C0.744728 8.41392 0.635769 8.53805 0.566168 8.68339C0.566168 8.68339 0.566168 8.68339 0.566168 8.68642C0.541918 8.74095 0.523783 8.79541 0.508646 8.85596C0.396599 9.19201 0.151374 9.94585 0.0424149 10.3606C0.0272776 10.403 0.0181647 10.4484 0.00911254 10.4938C0.00302732 10.5332 0 10.5756 0 10.618C0 11.06 0.360269 11.4203 0.802281 11.4203H1.56823C2.66415 11.4203 3.76012 11.4203 4.85607 11.4203C4.87121 11.4203 4.88332 11.4203 4.89845 11.4203C4.91359 11.4203 4.9257 11.4203 4.94084 11.4203C6.03675 11.4203 7.13267 11.4203 8.22867 11.4203H8.99459C9.43667 11.4203 9.79688 11.06 9.79688 10.618C9.79996 10.5786 9.79688 10.5362 9.79085 10.4969Z"
-                fill="#292D32"
-              />
-              <path
-                d="M6.99336 3.62144C6.99336 3.47917 7.02061 2.9675 7.02061 2.84943C7.02061 1.70208 6.09121 0.772583 4.94377 0.772583H4.94074H4.93765C4.9256 0.772583 4.91046 0.772583 4.89832 0.772583C4.88618 0.772583 4.87108 0.772583 4.85894 0.772583H4.85591H4.85288C3.70547 0.772583 2.77603 1.70205 2.77603 2.84943C2.77603 2.9675 2.80322 3.48217 2.80322 3.62144C2.75178 3.62452 2.28855 3.51245 2.33705 4.06953C2.44301 5.25025 2.89404 5.02016 2.90618 5.02016C3.12722 5.73162 3.47235 6.18574 3.8084 6.47637C4.33518 6.92747 4.84377 6.97591 4.85288 6.97591C4.86802 6.97591 4.88013 6.97591 4.89526 6.97591C4.9104 6.97591 4.92245 6.97591 4.93759 6.97591C4.9467 6.97591 5.45226 6.92747 5.97604 6.4794C6.31509 6.19179 6.66025 5.73464 6.88429 5.02019C6.8964 5.02019 7.34752 5.25028 7.45348 4.06956C7.50803 3.51245 7.04486 3.62449 6.99336 3.62144Z"
-                fill="#292D32"
-              />
-              <path
-                d="M23.993 10.4939C23.9869 10.4484 23.9748 10.403 23.9597 10.3607C23.8507 9.94586 23.6055 9.19508 23.4935 8.85597C23.4814 8.79851 23.4632 8.74095 23.4359 8.68643V8.6834C23.3663 8.53805 23.2574 8.41395 23.1181 8.33221C23.109 8.32613 23.0938 8.31708 23.0696 8.30497C23.0605 8.29894 23.0515 8.29585 23.0424 8.29286C22.7729 8.16573 21.9404 7.83271 21.9404 7.83271C21.5256 7.65409 21.0957 7.49969 20.6567 7.34223C20.578 7.66923 19.8333 9.83387 19.7152 10.1366L19.6213 8.12335C19.6516 8.07491 19.6758 8.02041 19.7 7.96895L20.0119 7.35434C19.7939 7.53599 19.4639 7.65106 19.0976 7.65106C18.7403 7.65106 18.4194 7.54207 18.2014 7.36648L18.5042 7.96595C18.5284 8.01739 18.5496 8.07191 18.5829 8.12035L18.4891 10.1336C18.371 9.8339 17.6262 7.66623 17.5475 7.33923C17.1085 7.49363 16.6786 7.64807 16.2639 7.82971C16.2639 7.82971 15.4343 8.16274 15.1619 8.28986C15.1528 8.29289 15.1437 8.29897 15.1346 8.30197C15.1104 8.31408 15.0953 8.32313 15.0862 8.32922C14.9469 8.41093 14.8379 8.53506 14.7683 8.6804C14.7683 8.6804 14.7683 8.6804 14.7683 8.68343C14.7441 8.73796 14.7259 8.79242 14.7108 8.85297C14.5987 9.19508 14.3535 9.94586 14.2445 10.3607C14.2294 10.403 14.2203 10.4484 14.2112 10.4939C14.2052 10.5332 14.2021 10.5756 14.2021 10.618C14.2021 11.06 14.5624 11.4203 15.0044 11.4203H15.7704C16.8663 11.4203 17.9623 11.4203 19.0582 11.4203C19.0734 11.4203 19.0855 11.4203 19.1006 11.4203C19.1157 11.4203 19.1278 11.4203 19.143 11.4203C20.2389 11.4203 21.3349 11.4203 22.4308 11.4203H23.1968C23.6388 11.4203 23.9991 11.06 23.9991 10.618C24.0021 10.5756 23.9991 10.5332 23.993 10.4939Z"
-                fill="#292D32"
-              />
-              <path
-                d="M21.1989 3.61844C21.1989 3.47618 21.2261 2.96451 21.2261 2.84644C21.2261 1.69909 20.2967 0.769592 19.1493 0.769592H19.1462H19.1432C19.1311 0.769592 19.116 0.769592 19.1039 0.769592C19.0917 0.769592 19.0766 0.769592 19.0645 0.769592H19.0615H19.0584C17.911 0.769592 16.9816 1.69906 16.9816 2.84644C16.9816 2.96451 17.0088 3.47918 17.0088 3.61844C16.9574 3.62153 16.4942 3.50946 16.5426 4.06654C16.6486 5.24726 17.0997 5.01717 17.1118 5.01717C17.3328 5.72863 17.6779 6.18275 18.014 6.47338C18.5407 6.92448 19.0494 6.97292 19.0584 6.97292C19.0736 6.97292 19.0857 6.97292 19.1008 6.97292C19.116 6.97292 19.1281 6.97292 19.1432 6.97292C19.1523 6.97292 19.6579 6.92448 20.1816 6.47641C20.5207 6.1888 20.8658 5.73165 21.0899 5.0172C21.102 5.0172 21.5531 5.24729 21.659 4.06657C21.7135 3.50946 21.2473 3.6215 21.1989 3.61844Z"
-                fill="#292D32"
-              />
-              <path
-                d="M16.8934 22.307C16.8873 22.2616 16.8752 22.2162 16.8601 22.1738C16.751 21.7591 16.5058 21.0083 16.3939 20.6692C16.3817 20.6117 16.3636 20.5541 16.3363 20.4996V20.4966C16.2667 20.3513 16.1577 20.2272 16.0185 20.1454C16.0093 20.1394 15.9942 20.1303 15.97 20.1182C15.9609 20.1121 15.9518 20.1091 15.9428 20.1061C15.6733 19.9789 14.8408 19.6459 14.8408 19.6459C14.426 19.4673 13.9961 19.3129 13.5571 19.1554C13.4784 19.4824 12.7337 21.6471 12.6156 21.9498L12.5217 19.9365C12.552 19.8881 12.5762 19.8336 12.6004 19.7821L12.9123 19.1676C12.6943 19.3492 12.3643 19.4642 11.998 19.4642C11.6407 19.4642 11.3198 19.3553 11.1018 19.1797L11.4046 19.7791C11.4288 19.8306 11.45 19.8851 11.4833 19.9335L11.3894 21.9468C11.2714 21.6471 10.5266 19.4794 10.4479 19.1524C10.0089 19.3068 9.57901 19.4612 9.16425 19.6429C9.16425 19.6429 8.33472 19.9759 8.06225 20.103C8.05317 20.1061 8.04408 20.1121 8.035 20.1152C8.01078 20.1273 7.99564 20.1363 7.98656 20.1424C7.8473 20.2241 7.73831 20.3483 7.66868 20.4936C7.66868 20.4936 7.66868 20.4936 7.66868 20.4966C7.64446 20.5511 7.62629 20.6056 7.61115 20.6662C7.49914 21.0022 7.25391 21.756 7.14492 22.1708C7.12979 22.2132 7.1207 22.2586 7.11162 22.304C7.10557 22.3434 7.10254 22.3858 7.10254 22.4281C7.10254 22.8702 7.46281 23.2304 7.90482 23.2304H8.67077C9.76672 23.2304 10.8627 23.2304 11.9586 23.2304C11.9737 23.2304 11.9859 23.2304 12.001 23.2304C12.0161 23.2304 12.0282 23.2304 12.0433 23.2304C13.1393 23.2304 14.2352 23.2304 15.3312 23.2304H16.0972C16.5392 23.2304 16.8994 22.8702 16.8994 22.4281C16.9024 22.3888 16.8994 22.3464 16.8934 22.307Z"
-                fill="#292D32"
-              />
-              <path
-                d="M14.0993 15.4347C14.0993 15.2924 14.1265 14.7807 14.1265 14.6627C14.1265 13.5153 13.1971 12.5858 12.0497 12.5858H12.0466H12.0435C12.0315 12.5858 12.0163 12.5858 12.0042 12.5858C11.9921 12.5858 11.977 12.5858 11.9649 12.5858H11.9619H11.9588C10.8114 12.5858 9.88199 13.5153 9.88199 14.6627C9.88199 14.7807 9.9092 15.2954 9.9092 15.4347C9.85774 15.4377 9.39453 15.3257 9.443 15.8828C9.54896 17.0635 10 16.8334 10.0122 16.8334C10.2332 17.5448 10.5783 17.999 10.9144 18.2896C11.4411 18.7407 11.9498 18.7891 11.9588 18.7891C11.974 18.7891 11.9861 18.7891 12.0012 18.7891C12.0164 18.7891 12.0284 18.7891 12.0436 18.7891C12.0527 18.7891 12.5582 18.7407 13.082 18.2926C13.4211 18.005 13.7662 17.5479 13.9903 16.8334C14.0024 16.8334 14.4535 17.0635 14.5595 15.8828C14.6139 15.3257 14.1508 15.4347 14.0993 15.4347Z"
-                fill="#292D32"
-              />
-              <path
-                d="M11.2937 8.02342V11.4627H12.6561V8.02342L14.9448 5.73465L13.9821 4.77194L11.9749 6.77613L10.0161 4.81736L9.05339 5.78309L11.2937 8.02342Z"
-                fill="#292D32"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_342_1476">
-                <rect width="24" height="24" fill="white" transform="matrix(-1 0 0 -1 24 24)" />
-              </clipPath>
-            </defs>
-          </svg>
-        </RouterLink>
+      <div class="flex items-center justify-center">
         <div class="flex flex-col items-center">
           <div class="relative">
             <img
@@ -156,7 +120,7 @@ const imageSettings = ref({
               class="w-24 h-24 rounded-20 border-[6px] bg-white flex items-center justify-center"
             >
               <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
-                (user?.name.charAt(0) + user?.surname.charAt(0)).toUpperCase()
+                (user?.name?.charAt(0) || '') + (user?.surname?.charAt(0) || '')
               }}</span>
             </div>
             <span
@@ -174,49 +138,15 @@ const imageSettings = ref({
             </div>
           </div>
         </div>
-        <div
-          class="flex items-center shrink-0 justify-center w-12 h-12 rounded-full bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
-        >
-          <svg
-            width="24"
-            height="23"
-            viewBox="0 0 24 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M23.9925 21.5344C23.9865 21.489 23.9743 21.4436 23.9592 21.4012C23.8502 20.9864 23.605 20.2356 23.493 19.8965C23.4809 19.8391 23.4627 19.7815 23.4355 19.727V19.724C23.3659 19.5786 23.2568 19.4545 23.1176 19.3728C23.1085 19.3667 23.0934 19.3576 23.0691 19.3455C23.06 19.3395 23.051 19.3364 23.0419 19.3334C22.7724 19.2063 21.9399 18.8733 21.9399 18.8733C21.5252 18.6946 21.0953 18.5402 20.6563 18.3828C20.5775 18.7098 19.8328 20.8744 19.7147 21.1772L19.6208 19.1639C19.6511 19.1155 19.6754 19.061 19.6996 19.0095L20.0114 18.3949C19.7934 18.5765 19.4634 18.6916 19.0971 18.6916C18.7398 18.6916 18.419 18.5826 18.2009 18.407L18.5037 19.0065C18.5279 19.0579 18.5491 19.1125 18.5824 19.1609L18.4885 21.1742C18.3705 20.8745 17.6257 18.7068 17.547 18.3798C17.108 18.5342 16.6781 18.6886 16.2633 18.8703C16.2633 18.8703 15.4339 19.2033 15.1614 19.3304C15.1523 19.3334 15.1432 19.3395 15.1342 19.3425C15.1099 19.3546 15.0948 19.3637 15.0857 19.3698C14.9464 19.4515 14.8374 19.5756 14.7678 19.721C14.7678 19.721 14.7678 19.721 14.7678 19.724C14.7436 19.7785 14.7254 19.833 14.7103 19.8935C14.5983 20.2296 14.353 20.9834 14.2441 21.3982C14.2289 21.4405 14.2198 21.4859 14.2108 21.5314C14.2047 21.5707 14.2017 21.6131 14.2017 21.6555C14.2017 22.0976 14.5619 22.4578 15.0039 22.4578H15.7699C16.8658 22.4578 17.9618 22.4578 19.0577 22.4578C19.0729 22.4578 19.085 22.4578 19.1001 22.4578C19.1153 22.4578 19.1274 22.4578 19.1425 22.4578C20.2384 22.4578 21.3343 22.4578 22.4303 22.4578H23.1963C23.6383 22.4578 23.9985 22.0976 23.9985 21.6555C24.0016 21.6161 23.9985 21.5737 23.9925 21.5344Z"
-              fill="#292D32"
-            />
-            <path
-              d="M21.195 14.659C21.195 14.5167 21.2223 14.0051 21.2223 13.887C21.2223 12.7396 20.2929 11.8102 19.1454 11.8102H19.1424H19.1393C19.1273 11.8102 19.1121 11.8102 19.1 11.8102C19.0878 11.8102 19.0727 11.8102 19.0606 11.8102H19.0576H19.0545C17.9071 11.8102 16.9777 12.7396 16.9777 13.887C16.9777 14.0051 17.0049 14.5197 17.0049 14.659C16.9534 14.6621 16.4902 14.55 16.5387 15.1071C16.6447 16.2878 17.0957 16.0577 17.1078 16.0577C17.3289 16.7692 17.674 17.2233 18.0101 17.5139C18.5368 17.965 19.0454 18.0135 19.0545 18.0135C19.0697 18.0135 19.0818 18.0135 19.0969 18.0135C19.1121 18.0135 19.1241 18.0135 19.1392 18.0135C19.1484 18.0135 19.6539 17.965 20.1777 17.517C20.5168 17.2294 20.8619 16.7722 21.0859 16.0578C21.0981 16.0578 21.5492 16.2878 21.6551 15.1071C21.7097 14.55 21.2465 14.6621 21.195 14.659Z"
-              fill="#292D32"
-            />
-            <path
-              d="M9.79085 21.5344C9.7848 21.489 9.77269 21.4436 9.75755 21.4012C9.64853 20.9864 9.40333 20.2356 9.29132 19.8965C9.27921 19.8391 9.26104 19.7815 9.2338 19.727V19.724C9.16416 19.5786 9.05521 19.4545 8.91591 19.3728C8.90683 19.3667 8.89169 19.3576 8.86747 19.3455C8.85839 19.3395 8.84931 19.3364 8.84022 19.3334C8.57078 19.2063 7.73822 18.8733 7.73822 18.8733C7.32346 18.6946 6.89356 18.5402 6.45457 18.3828C6.37586 18.7098 5.6311 20.8744 5.51303 21.1772L5.41918 19.1639C5.44945 19.1155 5.47367 19.061 5.49789 19.0095L5.80972 18.3949C5.59174 18.5765 5.26175 18.6916 4.89543 18.6916C4.53818 18.6916 4.21727 18.5826 3.99929 18.407L4.30204 19.0065C4.32626 19.0579 4.34745 19.1125 4.38075 19.1609L4.2869 21.1742C4.16883 20.8745 3.42407 18.7068 3.34536 18.3798C2.90638 18.5342 2.47647 18.6886 2.06171 18.8703C2.06171 18.8703 1.23218 19.2033 0.959709 19.3304C0.950627 19.3334 0.941544 19.3395 0.932462 19.3425C0.908242 19.3546 0.893105 19.3637 0.884022 19.3698C0.744759 19.4515 0.63577 19.5756 0.566138 19.721C0.566138 19.721 0.566138 19.721 0.566138 19.724C0.541918 19.7785 0.523753 19.833 0.508616 19.8935C0.396599 20.2356 0.151374 20.9864 0.0423846 21.4012C0.0272473 21.4436 0.0181648 21.489 0.00908242 21.5344C0.00302747 21.5737 0 21.6161 0 21.6585C0 22.1006 0.360269 22.4608 0.802281 22.4608H1.56823C2.66418 22.4608 3.76012 22.4608 4.85607 22.4608C4.87121 22.4608 4.88332 22.4608 4.89845 22.4608C4.91359 22.4608 4.9257 22.4608 4.94084 22.4608C6.03678 22.4608 7.13273 22.4608 8.22867 22.4608H8.99463C9.43664 22.4608 9.79691 22.1006 9.79691 21.6585C9.79993 21.6161 9.79691 21.5737 9.79085 21.5344Z"
-              fill="#292D32"
-            />
-            <path
-              d="M6.99671 14.659C6.99671 14.5167 7.02396 14.0051 7.02396 13.887C7.02396 12.7396 6.09453 11.8102 4.94711 11.8102H4.94409H4.94106C4.92895 11.8102 4.91381 11.8102 4.9017 11.8102C4.88959 11.8102 4.87445 11.8102 4.86234 11.8102H4.85932H4.85629C3.70888 11.8102 2.77944 12.7396 2.77944 13.887C2.77944 14.0051 2.80669 14.5197 2.80669 14.659C2.75522 14.6621 2.29202 14.55 2.34046 15.1071C2.44642 16.2878 2.89751 16.0577 2.90962 16.0577C3.13063 16.7692 3.47576 17.2233 3.81181 17.5139C4.33859 17.965 4.84721 18.0135 4.85629 18.0135C4.87143 18.0135 4.88354 18.0135 4.89867 18.0135C4.91381 18.0135 4.92592 18.0135 4.94106 18.0135C4.95014 18.0135 5.45573 17.965 5.97948 17.517C6.31856 17.2294 6.66369 16.7722 6.88772 16.0578C6.89983 16.0578 7.35093 16.2878 7.45689 15.1071C7.51138 14.55 7.04515 14.6621 6.99671 14.659Z"
-              fill="#292D32"
-            />
-            <path
-              d="M16.8905 9.72122C16.8844 9.6758 16.8723 9.63039 16.8572 9.58801C16.7481 9.17324 16.5029 8.42243 16.3909 8.08335C16.3788 8.02583 16.3607 7.96831 16.3334 7.91382V7.91079C16.2637 7.76547 16.1548 7.64134 16.0155 7.5596C16.0064 7.55355 15.9913 7.54446 15.9671 7.53235C15.958 7.5263 15.9489 7.52327 15.9398 7.52024C15.6704 7.39309 14.8378 7.06007 14.8378 7.06007C14.4231 6.88145 13.9932 6.72705 13.5542 6.56962C13.4755 6.89658 12.7307 9.06123 12.6126 9.36398L12.5188 7.3507C12.5491 7.30227 12.5733 7.24777 12.5975 7.1963L12.9094 6.58173C12.6914 6.76338 12.3614 6.87842 11.995 6.87842C11.6378 6.87842 11.3169 6.76943 11.0989 6.59384L11.4017 7.19328C11.4259 7.24474 11.4471 7.29924 11.4804 7.34768L11.3865 9.36095C11.2684 9.06123 10.5237 6.89356 10.4449 6.56659C10.006 6.72099 9.57608 6.87539 9.16132 7.05704C9.16132 7.05704 8.33179 7.39006 8.05932 7.51722C8.05024 7.52024 8.04115 7.5263 8.03207 7.52933C8.00785 7.54144 7.99271 7.55052 7.98363 7.55657C7.84437 7.63831 7.73538 7.76244 7.66575 7.90776C7.66575 7.90776 7.66575 7.90776 7.66575 7.91079C7.64153 7.96528 7.62336 8.01978 7.60823 8.08033C7.49621 8.41638 7.25098 9.17022 7.14199 9.58498C7.12686 9.62737 7.11777 9.67278 7.10869 9.71819C7.10264 9.75755 7.09961 9.79993 7.09961 9.84232C7.09961 10.2843 7.45988 10.6446 7.90189 10.6446H8.66784C9.76379 10.6446 10.8597 10.6446 11.9557 10.6446C11.9708 10.6446 11.9829 10.6446 11.9981 10.6446C12.0132 10.6446 12.0253 10.6446 12.0404 10.6446C13.1364 10.6446 14.2323 10.6446 15.3283 10.6446H16.0942C16.5362 10.6446 16.8965 10.2843 16.8965 9.84232C16.8995 9.80293 16.8965 9.76054 16.8905 9.72122Z"
-              fill="#292D32"
-            />
-            <path
-              d="M14.0963 2.84885C14.0963 2.70656 14.1236 2.19492 14.1236 2.07685C14.1236 0.929435 13.1942 0 12.0467 0H12.0437H12.0406C12.0286 0 12.0134 0 12.0013 0C11.9892 0 11.974 0 11.9619 0H11.9589H11.9559C10.8085 0 9.87906 0.929435 9.87906 2.07685C9.87906 2.19492 9.90627 2.70959 9.90627 2.84885C9.85481 2.85188 9.3916 2.73986 9.44007 3.29692C9.54603 4.47763 9.9971 4.24755 10.0092 4.24755C10.2302 4.959 10.5754 5.41312 10.9114 5.70376C11.4382 6.15486 11.9468 6.2033 11.9559 6.2033C11.971 6.2033 11.9832 6.2033 11.9983 6.2033C12.0134 6.2033 12.0255 6.2033 12.0406 6.2033C12.0498 6.2033 12.5553 6.15486 13.0791 5.70679C13.4181 5.41918 13.7633 4.96203 13.9873 4.24755C13.9994 4.24755 14.4506 4.47763 14.5565 3.29692C14.611 2.73983 14.1478 2.84885 14.0963 2.84885Z"
-              fill="#292D32"
-            />
-            <path
-              d="M12.7063 15.207V11.7678H11.3439V15.207L9.05518 17.4958L10.0179 18.4585L12.0251 16.4543L13.9839 18.4131L14.9466 17.4473L12.7063 15.207Z"
-              fill="#292D32"
-            />
-          </svg>
-        </div>
       </div>
 
       <div class="flex flex-col gap-y-2 p-2">
+        <RouterLink
+          :to="`/dashboard/profile/organization/${user?._id}`"
+          class="!text-black !py-3 lg:text-base text-sm text-center w-full bg-white rounded-full font-semibold"
+        >
+          Organizasyon
+        </RouterLink>
         <!-- QR Start -->
         <Button
           @click="qrIsActive = true"
@@ -226,6 +156,7 @@ const imageSettings = ref({
           QR Kod Oluştur
         </Button>
         <Button
+          v-if="userId === storeUser?._id"
           @click="handleLogout"
           class="lg:hidden !py-3 lg:text-base text-sm"
           variant="primary"
@@ -265,7 +196,7 @@ const imageSettings = ref({
                   class="w-24 h-24 rounded-full border-[4px] bg-white flex items-center justify-center"
                 >
                   <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
-                    (user?.name.charAt(0) + user?.surname.charAt(0)).toUpperCase()
+                    (user?.name?.charAt(0) || '') + (user?.surname?.charAt(0) || '')
                   }}</span>
                 </div>
                 <div class="text-center">
@@ -328,10 +259,12 @@ const imageSettings = ref({
           </div>
         </div>
         <!-- QR End -->
-
-        <div class="font-semibold ps-2">Yöneticisi</div>
         <template v-if="manager">
-          <div class="flex items-center bg-white rounded-2xl py-3 px-4 gap-x-[18px]">
+          <div class="font-semibold ps-2">Yöneticisi</div>
+          <a
+            :href="`/dashboard/profile/${manager?._id}`"
+            class="flex items-center bg-white rounded-2xl py-3 px-4 gap-x-[18px]"
+          >
             <img
               v-if="manager?.logo"
               class="rounded-full border-[3px] border-gamora w-16 h-16 object-cover"
@@ -349,7 +282,7 @@ const imageSettings = ref({
               <div class="text-black">{{ manager.full_name }}</div>
               <div class="font-medium">{{ manager.work_title_text }}</div>
             </div>
-          </div>
+          </a>
           <div class="flex gap-x-2">
             <a
               v-if="manager?.phone"
@@ -398,7 +331,6 @@ const imageSettings = ref({
                 <g clip-path="url(#clip0_2083_227)">
                   <path
                     d="M19.0701 4.92999C17.4293 3.27849 15.2638 2.2512 12.9467 2.02523C10.6297 1.79926 8.30647 2.38877 6.3775 3.69212C4.44854 4.99548 3.03475 6.931 2.37988 9.165C1.72501 11.399 1.87009 13.7915 2.79012 15.93C2.88601 16.1288 2.91747 16.3525 2.88012 16.57L2.00012 20.8C1.96621 20.9622 1.97314 21.1302 2.02027 21.2891C2.06739 21.4479 2.15325 21.5925 2.27012 21.71C2.36592 21.8051 2.47999 21.8798 2.60545 21.9297C2.73091 21.9795 2.86516 22.0034 3.00012 22H3.20012L7.48012 21.14C7.69765 21.1138 7.91824 21.1449 8.12012 21.23C10.2586 22.15 12.6511 22.2951 14.8851 21.6402C17.1191 20.9854 19.0546 19.5716 20.358 17.6426C21.6613 15.7136 22.2508 13.3904 22.0249 11.0734C21.7989 8.75635 20.7716 6.59078 19.1201 4.94999L19.0701 4.92999ZM8.00012 13C7.80234 13 7.609 12.9413 7.44455 12.8315C7.2801 12.7216 7.15193 12.5654 7.07624 12.3827C7.00055 12.2 6.98075 11.9989 7.01933 11.8049C7.05792 11.6109 7.15316 11.4327 7.29301 11.2929C7.43286 11.153 7.61105 11.0578 7.80503 11.0192C7.99901 10.9806 8.20008 11.0004 8.3828 11.0761C8.56553 11.1518 8.72171 11.28 8.83159 11.4444C8.94147 11.6089 9.00012 11.8022 9.00012 12C9.00012 12.2652 8.89476 12.5196 8.70722 12.7071C8.51969 12.8946 8.26533 13 8.00012 13ZM12.0001 13C11.8023 13 11.609 12.9413 11.4445 12.8315C11.2801 12.7216 11.1519 12.5654 11.0762 12.3827C11.0006 12.2 10.9807 11.9989 11.0193 11.8049C11.0579 11.6109 11.1532 11.4327 11.293 11.2929C11.4329 11.153 11.611 11.0578 11.805 11.0192C11.999 10.9806 12.2001 11.0004 12.3828 11.0761C12.5655 11.1518 12.7217 11.28 12.8316 11.4444C12.9415 11.6089 13.0001 11.8022 13.0001 12C13.0001 12.2652 12.8948 12.5196 12.7072 12.7071C12.5197 12.8946 12.2653 13 12.0001 13ZM16.0001 13C15.8023 13 15.609 12.9413 15.4445 12.8315C15.2801 12.7216 15.1519 12.5654 15.0762 12.3827C15.0006 12.2 14.9807 11.9989 15.0193 11.8049C15.0579 11.6109 15.1532 11.4327 15.293 11.2929C15.4329 11.153 15.611 11.0578 15.805 11.0192C15.999 10.9806 16.2001 11.0004 16.3828 11.0761C16.5655 11.1518 16.7217 11.28 16.8316 11.4444C16.9415 11.6089 17.0001 11.8022 17.0001 12C17.0001 12.2652 16.8948 12.5196 16.7072 12.7071C16.5197 12.8946 16.2653 13 16.0001 13Z"
-                    fill="black"
                   />
                 </g>
                 <defs>
@@ -415,86 +347,198 @@ const imageSettings = ref({
 
       <div class="flex flex-col gap-y-2 p-2">
         <div class="font-semibold ps-2">İş Deneyimleri</div>
-        <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px]">
-          <img class="w-16 h-16 rounded-[10px] object-cover" src="/images/company-logo.jpg" />
-          <div class="text-14 text-squant font-semibold">
-            <div class="text-black">{{ user?.erp_company_text }}</div>
-            <div class="font-bold">{{ user?.work_title_text }}</div>
+        <div
+          v-for="(experience, index) in user?.personel_experiences"
+          :key="index"
+          class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
+        >
+          <div class="text-[13px] text-squant font-semibold">
+            <div class="text-black">{{ experience?.company_title }}</div>
+            <div class="text-black text-12">{{ experience?.work_title }}</div>
             <div class="text-12">
-              {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }} -
-              {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
+              {{ new Date(experience?.start_date).toLocaleDateString('tr-TR') }} -
+              {{ new Date(experience?.end_date).toLocaleDateString('tr-TR') }}
             </div>
           </div>
+        </div>
+        <div
+          v-if="!user?.personel_experiences || user?.personel_experiences.length === 0"
+          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
         </div>
       </div>
 
       <div class="flex flex-col gap-y-2 p-2">
-        <div class="font-semibold ps-2">Eğitim</div>
+        <div class="font-semibold ps-2">Eğitimler</div>
 
-        <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px]">
-          <img class="w-16 h-16 rounded-[10px] object-cover" src="/images/uni-1.jpg" />
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-base">ABC Üniversitesi</div>
-            <div>ABC Mühendisliği</div>
-            <div class="font-medium">Ağustos 2019 - Ağustos 2024 (5 Yıl)</div>
+        <template v-for="education in user?.personel_schools" :key="education.id">
+          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">
+                {{ education.school_title ? education.school_title : 'Okul Bilgisi Yok' }}
+              </div>
+              <div class="font-medium">
+                {{ education.education_section }} - {{ education.description }}
+              </div>
+              <div class="font-medium">
+                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px]">
-          <img class="w-16 h-16 rounded-[10px] object-cover" src="/images/uni-2.jpg" />
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-base">Hayat Okulu</div>
-            <div>Hayat Planlama</div>
-            <div class="font-medium">Ağustos 2004 - Halen</div>
-          </div>
+        </template>
+        <div
+          v-if="!user?.personel_schools || user?.personel_schools.length === 0"
+          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
         </div>
       </div>
 
-      <div class="flex flex-col gap-y-[10px] p-2">
+      <div class="flex flex-col gap-y-2 p-2">
+        <div class="font-semibold ps-2">Sertifikalar</div>
+
+        <template v-for="education in user?.personel_educations" :key="education.id">
+          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">{{ education.title }}</div>
+              <div class="font-medium">
+                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <div
+          v-if="!user?.personel_educations || user?.personel_educations.length === 0"
+          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-y-1 p-2">
         <div class="flex items-center justify-between font-semibold px-2">Yabancı Diller</div>
-
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir yabancı dil eklemediniz.
+        <div class="flex flex-col gap-2 bg-white rounded-2xl overflow-hidden">
+          <table
+            v-if="user?.personel_langs && user?.personel_langs.length > 0"
+            class="table-auto w-full text-xs"
+          >
+            <thead>
+              <tr>
+                <th class="p-2 font-semibold border">Dil</th>
+                <th class="p-2 font-semibold border">Okuma</th>
+                <th class="p-2 font-semibold border">Yazma</th>
+                <th class="p-2 font-semibold border">Konuşma</th>
+                <th class="p-2 font-semibold border">Dinleme</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="lang in user?.personel_langs" :key="lang.title">
+                <td class="border p-2 text-center">{{ lang.title }}</td>
+                <td class="border p-2 text-center">{{ lang.reading }}</td>
+                <td class="border p-2 text-center">{{ lang.writing }}</td>
+                <td class="border p-2 text-center">{{ lang.speaking }}</td>
+                <td class="border p-2 text-center">{{ lang.listening }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          v-if="!user?.personel_langs || user?.personel_langs.length === 0"
+          class="bg-white rounded-2xl py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
         </div>
       </div>
-
-      <div class="flex flex-col gap-y-[10px] p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Uzmanlıklar</div>
-
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir uzmanlık eklemediniz.
-        </div>
-      </div>
-
       <div class="flex flex-col gap-y-[10px] p-2">
         <div class="flex items-center justify-between font-semibold px-2">Ödüller</div>
-
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir ödül eklemediniz.
+        <template v-for="reward in user?.personel_rewards_and_punishments" :key="reward.id">
+          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">{{ reward.type }}</div>
+              <div class="font-medium">
+                {{ reward.action }},
+                {{ new Date(reward.document_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <div
+          v-if="
+            !user?.personel_rewards_and_punishments ||
+            user?.personel_rewards_and_punishments.length === 0
+          "
+          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
         </div>
       </div>
 
-      <div class="flex flex-col gap-y-[10px] p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Sertifikalar</div>
+      <div class="flex flex-col gap-y-2 p-2">
+        <div class="font-semibold ps-2">Sertifikalar</div>
 
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir sertifika eklemediniz.
+        <template v-for="education in user?.personel_educations" :key="education.id">
+          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">{{ education.title }}</div>
+              <div class="font-medium">
+                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+          </div>
+        </template>
+        <div
+          v-if="!user?.personel_educations || user?.personel_educations.length === 0"
+          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+        >
+          Bulunamadı
         </div>
       </div>
-
-      <div class="flex flex-col gap-y-[10px] p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Hobiler</div>
-
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir hobi eklemediniz.
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-y-[10px] p-2">
+      <div v-if="storeUser._id === userId" class="flex flex-col gap-y-[10px] p-2">
         <div class="flex items-center justify-between font-semibold px-2">Kişisel Bilgiler</div>
 
-        <div class="p-[10px] text-center text-12 text-squant font-medium">
-          Henüz bir kişisel bilgi eklemediniz.
+        <div class="grid grid-cols-2 gap-4 p-2 bg-white rounded-xl">
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Telefon:</div>
+            <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Senior Tarih:</div>
+            <div class="font-medium">
+              {{ new Date(user?.senior_date).toLocaleDateString('tr-TR') }}
+            </div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Soyadı:</div>
+            <div class="font-medium">{{ user?.surname }}</div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">TC No:</div>
+            <div class="font-medium">{{ user?.tc_no }}</div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
+            <div class="font-medium">
+              {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
+            </div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Çalışma Başlangıç Tarihi:</div>
+            <div class="font-medium">
+              {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }}
+            </div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
+            <div class="font-medium">{{ user?.work_title }}</div>
+          </div>
+          <div class="text-12 text-squant font-semibold">
+            <div class="text-black text-[13px]">Çalışma Ünvanı Metni:</div>
+            <div class="font-medium">{{ user?.work_title_text }}</div>
+          </div>
         </div>
       </div>
     </div>
