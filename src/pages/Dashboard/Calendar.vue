@@ -19,14 +19,16 @@ const updateFilteredRequests = (data) => {
 
   filteredRequests.value = _data.filter((item) => {
     const isUserRequest = !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?.id
-    const targetDate = dateOnly(date.value)
+    const today = dateOnly(date.value)
     const startDate = dateOnly(
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.start_date)
     )
     const endDate = dateOnly(
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
     )
-    const isDateInRange = startDate <= targetDate && targetDate <= endDate
+
+    console.log(startDate, endDate, today)
+    const isDateInRange = startDate <= today && today <= endDate
 
     return isUserRequest && isDateInRange
   })
@@ -48,7 +50,7 @@ const updateFilteredRequests = (data) => {
         existingItem.dates = [...existingItem.dates, ...dates]
       } else {
         acc.push({
-          dot: item.statu === 0 ? 'red' : item.now_birthday ? 'pink' : 'green',
+          dot: item.statu ? 'blue' : item.now_birthday ? 'pink' : 'green',
           dates: dates
         })
       }
@@ -59,10 +61,10 @@ const updateFilteredRequests = (data) => {
           dateCounts[date] = (dateCounts[date] || 0) + 1
         })
         item.dates = Object.keys(dateCounts).reduce((acc, date) => {
-          if (dateCounts[date] <= 3) {
+          if (dateCounts[date] <= 2) {
             acc.push(...Array(dateCounts[date]).fill(date))
           } else {
-            acc.push(...Array(3).fill(date))
+            acc.push(...Array(2).fill(date))
           }
           return acc
         }, [])

@@ -28,7 +28,7 @@ const updateFilteredRequests = (data) => {
   attributes.value = _data
     .filter((item) => !showOnlyMe.value || item.user._id === meStore.getUser?.id)
     .map((item) => ({
-      dot: item.statu === '0' ? 'red' : 'green',
+      dot: item.statu === '0' ? 'red' : 'blue',
       dates: [new Date(item.start_date).toISOString().split('T')[0]]
     }))
 }
