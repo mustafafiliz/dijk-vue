@@ -26,6 +26,7 @@
     "vue": "^3.4.29",
     "vue-confetti": "^2.3.0",
     "vue-router": "^4.4.5",
+    "vue-zoomable": "^1.2.3",
     "vue3-datepicker": "^0.4.0",
     "vue3-otp-input": "^0.5.21",
     "vue3-timepicker": "^1.0.0-beta.2",

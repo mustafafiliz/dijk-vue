@@ -93,7 +93,8 @@ const imageSettings = ref({
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Profil</div>
 
       <div class="flex items-center justify-evenly">
-        <div
+        <RouterLink
+          to="/dashboard/profile/organization"
           class="flex items-center shrink-0 justify-center w-12 h-12 rounded-full bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
         >
           <svg
@@ -139,7 +140,7 @@ const imageSettings = ref({
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </RouterLink>
         <div class="flex flex-col items-center">
           <div class="relative">
             <img

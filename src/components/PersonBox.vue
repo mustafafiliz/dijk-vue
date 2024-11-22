@@ -1,6 +1,11 @@
+src/components/PersonBox.vue
 <script setup>
 defineProps({
-  person: Object
+  person: Object,
+  vertical: {
+    type: Boolean,
+    default: false
+  }
 })
 
 function getAvatarInitials(fullName) {
@@ -17,7 +22,11 @@ function getAvatarInitials(fullName) {
 
 <template>
   <div
-    class="flex items-center gap-x-3 bg-white w-full py-[13px] px-[9px] rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
+    :class="[
+      'flex',
+      vertical ? 'flex-col w-[170px] text-center' : 'gap-x-3  w-full',
+      'bg-white py-[13px] px-[9px] items-center rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]'
+    ]"
   >
     <img
       v-if="person?.image"
@@ -43,7 +52,7 @@ function getAvatarInitials(fullName) {
       </div>
     </div>
 
-    <div class="flex items-center gap-x-2 ms-auto">
+    <div class="flex items-center gap-x-2" :class="vertical ? 'mt-2' : 'ms-auto'">
       <a
         target="_blank"
         v-if="person.phone"

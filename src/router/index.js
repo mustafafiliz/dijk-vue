@@ -10,6 +10,7 @@ import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
 import DashboardOvertimeRequestNew from '@/pages/Dashboard/OvertimeRequest/NewRequest.vue'
+import DashboardProfileOrganization from '@/pages/Dashboard/Profile/Organization.vue'
 import DashboardCalendar from '@/pages/Dashboard/Calendar.vue'
 import DashboardSettings from '@/pages/Dashboard/Settings.vue'
 import DashboardPerformance from '@/pages/Dashboard/Performance.vue'
@@ -22,6 +23,7 @@ const routes = [
   { path: '/auth/reset-password', component: ResetPassword },
   { path: '/dashboard/home', component: DashboardHome },
   { path: '/dashboard/profile', component: DashboardProfile },
+  { path: '/dashboard/profile/organization', component: DashboardProfileOrganization },
   { path: '/dashboard/fields', component: DashboardFields },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
