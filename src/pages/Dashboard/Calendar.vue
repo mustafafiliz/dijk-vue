@@ -165,6 +165,9 @@ onMounted(async () => {
               </div>
               <div>Bit: {{ item.end_date }} {{ item.end_hour ? `/ ${item.end_hour}` : '' }}</div>
             </div>
+            <div v-else class="flex items-center justify-between text-[10px]">
+              <div>Tarih: {{ item.now_birthday }}</div>
+            </div>
 
             <div class="flex items-center gap-x-[10px] mt-[10px]">
               <div
