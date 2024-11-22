@@ -1,6 +1,6 @@
 <template>
   <RouterLink
-    :to="`/dashboard/profile/${user?._id}`"
+    :to="`/dashboard/profile/${meStore.getUser?._id}`"
     class="cursor flex items-center justify-center w-10 h-10 rounded-full"
     :class="avatarClass"
   >
