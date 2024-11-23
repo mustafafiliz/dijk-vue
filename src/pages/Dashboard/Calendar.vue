@@ -27,7 +27,6 @@ const updateFilteredRequests = (data) => {
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
     )
 
-    console.log(startDate, endDate, today)
     const isDateInRange = startDate <= today && today <= endDate
 
     return isUserRequest && isDateInRange
@@ -92,8 +91,6 @@ onMounted(async () => {
     })
 
     const allData = [...birthdays, ...response.data.overtimes, ...response.data.permits]
-
-    console.log(allData)
 
     requests.value = allData
 

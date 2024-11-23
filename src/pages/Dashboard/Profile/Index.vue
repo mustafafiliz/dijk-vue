@@ -16,8 +16,6 @@ const managerFirstLetters = ref('')
 
 const userId = useRoute().params.id
 
-console.log(userId)
-
 const handleLogout = async () => {
   const meStore = useMeStore()
   await meStore.logout()

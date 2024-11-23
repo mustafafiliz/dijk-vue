@@ -53,8 +53,6 @@ const buildHierarchy = (members, managerId) => {
   // Return the top element with the specified managerId
   const hierarchy = map.get(managerId)
 
-  console.log([hierarchy])
-
   allMembers.value = hierarchy ? [hierarchy] : []
 }
 
