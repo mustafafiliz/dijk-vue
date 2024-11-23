@@ -10,6 +10,11 @@ export const useFieldsStore = defineStore('fields', {
       { title: 'Takımım', to: '/dashboard/team', image: '/images/team.svg' },
       { title: 'Rehber', to: '/dashboard/directory', image: '/images/rehber.svg' },
       {
+        title: 'Organizasyon',
+        to: '/dashboard/profile/organization/:userId',
+        image: '/images/organizasyon.png'
+      },
+      {
         title: 'Onaylarım',
         to: '/dashboard/approval-process',
         image: '/images/surecler.svg'

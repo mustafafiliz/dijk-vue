@@ -4,7 +4,9 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
 import { ref, onMounted } from 'vue'
 import Sortable from 'sortablejs'
 import { useFieldsStore } from '@/stores/fields'
+import { useMeStore } from '@/stores/me'
 
+const meStore = useMeStore()
 const fieldsStore = useFieldsStore()
 const sortableList = ref(null)
 
@@ -50,7 +52,11 @@ onMounted(() => {
 
       <div class="grid grid-cols-2 gap-4" ref="sortableList">
         <template v-for="item in fieldsStore.items" :key="item.title">
-          <FieldItem :title="item.title" :to="item.to" :image="item.image" />
+          <FieldItem
+            :title="item.title"
+            :to="item?.to?.replace(':userId', meStore.getUser?._id)"
+            :image="item.image"
+          />
         </template>
       </div>
     </div>
