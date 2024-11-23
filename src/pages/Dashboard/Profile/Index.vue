@@ -343,202 +343,212 @@ const imageSettings = ref({
         </template>
       </div>
 
-      <div class="flex flex-col gap-y-2 p-2">
-        <div class="font-semibold ps-2">İş Deneyimleri</div>
-        <div
-          v-for="(experience, index) in user?.personel_experiences"
-          :key="index"
-          class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
-        >
-          <div class="text-[13px] text-squant font-semibold">
-            <div class="text-black">{{ experience?.company_title }}</div>
-            <div class="text-black text-12">{{ experience?.work_title }}</div>
-            <div class="text-12">
-              {{ new Date(experience?.start_date).toLocaleDateString('tr-TR') }} -
-              {{ new Date(experience?.end_date).toLocaleDateString('tr-TR') }}
-            </div>
-          </div>
-        </div>
-        <div
-          v-if="!user?.personel_experiences || user?.personel_experiences.length === 0"
-          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-y-2 p-2">
-        <div class="font-semibold ps-2">Eğitimler</div>
-
-        <template v-for="education in user?.personel_schools" :key="education.id">
-          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">
-                {{ education.school_title ? education.school_title : 'Okul Bilgisi Yok' }}
-              </div>
-              <div class="font-medium">
-                {{ education.education_section }} - {{ education.description }}
-              </div>
-              <div class="font-medium">
-                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
-                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
-              </div>
-            </div>
-          </div>
-        </template>
-        <div
-          v-if="!user?.personel_schools || user?.personel_schools.length === 0"
-          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-y-2 p-2">
-        <div class="font-semibold ps-2">Sertifikalar</div>
-
-        <template v-for="education in user?.personel_educations" :key="education.id">
-          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">{{ education.title }}</div>
-              <div class="font-medium">
-                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
-                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
-              </div>
-            </div>
-          </div>
-        </template>
-        <div
-          v-if="!user?.personel_educations || user?.personel_educations.length === 0"
-          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-y-1 p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Yabancı Diller</div>
-        <div class="flex flex-col gap-2 bg-white rounded-2xl overflow-hidden">
-          <table
-            v-if="user?.personel_langs && user?.personel_langs.length > 0"
-            class="table-auto w-full text-xs"
+      <template v-if="userId === storeUser?._id">
+        <div class="flex flex-col gap-y-2 p-2">
+          <div class="font-semibold ps-2">İş Deneyimleri</div>
+          <div
+            v-for="(experience, index) in user?.personel_experiences"
+            :key="index"
+            class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
           >
-            <thead>
-              <tr>
-                <th class="p-2 font-semibold border">Dil</th>
-                <th class="p-2 font-semibold border">Okuma</th>
-                <th class="p-2 font-semibold border">Yazma</th>
-                <th class="p-2 font-semibold border">Konuşma</th>
-                <th class="p-2 font-semibold border">Dinleme</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="lang in user?.personel_langs" :key="lang.title">
-                <td class="border p-2 text-center">{{ lang.title }}</td>
-                <td class="border p-2 text-center">{{ lang.reading }}</td>
-                <td class="border p-2 text-center">{{ lang.writing }}</td>
-                <td class="border p-2 text-center">{{ lang.speaking }}</td>
-                <td class="border p-2 text-center">{{ lang.listening }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div
-          v-if="!user?.personel_langs || user?.personel_langs.length === 0"
-          class="bg-white rounded-2xl py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
-        </div>
-      </div>
-      <div class="flex flex-col gap-y-[10px] p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Ödüller</div>
-        <template v-for="reward in user?.personel_rewards_and_punishments" :key="reward.id">
-          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">{{ reward.type }}</div>
-              <div class="font-medium">
-                {{ reward.action }},
-                {{ new Date(reward.document_date).toLocaleDateString('tr-TR') }}
+            <div class="text-[13px] text-squant font-semibold">
+              <div class="text-black">{{ experience?.company_title }}</div>
+              <div class="text-black text-12">{{ experience?.work_title }}</div>
+              <div class="text-12">
+                {{ new Date(experience?.start_date).toLocaleDateString('tr-TR') }} -
+                {{ new Date(experience?.end_date).toLocaleDateString('tr-TR') }}
               </div>
             </div>
           </div>
-        </template>
-        <div
-          v-if="
-            !user?.personel_rewards_and_punishments ||
-            user?.personel_rewards_and_punishments.length === 0
-          "
-          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
+          <div
+            v-if="!user?.personel_experiences || user?.personel_experiences.length === 0"
+            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
+          </div>
         </div>
-      </div>
 
-      <div class="flex flex-col gap-y-2 p-2">
-        <div class="font-semibold ps-2">Sertifikalar</div>
+        <div class="flex flex-col gap-y-2 p-2">
+          <div class="font-semibold ps-2">Eğitimler</div>
 
-        <template v-for="education in user?.personel_educations" :key="education.id">
-          <div class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0">
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">{{ education.title }}</div>
-              <div class="font-medium">
-                {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
-                {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+          <template v-for="education in user?.personel_schools" :key="education.id">
+            <div
+              class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
+            >
+              <div class="text-12 text-squant font-semibold">
+                <div class="text-black text-[13px]">
+                  {{ education.school_title ? education.school_title : 'Okul Bilgisi Yok' }}
+                </div>
+                <div class="font-medium">
+                  {{ education.education_section }} - {{ education.description }}
+                </div>
+                <div class="font-medium">
+                  {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                  {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+                </div>
               </div>
             </div>
+          </template>
+          <div
+            v-if="!user?.personel_schools || user?.personel_schools.length === 0"
+            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
           </div>
-        </template>
-        <div
-          v-if="!user?.personel_educations || user?.personel_educations.length === 0"
-          class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-        >
-          Bulunamadı
         </div>
-      </div>
-      <div v-if="storeUser._id === userId" class="flex flex-col gap-y-[10px] p-2">
-        <div class="flex items-center justify-between font-semibold px-2">Kişisel Bilgiler</div>
 
-        <div class="grid grid-cols-2 gap-4 p-2 bg-white rounded-xl">
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Telefon:</div>
-            <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Senior Tarih:</div>
-            <div class="font-medium">
-              {{ new Date(user?.senior_date).toLocaleDateString('tr-TR') }}
+        <div class="flex flex-col gap-y-2 p-2">
+          <div class="font-semibold ps-2">Sertifikalar</div>
+
+          <template v-for="education in user?.personel_educations" :key="education.id">
+            <div
+              class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
+            >
+              <div class="text-12 text-squant font-semibold">
+                <div class="text-black text-[13px]">{{ education.title }}</div>
+                <div class="font-medium">
+                  {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                  {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Soyadı:</div>
-            <div class="font-medium">{{ user?.surname }}</div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">TC No:</div>
-            <div class="font-medium">{{ user?.tc_no }}</div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
-            <div class="font-medium">
-              {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
-            </div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Çalışma Başlangıç Tarihi:</div>
-            <div class="font-medium">
-              {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }}
-            </div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
-            <div class="font-medium">{{ user?.work_title }}</div>
-          </div>
-          <div class="text-12 text-squant font-semibold">
-            <div class="text-black text-[13px]">Çalışma Ünvanı Metni:</div>
-            <div class="font-medium">{{ user?.work_title_text }}</div>
+          </template>
+          <div
+            v-if="!user?.personel_educations || user?.personel_educations.length === 0"
+            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
           </div>
         </div>
-      </div>
+
+        <div class="flex flex-col gap-y-1 p-2">
+          <div class="flex items-center justify-between font-semibold px-2">Yabancı Diller</div>
+          <div class="flex flex-col gap-2 bg-white rounded-2xl overflow-hidden">
+            <table
+              v-if="user?.personel_langs && user?.personel_langs.length > 0"
+              class="table-auto w-full text-xs"
+            >
+              <thead>
+                <tr>
+                  <th class="p-2 font-semibold border">Dil</th>
+                  <th class="p-2 font-semibold border">Okuma</th>
+                  <th class="p-2 font-semibold border">Yazma</th>
+                  <th class="p-2 font-semibold border">Konuşma</th>
+                  <th class="p-2 font-semibold border">Dinleme</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="lang in user?.personel_langs" :key="lang.title">
+                  <td class="border p-2 text-center">{{ lang.title }}</td>
+                  <td class="border p-2 text-center">{{ lang.reading }}</td>
+                  <td class="border p-2 text-center">{{ lang.writing }}</td>
+                  <td class="border p-2 text-center">{{ lang.speaking }}</td>
+                  <td class="border p-2 text-center">{{ lang.listening }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            v-if="!user?.personel_langs || user?.personel_langs.length === 0"
+            class="bg-white rounded-2xl py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
+          </div>
+        </div>
+        <div class="flex flex-col gap-y-[10px] p-2">
+          <div class="flex items-center justify-between font-semibold px-2">Ödüller</div>
+          <template v-for="reward in user?.personel_rewards_and_punishments" :key="reward.id">
+            <div
+              class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
+            >
+              <div class="text-12 text-squant font-semibold">
+                <div class="text-black text-[13px]">{{ reward.type }}</div>
+                <div class="font-medium">
+                  {{ reward.action }},
+                  {{ new Date(reward.document_date).toLocaleDateString('tr-TR') }}
+                </div>
+              </div>
+            </div>
+          </template>
+          <div
+            v-if="
+              !user?.personel_rewards_and_punishments ||
+              user?.personel_rewards_and_punishments.length === 0
+            "
+            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-y-2 p-2">
+          <div class="font-semibold ps-2">Sertifikalar</div>
+
+          <template v-for="education in user?.personel_educations" :key="education.id">
+            <div
+              class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
+            >
+              <div class="text-12 text-squant font-semibold">
+                <div class="text-black text-[13px]">{{ education.title }}</div>
+                <div class="font-medium">
+                  {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
+                  {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
+                </div>
+              </div>
+            </div>
+          </template>
+          <div
+            v-if="!user?.personel_educations || user?.personel_educations.length === 0"
+            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
+          >
+            Bulunamadı
+          </div>
+        </div>
+        <div class="flex flex-col gap-y-[10px] p-2">
+          <div class="flex items-center justify-between font-semibold px-2">Kişisel Bilgiler</div>
+
+          <div class="grid grid-cols-2 gap-4 p-2 bg-white rounded-xl">
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Telefon:</div>
+              <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Senior Tarih:</div>
+              <div class="font-medium">
+                {{ new Date(user?.senior_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Soyadı:</div>
+              <div class="font-medium">{{ user?.surname }}</div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">TC No:</div>
+              <div class="font-medium">{{ user?.tc_no }}</div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
+              <div class="font-medium">
+                {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Çalışma Başlangıç Tarihi:</div>
+              <div class="font-medium">
+                {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }}
+              </div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
+              <div class="font-medium">{{ user?.work_title }}</div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Çalışma Ünvanı Metni:</div>
+              <div class="font-medium">{{ user?.work_title_text }}</div>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <BottomNavigation />
