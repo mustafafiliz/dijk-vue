@@ -18,7 +18,7 @@ const updateFilteredRequests = (data) => {
   const _data = data || requests.value
 
   filteredRequests.value = _data.filter((item) => {
-    const isUserRequest = !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?.id
+    const isUserRequest = !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?._id
     const today = dateOnly(date.value)
     const startDate = dateOnly(
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.start_date)
@@ -34,7 +34,7 @@ const updateFilteredRequests = (data) => {
   })
 
   attributes.value = _data
-    .filter((item) => !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?.id)
+    .filter((item) => !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?._id)
     .reduce((acc, item) => {
       const startDate = item.now_birthday ? new Date(item.now_birthday) : new Date(item.start_date)
       const endDate = item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
