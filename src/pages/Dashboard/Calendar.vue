@@ -6,6 +6,7 @@ import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 
 const date = ref(new Date())
+const currentYear = ref(date.value.getFullYear())
 const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
@@ -77,10 +78,20 @@ const handleCalendarChange = () => {
   updateFilteredRequests(requests.value)
 }
 
+const getDateRange = (year) => {
+  const startDate = `${year}-01-01`
+  const endDate = `${year}-12-31`
+
+  return { startDate, endDate }
+}
+
 onMounted(async () => {
   const { axios } = useAxios()
+  const { startDate, endDate } = getDateRange(date.value.getFullYear())
+
   try {
-    const response = await axios.get('/calendar')
+    const response = await axios.get(`/calendar?start_date=${startDate}&end_date=${endDate}`)
+
     const birthdays = response.data.birthdays.map((item) => {
       const birthdayDate = new Date(item.birthday)
       birthdayDate.setFullYear(new Date().getFullYear())
@@ -99,6 +110,35 @@ onMounted(async () => {
     console.error('Failed to fetch permits:', error)
   }
 })
+
+const handleDidMove = async (newYear) => {
+  if (currentYear.value !== newYear) {
+    const { axios } = useAxios()
+    const { startDate, endDate } = getDateRange(newYear)
+    try {
+      const response = await axios.get(`/calendar?start_date=${startDate}&end_date=${endDate}`)
+
+      const birthdays = response.data.birthdays.map((item) => {
+        const birthdayDate = new Date(item.birthday)
+        birthdayDate.setFullYear(new Date().getFullYear())
+        return {
+          ...item,
+          now_birthday: dateOnly(birthdayDate)
+        }
+      })
+
+      const allData = [...birthdays, ...response.data.overtimes, ...response.data.permits]
+
+      requests.value = allData
+
+      updateFilteredRequests(allData)
+
+      currentYear.value = newYear
+    } catch (error) {
+      console.error('Failed to fetch permits:', error)
+    }
+  }
+}
 </script>
 
 <template>
@@ -138,6 +178,7 @@ onMounted(async () => {
           :is-dark="false"
           :attributes="attributes"
           locale="tr"
+          @did-move="(e) => handleDidMove(e?.[0]?.year)"
           @update:model-value="handleCalendarChange"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">

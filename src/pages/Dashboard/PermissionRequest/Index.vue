@@ -2,11 +2,12 @@
 import { DatePicker } from 'v-calendar'
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import Button from '@/components/Button.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 
 const date = ref(new Date())
+const currentYear = ref(date.value.getFullYear())
 const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
@@ -51,10 +52,18 @@ const handleCalendarChange = () => {
   updateFilteredRequests(requests.value)
 }
 
+const getDateRange = (year) => {
+  const startDate = `${year}-01-01`
+  const endDate = `${year}-12-31`
+
+  return { startDate, endDate }
+}
+
 onMounted(async () => {
   const { axios } = useAxios()
+  const { startDate, endDate } = getDateRange(date.value.getFullYear())
   try {
-    const response = await axios.get('/permits')
+    const response = await axios.get(`/permits?start_date=${startDate}&end_date=${endDate}`)
 
     requests.value = response.data
     updateFilteredRequests(response.data)
@@ -62,6 +71,24 @@ onMounted(async () => {
     console.error('Failed to fetch permits:', error)
   }
 })
+
+const handleDidMove = async (newYear) => {
+  if (currentYear.value !== newYear) {
+    const { axios } = useAxios()
+    const { startDate, endDate } = getDateRange(newYear)
+    try {
+      const response = await axios.get(`/permits?start_date=${startDate}&end_date=${endDate}`)
+
+      requests.value = response.data
+
+      updateFilteredRequests(response.data)
+
+      currentYear.value = newYear
+    } catch (error) {
+      console.error('Failed to fetch permits:', error)
+    }
+  }
+}
 </script>
 
 <template>
@@ -100,8 +127,9 @@ onMounted(async () => {
           v-model="date"
           :is-dark="false"
           :attributes="attributes"
+          @did-move="(e) => handleDidMove(e?.[0]?.year)"
           locale="tr"
-          @update:model-value="handleCalendarChange"
+          @update:model-value="(value) => ((date = value), handleCalendarChange)"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">
           <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">

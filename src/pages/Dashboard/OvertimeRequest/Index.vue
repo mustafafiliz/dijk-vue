@@ -7,6 +7,7 @@ import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 
 const date = ref(new Date())
+const currentYear = ref(date.value.getFullYear())
 const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
@@ -37,10 +38,19 @@ const handleCalendarChange = () => {
   updateFilteredRequests(requests.value)
 }
 
+const getDateRange = (year) => {
+  const startDate = `${year}-01-01`
+  const endDate = `${year}-12-31`
+
+  return { startDate, endDate }
+}
+
 onMounted(async () => {
   const { axios } = useAxios()
+  const { startDate, endDate } = getDateRange(date.value.getFullYear())
+
   try {
-    const response = await axios.get('/overtimes')
+    const response = await axios.get(`/overtimes?start_date=${startDate}&end_date=${endDate}`)
 
     requests.value = response.data
     updateFilteredRequests(response.data)
@@ -48,6 +58,24 @@ onMounted(async () => {
     console.error('Failed to fetch overtime requests:', error)
   }
 })
+
+const handleDidMove = async (newYear) => {
+  if (currentYear.value !== newYear) {
+    const { axios } = useAxios()
+    const { startDate, endDate } = getDateRange(newYear)
+    try {
+      const response = await axios.get(`/overtimes?start_date=${startDate}&end_date=${endDate}`)
+
+      requests.value = response.data
+
+      updateFilteredRequests(response.data)
+
+      currentYear.value = newYear
+    } catch (error) {
+      console.error('Failed to fetch permits:', error)
+    }
+  }
+}
 </script>
 
 <template>
@@ -87,6 +115,7 @@ onMounted(async () => {
           :is-dark="false"
           :attributes="attributes"
           locale="tr"
+          @did-move="(e) => handleDidMove(e?.[0]?.year)"
           @update:model-value="handleCalendarChange"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">
