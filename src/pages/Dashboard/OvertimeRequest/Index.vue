@@ -128,10 +128,11 @@ const handleDidMove = async (newYear) => {
             <Button class="w-full lg:!w-[220px] !py-3"> Talep Oluştur </Button>
           </RouterLink>
 
-          <div
+          <a
             v-if="filteredRequests.length > 0"
             v-for="item in filteredRequests"
-            :key="item.id"
+            :key="item.id + item.user._id"
+            :href="`/dashboard/profile/${item.user._id}`"
             class="bg-white pt-1 pb-2 px-4 font-medium text-12 rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
           >
             <div class="flex items-center justify-between text-[10px]">
@@ -179,7 +180,7 @@ const handleDidMove = async (newYear) => {
                 </div>
               </div>
             </div>
-          </div>
+          </a>
           <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
             <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
           </div>
