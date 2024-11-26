@@ -261,16 +261,7 @@ export default {
         .then((response) => {
           console.log(response.data)
 
-          const sessionData = {
-            ...response.data,
-            user: {
-              _id: response.data.user._id,
-              name: response.data.user.name,
-              birthday: response.data.user.birthday,
-              senior_date: response.data.user.senior_date
-            }
-          }
-          sessionStore.setSession(sessionData)
+          sessionStore.setSession(response.data)
           window.location.href = '/dashboard/home'
         })
         .catch((error) => {

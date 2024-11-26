@@ -11,8 +11,7 @@ export const useSessionStore = defineStore('session', {
       access_token: null,
       token_type: null,
       expires_in: null,
-      refresh_token: null,
-      user: null
+      refresh_token: null
     }
   }),
 
