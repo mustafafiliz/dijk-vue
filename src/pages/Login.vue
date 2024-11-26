@@ -259,7 +259,18 @@ export default {
           sms_verification_code: this.smsCode
         })
         .then((response) => {
-          sessionStore.setSession(response.data)
+          console.log(response.data)
+
+          const sessionData = {
+            ...response.data,
+            user: {
+              _id: response.data.user._id,
+              name: response.data.user.name,
+              birthday: response.data.user.birthday,
+              senior_date: response.data.user.senior_date
+            }
+          }
+          sessionStore.setSession(sessionData)
           window.location.href = '/dashboard/home'
         })
         .catch((error) => {
