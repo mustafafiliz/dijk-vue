@@ -2,7 +2,9 @@
 import { register } from 'swiper/element/bundle'
 import { onMounted } from 'vue'
 import { useFieldsStore } from '@/stores/fields'
+import { useMeStore } from '@/stores/me'
 
+const meStore = useMeStore()
 const fieldsStore = useFieldsStore()
 const actionItems = fieldsStore.items
 
@@ -44,7 +46,7 @@ onMounted(() => {
     >
       <swiper-slide class="w-fit" v-for="item in actionItems" :key="i?.title">
         <RouterLink
-          :to="item.to"
+          :to="item?.to?.replace(':userId', meStore.getUser?._id)"
           class="flex cursor-pointer flex-col items-center justify-center gap-y-2 bg-white rounded-[10px] shadow-[0_0_10px_0_rgba(0,0,0,0.05)] h-24 min-w-24 px-1"
         >
           <div class="h-[45px]">
