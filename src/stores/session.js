@@ -57,7 +57,7 @@ export const useSessionStore = defineStore('session', {
         const response = await axios.post(
           'https://dijikapi.maverabilisim.com/api/v1/auth/refresh',
           {
-            refresh_token: 'xyz'
+            refresh_token: refreshToken
           },
           {
             headers: {
