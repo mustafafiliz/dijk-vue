@@ -32,6 +32,7 @@ const videos = ref([])
 const showModal = ref(false)
 const iframeContent = ref('')
 const announcements = ref([])
+const articles = ref([])
 
 const openModal = (video) => {
   console.log(video)
@@ -125,13 +126,24 @@ const getAnnouncements = async () => {
   }
 }
 
+const getArticles = async () => {
+  try {
+    const { data } = await axios.get('/articles')
+
+    articles.value = data.data
+  } catch (error) {
+    return error
+  }
+}
+
 onMounted(async () => {
   await Promise.all([
     getMyRemainingPermits(),
     getCalendarData(),
     getEvents(),
     getVideos(),
-    getAnnouncements()
+    getAnnouncements(),
+    getArticles()
   ])
 })
 </script>
@@ -343,7 +355,7 @@ onMounted(async () => {
         </InfoSlider>
         <InfoSlider class="order-8">
           <template #slide0>
-            <InfoSliderHeader title="Haberler">
+            <InfoSliderHeader title="Haberler" to="/dashboard/articles">
               <template #icon>
                 <svg
                   width="36"
@@ -373,7 +385,13 @@ onMounted(async () => {
               </template>
             </InfoSliderHeader>
 
-            <div class="flex">haberler...</div>
+            <div class="flex flex-col gap-2 mt-5 max-h-[400px] overflow-y-auto">
+              <AnnouncementAccordion
+                v-for="article in articles"
+                :key="article._id"
+                :announcement="article"
+              />
+            </div>
           </template>
         </InfoSlider>
       </div>

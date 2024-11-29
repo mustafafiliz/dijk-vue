@@ -1,5 +1,5 @@
 <template>
-  <div class="announcement w-full p-2 border border-gray-200 rounded-lg">
+  <div class="announcement w-full p-2 border border-gray-200 rounded-lg bg-white">
     <div @click="toggleAccordion" class="flex justify-between items-center cursor-pointer">
       <h3 class="text-sm font-medium">{{ announcement.title }}</h3>
       <svg

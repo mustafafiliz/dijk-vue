@@ -3,6 +3,7 @@ import Login from '@/pages/Login.vue'
 import DashboardHome from '@/pages/Dashboard/Home.vue'
 import DashboardProfile from '@/pages/Dashboard/Profile/Index.vue'
 import DashboardFields from '@/pages/Dashboard/Fields.vue'
+import DashboardArticles from '@/pages/Dashboard/Articles.vue'
 import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
@@ -25,6 +26,7 @@ const routes = [
   { path: '/dashboard/profile/:id', component: DashboardProfile },
   { path: '/dashboard/profile/organization/:id', component: DashboardProfileOrganization },
   { path: '/dashboard/fields', component: DashboardFields },
+  { path: '/dashboard/articles', component: DashboardArticles },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },
