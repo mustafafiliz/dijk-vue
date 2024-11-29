@@ -9,6 +9,7 @@ import InfoSliderItemUpcomingBirthday from '@/components/InfoSlider/Item/Upcomin
 import InfoSliderItemUpcomingHoliday from '@/components/InfoSlider/Item/UpcomingHoliday.vue'
 import InfoSliderItemUpcomingVacation from '@/components/InfoSlider/Item/UpcomingVacation.vue'
 import InfoSliderItemOvertimeRequest from '@/components/InfoSlider/Item/OvertimeRequest.vue'
+import AnnouncementAccordion from '@/components/InfoSlider/AnnouncementAccordion.vue'
 import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
 import QuickActions from '@/components/QuickActions.vue'
@@ -30,6 +31,7 @@ const myRemainingPermits = ref(null)
 const videos = ref([])
 const showModal = ref(false)
 const iframeContent = ref('')
+const announcements = ref([])
 
 const openModal = (video) => {
   console.log(video)
@@ -112,8 +114,25 @@ const getVideos = async () => {
   }
 }
 
+const getAnnouncements = async () => {
+  try {
+    const { data } = await axios.get('/announcements')
+
+    announcements.value = data.data
+    console.log(data)
+  } catch (error) {
+    return error
+  }
+}
+
 onMounted(async () => {
-  await Promise.all([getMyRemainingPermits(), getCalendarData(), getEvents(), getVideos()])
+  await Promise.all([
+    getMyRemainingPermits(),
+    getCalendarData(),
+    getEvents(),
+    getVideos(),
+    getAnnouncements()
+  ])
 })
 </script>
 
@@ -303,6 +322,82 @@ onMounted(async () => {
             </div>
           </template>
         </InfoSlider>
+        <InfoSlider class="order-7">
+          <template #slide0>
+            <InfoSliderHeader title="Duyurular">
+              <template #icon>
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="36" height="36" rx="8" fill="#FF5454" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M20.9948 13.9878H15.0052C11.9678 13.9878 10.4492 13.9878 9.59609 14.8759C8.74302 15.7641 8.94373 17.1363 9.34516 19.8806L9.72583 22.483C10.0406 24.6351 10.198 25.7111 11.0055 26.3555C11.813 26.9999 13.0039 26.9999 15.3858 26.9999H20.6141C22.9961 26.9999 24.1871 26.9999 24.9945 26.3555C25.802 25.7111 25.9593 24.6351 26.2742 22.483L26.6549 19.8806C27.0563 17.1363 27.257 15.7641 26.4039 14.8759C25.5508 13.9878 24.0322 13.9878 20.9948 13.9878ZM20.3231 21.4148C20.8256 21.1032 20.8256 20.2967 20.3231 19.9851L17.2886 18.104C16.8002 17.8013 16.2 18.1954 16.2 18.8188V22.5811C16.2 23.2045 16.8002 23.5986 17.2886 23.2959L20.3231 21.4148Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.4"
+                    d="M14.8585 9.00001H21.1406C21.3498 8.99995 21.5103 8.99992 21.6505 9.01363C22.6475 9.11117 23.4636 9.71062 23.8097 10.5181H12.1895C12.5355 9.71062 13.3516 9.11117 14.3486 9.01363C14.4889 8.99992 14.6493 8.99995 14.8585 9.00001Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.7"
+                    d="M12.8791 11.4504C11.6275 11.4504 10.6013 12.2062 10.2588 13.2089C10.2517 13.2297 10.2448 13.2508 10.2383 13.2719C10.5966 13.1634 10.9695 13.0925 11.3471 13.0441C12.3194 12.9194 13.5482 12.9195 14.9756 12.9196H21.1785C22.6059 12.9195 23.8348 12.9194 24.8071 13.0441C25.1846 13.0925 25.5576 13.1634 25.9159 13.2719C25.9094 13.2508 25.9024 13.2297 25.8953 13.2089C25.5529 12.2062 24.5266 11.4504 23.2751 11.4504H12.8791Z"
+                    fill="white"
+                  />
+                </svg>
+              </template>
+            </InfoSliderHeader>
+
+            <div class="flex flex-col gap-2 mt-5 max-h-[400px] overflow-y-auto">
+              <AnnouncementAccordion
+                v-for="announcement in announcements"
+                :key="announcement._id"
+                :announcement="announcement"
+              />
+            </div>
+          </template>
+        </InfoSlider>
+        <InfoSlider class="order-8">
+          <template #slide0>
+            <InfoSliderHeader title="Haberler">
+              <template #icon>
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="36" height="36" rx="8" fill="#FF5454" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M20.9948 13.9878H15.0052C11.9678 13.9878 10.4492 13.9878 9.59609 14.8759C8.74302 15.7641 8.94373 17.1363 9.34516 19.8806L9.72583 22.483C10.0406 24.6351 10.198 25.7111 11.0055 26.3555C11.813 26.9999 13.0039 26.9999 15.3858 26.9999H20.6141C22.9961 26.9999 24.1871 26.9999 24.9945 26.3555C25.802 25.7111 25.9593 24.6351 26.2742 22.483L26.6549 19.8806C27.0563 17.1363 27.257 15.7641 26.4039 14.8759C25.5508 13.9878 24.0322 13.9878 20.9948 13.9878ZM20.3231 21.4148C20.8256 21.1032 20.8256 20.2967 20.3231 19.9851L17.2886 18.104C16.8002 17.8013 16.2 18.1954 16.2 18.8188V22.5811C16.2 23.2045 16.8002 23.5986 17.2886 23.2959L20.3231 21.4148Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.4"
+                    d="M14.8585 9.00001H21.1406C21.3498 8.99995 21.5103 8.99992 21.6505 9.01363C22.6475 9.11117 23.4636 9.71062 23.8097 10.5181H12.1895C12.5355 9.71062 13.3516 9.11117 14.3486 9.01363C14.4889 8.99992 14.6493 8.99995 14.8585 9.00001Z"
+                    fill="white"
+                  />
+                  <path
+                    opacity="0.7"
+                    d="M12.8791 11.4504C11.6275 11.4504 10.6013 12.2062 10.2588 13.2089C10.2517 13.2297 10.2448 13.2508 10.2383 13.2719C10.5966 13.1634 10.9695 13.0925 11.3471 13.0441C12.3194 12.9194 13.5482 12.9195 14.9756 12.9196H21.1785C22.6059 12.9195 23.8348 12.9194 24.8071 13.0441C25.1846 13.0925 25.5576 13.1634 25.9159 13.2719C25.9094 13.2508 25.9024 13.2297 25.8953 13.2089C25.5529 12.2062 24.5266 11.4504 23.2751 11.4504H12.8791Z"
+                    fill="white"
+                  />
+                </svg>
+              </template>
+            </InfoSliderHeader>
+
+            <div class="flex">haberler...</div>
+          </template>
+        </InfoSlider>
       </div>
     </div>
 
@@ -347,5 +442,13 @@ onMounted(async () => {
 .iframeModalContainer iframe {
   width: 100%;
   height: 100%;
+}
+.announcement {
+  img {
+    max-width: 150px;
+  }
+  * {
+    font-size: 12px;
+  }
 }
 </style>
