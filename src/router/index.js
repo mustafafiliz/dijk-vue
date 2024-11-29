@@ -7,6 +7,7 @@ import DashboardArticles from '@/pages/Dashboard/Articles.vue'
 import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
+import DashboardPayrolls from '@/pages/Dashboard/Payrolls.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
@@ -27,6 +28,7 @@ const routes = [
   { path: '/dashboard/profile/organization/:id', component: DashboardProfileOrganization },
   { path: '/dashboard/fields', component: DashboardFields },
   { path: '/dashboard/articles', component: DashboardArticles },
+  { path: '/dashboard/payrolls', component: DashboardPayrolls },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },

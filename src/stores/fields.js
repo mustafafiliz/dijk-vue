@@ -9,6 +9,7 @@ export const useFieldsStore = defineStore('fields', {
       { title: 'Fazla Mesai', to: '/dashboard/overtime-request/list', image: '/images/mesai.svg' },
       { title: 'Takımım', to: '/dashboard/team', image: '/images/team.svg' },
       { title: 'Rehber', to: '/dashboard/directory', image: '/images/rehber.svg' },
+      { title: 'Bordrolarım', to: '/dashboard/payrolls', image: '/images/payroll.png' },
       {
         title: 'Organizasyon',
         to: '/dashboard/profile/organization/:userId',

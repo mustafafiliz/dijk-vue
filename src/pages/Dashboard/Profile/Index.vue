@@ -105,7 +105,7 @@ const imageSettings = ref({
         <div class="flex flex-col items-center">
           <div class="relative">
             <img
-              v-if="user?.photo"
+              v-if="user?.image"
               :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
               class="border-[6px] w-24 h-24 object-cover rounded-20"
               src="/images/user-image.jpg"

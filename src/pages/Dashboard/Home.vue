@@ -95,7 +95,7 @@ const getCalendarData = async () => {
     const { data } = await axios.get('/calendar', {
       params: {
         start_date: dateOnly(new Date()),
-        end_date: dateOnly(new Date(new Date().setDate(new Date().getDate() + 360)))
+        end_date: dateOnly(new Date(new Date().setDate(new Date().getDate() + 30)))
       }
     })
     console.log(data)
