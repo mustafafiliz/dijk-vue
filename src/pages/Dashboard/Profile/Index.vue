@@ -108,7 +108,7 @@ const imageSettings = ref({
               v-if="user?.image"
               :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
               class="border-[6px] w-24 h-24 object-cover rounded-20"
-              src="/images/user-image.jpg"
+              :src="user?.image"
               alt=""
             />
             <div
