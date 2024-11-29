@@ -64,7 +64,7 @@ defineProps({
 
           <td class="py-2">
             Çalışma Şekli
-            <div class="text-gentian-flower mt-1">{{ userData.workType }}</div>
+            <div class="text-gentian-flower mt-1 text-[11px]">{{ userData.workType }}</div>
           </td>
         </tr>
       </tbody>

@@ -1,17 +1,29 @@
 <script setup>
-defineProps({
+import { ref } from 'vue'
+
+const props = defineProps({
   title: String,
   video: String,
-  thumbnail: String
+  iframe: String
 })
+
+const showModal = ref(false)
+
+const openModal = () => {
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+}
 </script>
 
 <template>
   <div
     class="cursor-pointer relative min-h-36 h-full w-fit rounded-lg overflow-hidden shrink-0 before:absolute before:inset-0 before:bg-black before:opacity-70 before:-z-[1]"
   >
-    <div class="absolute top-2 left-2 font-semibold text-[10px] text-white">{{ title }}</div>
-    <img :src="thumbnail" :alt="title" class="w-full h-full" />
+    <div class="absolute top-2 left-2 font-semibold text-[10px] hidden text-white">{{ title }}</div>
+    <div v-html="iframe" class="h-36 iframeContainer"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <svg
         width="38"
@@ -30,3 +42,14 @@ defineProps({
     </div>
   </div>
 </template>
+
+<style>
+.iframeContainer {
+  width: 100%;
+  height: 100%;
+}
+.iframeContainer iframe {
+  width: 100%;
+  height: 100%;
+}
+</style>

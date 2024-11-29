@@ -41,7 +41,7 @@ export default {
           title: item.title,
           available_day: item.available_day
         }))
-        this.selectedPermit = response.data.find((item) => item?.title === 'Yıllık İzin')?.code
+        this.selectedPermit = response.data.find((item) => item?.is_annual_permit)?.code
       } catch (error) {
         toast.error(error.response.data.message)
       }

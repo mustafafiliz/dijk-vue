@@ -13,6 +13,108 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
 import QuickActions from '@/components/QuickActions.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { onMounted, ref } from 'vue'
+import { useAxios } from '@/plugins/axios'
+import { useMeStore } from '@/stores/me'
+
+const { axios } = useAxios()
+const meStore = useMeStore()
+
+const user = meStore.user
+
+const upcomingPermits = ref([])
+const upcomingEvents = ref([])
+const upcomingBirthdays = ref([])
+const upcomingHolidays = ref([])
+const myRemainingPermits = ref(null)
+const videos = ref([])
+const showModal = ref(false)
+const iframeContent = ref('')
+
+const openModal = (video) => {
+  console.log(video)
+
+  iframeContent.value = video?.iframe
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+}
+
+const dateOnly = (date) => date.toISOString().split('T')[0]
+
+const calculateExperience = (startDate) => {
+  const start = new Date(startDate)
+  const today = new Date()
+  const diffTime = Math.abs(today - start)
+  const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365))
+  const diffMonths = Math.floor(
+    (diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30)
+  )
+  const diffDays = Math.floor(
+    ((diffTime % (1000 * 60 * 60 * 24 * 365)) % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)
+  )
+
+  let experience = ''
+  if (diffYears > 0) {
+    experience += `${diffYears} yıl `
+  }
+  if (diffMonths > 0) {
+    experience += `${diffMonths} ay `
+  }
+  if (diffDays > 0) {
+    experience += `${diffDays} gün `
+  }
+  return experience.trim()
+}
+
+const getMyRemainingPermits = async () => {
+  try {
+    const response = await axios.get('/permit-groups')
+
+    myRemainingPermits.value = response.data.find((item) => item?.is_annual_permit)
+  } catch (error) {
+    return error
+  }
+}
+
+const getEvents = async () => {
+  try {
+    const response = await axios.get('/events')
+  } catch (error) {
+    return error
+  }
+}
+
+const getCalendarData = async () => {
+  try {
+    const { data } = await axios.get('/calendar', {
+      params: {
+        start_date: dateOnly(new Date()),
+        end_date: dateOnly(new Date(new Date().setDate(new Date().getDate() + 360)))
+      }
+    })
+    console.log(data)
+    upcomingHolidays.value = data.holidays
+  } catch (error) {
+    return error
+  }
+}
+
+const getVideos = async () => {
+  try {
+    const { data: response } = await axios.get('/videos')
+
+    videos.value = response.data.slice(0, 3)
+  } catch (error) {
+    return error
+  }
+}
+
+onMounted(async () => {
+  await Promise.all([getMyRemainingPermits(), getCalendarData(), getEvents(), getVideos()])
+})
 </script>
 
 <template>
@@ -87,19 +189,10 @@ import UserAvatar from '@/components/UserAvatar.vue'
           <template #slide0>
             <InfoSliderItemVacation
               total-annual-leave="14"
-              remaining-annual-leave="11"
-              annual-leave-end-date="11.11.2011"
+              :remaining-annual-leave="myRemainingPermits?.available_day"
             />
           </template>
           <template #slide1>
-            <InfoSliderItemVacation
-              total-annual-leave="14"
-              remaining-annual-leave="5"
-              annual-leave-end-date="11.11.2011"
-              :current-vacation="{ startDate: '01.01.2021', endDate: '01.01.2021', type: 'Yıllık' }"
-            />
-          </template>
-          <template #slide2>
             <InfoSliderItemUpcomingEvent
               :upcoming-events="[
                 {
@@ -115,18 +208,15 @@ import UserAvatar from '@/components/UserAvatar.vue'
               ]"
             />
           </template>
-          <template #slide3>
-            <InfoSliderItemUpcomingEvent />
-          </template>
-          <template #slide4>
+          <template #slide2>
             <InfoSliderItemUserData
               :user-data="{
-                name: 'Mehmet Yılmaz',
-                startDate: '1 Nisan 2022',
-                experience: '2 Yıl 4 Ay 25 Gün',
-                jobTitle: 'CTO',
-                company: 'ByteWave Inno...',
-                workType: 'Tam Zamanlı'
+                name: user.full_name,
+                startDate: user.work_start_date,
+                experience: calculateExperience(user.work_start_date),
+                jobTitle: user.work_title_text,
+                company: user.erp_company_text,
+                workType: user.erp_plant_text
               }"
             />
           </template>
@@ -183,9 +273,33 @@ import UserAvatar from '@/components/UserAvatar.vue'
             </InfoSliderHeader>
 
             <div class="flex gap-x-2 flex-1 overflow-x-auto mt-2 -mb-[18px]">
-              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
-              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
-              <VideoBox title="Siber Güvenlik Eğitimi" thumbnail="/images/videobox.jpg" />
+              <div :key="video._id" v-for="video in videos" class="relative">
+                <VideoBox :title="video.title" :iframe="video.iframe" />
+                <div
+                  @click="openModal(video)"
+                  class="absolute inset-0 z-10 cursor-pointer bg-white bg-opacity-30 flex items-center juistfy-center"
+                >
+                  <div
+                    class="bg-white mx-auto w-20 h-20 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#292D32"
+                      stroke-width="1.3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-play-circle"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </template>
         </InfoSlider>
@@ -194,4 +308,44 @@ import UserAvatar from '@/components/UserAvatar.vue'
 
     <BottomNavigation />
   </div>
+  <div
+    v-if="showModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div class="bg-white p-4 rounded-lg">
+      <button
+        @click="closeModal"
+        class="absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-x"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div v-html="iframeContent" class="iframeModalContainer"></div>
+    </div>
+  </div>
 </template>
+
+<style>
+.iframeModalContainer {
+  width: 85vw;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.iframeModalContainer iframe {
+  width: 100%;
+  height: 100%;
+}
+</style>

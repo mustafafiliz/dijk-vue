@@ -39,9 +39,7 @@ defineProps({
       </template>
     </InfoSliderHeader>
 
-    <div class="text-12 font-semibold text-squant mt-2">
-      Kalan yıllık izin sayısı ({{ annualLeaveEndDate }} ’e kadar)
-    </div>
+    <div class="text-12 font-semibold text-squant mt-2">Kalan yıllık izin sayısı</div>
     <div v-if="remainingAnnualLeave" class="mt-1 text-gamora text-20 font-bold">
       {{ remainingAnnualLeave }} Gün
     </div>
