@@ -19,7 +19,7 @@ defineProps({
 
 <template>
   <div>
-    <InfoSliderHeader title="İzinlerim" to="/#">
+    <InfoSliderHeader title="İzinlerim">
       <template #icon>
         <svg
           width="36"

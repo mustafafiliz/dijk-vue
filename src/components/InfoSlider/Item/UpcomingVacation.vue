@@ -7,7 +7,7 @@ defineProps({})
 
 <template>
   <div class="flex flex-col h-full">
-    <InfoSliderHeader title="Yaklaşan İzinler" to="/#">
+    <InfoSliderHeader title="Yaklaşan İzinler">
       <template #icon>
         <svg
           width="36"

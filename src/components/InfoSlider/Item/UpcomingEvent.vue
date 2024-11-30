@@ -52,7 +52,7 @@ const createEventColor = (index) => {
 
 <template>
   <div class="flex flex-col h-full">
-    <InfoSliderHeader title="Yaklaşan Etkinlikler" to="/#">
+    <InfoSliderHeader title="Yaklaşan Etkinlikler" to="/events">
       <template #icon>
         <svg
           width="36"
