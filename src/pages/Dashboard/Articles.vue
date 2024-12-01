@@ -1,19 +1,25 @@
 <script setup>
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import AnnouncementAccordion from '@/components/InfoSlider/AnnouncementAccordion.vue'
+import ArticleCard from '@/components/InfoSlider/ArticleCard.vue'
+import Spinner from '@/components/Spinner.vue'
 import { useAxios } from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 
 const articles = ref([])
 const { axios } = useAxios()
+const loading = ref(true)
 
 const getArticles = async () => {
+  loading.value = true
   try {
     const { data } = await axios.get('/articles')
 
     articles.value = data.data
   } catch (error) {
     return error
+  } finally {
+    loading.value = false
   }
 }
 
@@ -46,17 +52,18 @@ onMounted(() => {
       </button>
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Haberler</div>
 
-      <div class="grid grid-cols-1 gap-4">
+      <div v-if="!loading" class="grid grid-cols-4 gap-4">
         <template v-for="item in articles" :key="item.title">
-          <AnnouncementAccordion
-            v-for="article in articles"
-            :key="article._id"
-            :announcement="article"
-          />
+          <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
         </template>
       </div>
+      <div v-else class="flex flex-col items-center justify-items-center">
+        <div
+          class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+        ></div>
+        <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+      </div>
     </div>
-
     <BottomNavigation />
   </div>
 </template>

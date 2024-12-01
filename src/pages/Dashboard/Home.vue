@@ -17,6 +17,7 @@ import UserAvatar from '@/components/UserAvatar.vue'
 import { onMounted, ref } from 'vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
+import ArticleCard from '@/components/InfoSlider/ArticleCard.vue'
 
 const { axios } = useAxios()
 const meStore = useMeStore()
@@ -371,62 +372,53 @@ onMounted(async () => {
             </template>
           </InfoSlider>
         </div>
-        <div class="col-span-2 order-8">
-          <InfoSlider class="order-8">
-            <template #slide0>
-              <InfoSliderHeader title="Haberler" to="/dashboard/articles">
-                <template #icon>
-                  <div class="relative flex items-center">
-                    <svg
-                      width="36"
-                      height="36"
-                      viewBox="0 0 36 36"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect width="36" height="36" rx="8" fill="#FF5454" />
-                    </svg>
-                    <span
-                      class="flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="feather feather-tv"
-                      >
-                        <rect
-                          stroke="#fff"
-                          fill="#fff"
-                          x="2"
-                          y="7"
-                          width="20"
-                          height="15"
-                          rx="2"
-                          ry="2"
-                        ></rect>
-                        <polyline stroke="#fff" points="17 2 12 7 7 2"></polyline>
-                      </svg>
-                    </span>
-                  </div>
-                </template>
-              </InfoSliderHeader>
-
-              <div class="flex flex-col gap-2 mt-5 max-h-[400px] overflow-y-auto">
-                <AnnouncementAccordion
-                  v-for="article in articles"
-                  :key="article._id"
-                  :announcement="article"
-                />
+        <div class="col-span-2 order-8 bg-white p-2 rounded-2xl">
+          <InfoSliderHeader title="Haberler" to="/dashboard/articles">
+            <template #icon>
+              <div class="relative flex items-center">
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="36" height="36" rx="8" fill="#FF5454" />
+                </svg>
+                <span
+                  class="flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-tv"
+                  >
+                    <rect
+                      stroke="#fff"
+                      fill="#fff"
+                      x="2"
+                      y="7"
+                      width="20"
+                      height="15"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <polyline stroke="#fff" points="17 2 12 7 7 2"></polyline>
+                  </svg>
+                </span>
               </div>
             </template>
-          </InfoSlider>
+          </InfoSliderHeader>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-5 max-h-[400px] overflow-y-auto">
+            <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
+          </div>
         </div>
       </div>
     </div>
