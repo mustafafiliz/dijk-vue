@@ -4,6 +4,7 @@ import DashboardHome from '@/pages/Dashboard/Home.vue'
 import DashboardProfile from '@/pages/Dashboard/Profile/Index.vue'
 import DashboardFields from '@/pages/Dashboard/Fields.vue'
 import DashboardArticles from '@/pages/Dashboard/Articles.vue'
+import DashboardVideos from '@/pages/Dashboard/Videos.vue'
 import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
@@ -28,6 +29,7 @@ const routes = [
   { path: '/dashboard/profile/organization/:id', component: DashboardProfileOrganization },
   { path: '/dashboard/fields', component: DashboardFields },
   { path: '/dashboard/articles', component: DashboardArticles },
+  { path: '/dashboard/videos', component: DashboardVideos },
   { path: '/dashboard/payrolls', component: DashboardPayrolls },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },

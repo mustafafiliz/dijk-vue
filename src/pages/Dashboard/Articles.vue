@@ -52,7 +52,7 @@ onMounted(() => {
       </button>
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Haberler</div>
 
-      <div v-if="!loading" class="grid grid-cols-4 gap-4">
+      <div v-if="!loading" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <template v-for="item in articles" :key="item.title">
           <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
         </template>
