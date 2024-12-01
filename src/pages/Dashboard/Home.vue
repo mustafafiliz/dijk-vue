@@ -119,7 +119,6 @@ const getAnnouncements = async () => {
     const { data } = await axios.get('/announcements')
 
     announcements.value = data.data
-    console.log(data)
   } catch (error) {
     return error
   }
@@ -248,7 +247,7 @@ onMounted(async () => {
           </template>
         </InfoSlider>
         <div class="bg-white rounded-2xl h-full order-6 p-2">
-          <InfoSliderHeader title="Duyurular">
+          <InfoSliderHeader to="/dashboard/announcements" title="Duyurular">
             <template #icon>
               <div class="relative">
                 <svg

@@ -59,7 +59,7 @@ onMounted(() => {
           />
         </svg>
       </button>
-      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Haberler</div>
+      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Eğitimler</div>
 
       <div v-if="!loading" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div :key="video._id" v-for="video in videos" class="relative">
