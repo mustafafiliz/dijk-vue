@@ -153,7 +153,6 @@ onMounted(async () => {
     <div class="p-4 flex-1 max-w-5xl">
       <div class="flex items-center">
         <img class="me-auto" src="/images/logo.png" alt="" />
-
         <UserAvatar />
       </div>
 

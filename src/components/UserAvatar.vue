@@ -1,13 +1,13 @@
 <template>
   <RouterLink
-    :to="`/dashboard/profile/${meStore.getUser?._id}`"
+    :to="`/dashboard/profile/${meStore.user?._id}`"
     class="cursor flex items-center justify-center w-10 h-10 rounded-full"
     :class="avatarClass"
   >
     <img
-      v-if="user?.image"
-      :src="user.image"
-      :alt="user.full_name"
+      v-if="meStore.user?.image"
+      :src="meStore.user?.image"
+      :alt="meStore.user?.full_name"
       class="w-full h-full rounded-full"
     />
     <span v-else>{{ userName }}</span>
