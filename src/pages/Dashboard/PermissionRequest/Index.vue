@@ -127,9 +127,9 @@ const handleDidMove = async (newYear) => {
           v-model="date"
           :is-dark="false"
           :attributes="attributes"
-          @did-move="(e) => handleDidMove(e?.[0]?.year)"
           locale="tr"
-          @update:model-value="(value) => ((date = value), handleCalendarChange)"
+          @did-move="(e) => handleDidMove(e?.[0]?.year)"
+          @update:model-value="handleCalendarChange"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">
           <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">
