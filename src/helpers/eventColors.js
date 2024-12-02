@@ -16,7 +16,7 @@ export const eventColors = {
   },
   birthday: {
     dotColor: 'red',
-    badgeColor: 'red',
+    badgeColor: '#DC2625',
     name: 'Doğum günü'
   }
 }
