@@ -291,7 +291,7 @@ const handleCloseHtmlModal = () => {
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
-      <div class="bg-white p-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
+      <div class="bg-white p-4 mt-10 mx-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
         <h3 class="!text-2xl !text-center font-medium">{{ application.title }}</h3>
         <div class="mt-10" v-html="html"></div>
       </div>
