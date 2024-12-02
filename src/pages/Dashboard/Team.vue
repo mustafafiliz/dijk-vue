@@ -65,6 +65,7 @@ const filteredTeamMembers = computed(() => {
           v-for="member in filteredTeamMembers"
           :key="member._id"
           :person="{
+            _id: member._id,
             name:
               user.full_name === member.full_name ? member.full_name + ' - Siz' : member.full_name,
             role: member.work_title_text,

@@ -85,13 +85,20 @@ watch(searchQuery, (newQuery) => {
           placeholder="Ad, Soyad, Telefon, Görev ..."
           v-model="searchQuery"
         />
-        <div v-if="contacts.length === 0" class="h-[60dvh] flex items-center justify-center">
+        <div v-if="isLoading" class="flex flex-col items-center justify-items-center pt-20">
+          <div
+            class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+          ></div>
+          <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+        </div>
+        <div v-else-if="contacts.length === 0" class="h-[60dvh] flex items-center justify-center">
           Kayıt bulunamadı.
         </div>
         <PersonBox
           v-for="member in contacts"
           :key="member._id"
           :person="{
+            _id: member._id,
             name: member.full_name,
             role: member.work_title_text,
             image: member?.image,

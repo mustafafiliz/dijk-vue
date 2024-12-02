@@ -63,7 +63,7 @@ function getAvatarInitials(fullName) {
         target="_blank"
         v-if="person.phone"
         class="bg-white rounded-full flex items-center justify-center shadow-[0_0_10px_0_rgba(0,0,0,0.1)] w-[36px] h-[36px]"
-        :href="`tel:${person.phone}`"
+        :href="`tel:+90${person.phone}`"
       >
         <svg
           width="18"
@@ -141,7 +141,7 @@ function getAvatarInitials(fullName) {
         v-if="person.whatsapp"
         target="_blank"
         class="bg-white rounded-full flex items-center justify-center shadow-[0_0_10px_0_rgba(0,0,0,0.1)] w-[36px] h-[36px]"
-        :href="`https://wa.me/${person.whatsapp}`"
+        :href="`https://wa.me/+90${person.whatsapp}`"
       >
         <svg
           width="18"

@@ -44,6 +44,7 @@ const toggleSubMembers = () => {
     <PersonBox
       vertical
       :person="{
+        _id: member._id,
         name: member.full_name,
         role: member.work_title_text,
         image: member?.image,
