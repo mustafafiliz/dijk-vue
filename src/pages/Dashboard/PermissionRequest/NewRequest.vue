@@ -61,6 +61,12 @@ export default {
       }
     },
 
+    dateOnly(date) {
+      const d = new Date(date)
+
+      return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
+    },
+
     formatDateTime(date, time) {
       return `${date.toISOString().split('T')[0]}T${time}`
     },
@@ -262,8 +268,8 @@ export default {
       <p class="mb-4 text-sm text-gray-700">Girdiğiniz bilgilere göre izin oluşturulacak.</p>
       <p class="mb-2 text-xs text-gray-700">
         <strong class="text-gray-900 text-sm">İzin aralığı:</strong> 
-        <div class="mt-1">{{ permitStartDate.toISOString().split('T')[0] }} {{ permitStartTime }} -
-          {{ permitEndDate.toISOString().split('T')[0] }} {{ permitEndTime }}</div>
+        <div class="mt-1">{{ dateOnly(permitStartDate) }} {{ permitStartTime }} -
+          {{ dateOnly(permitEndDate) }} {{ permitEndTime }}</div>
       </p>
       <p class="mb-2 text-base text-blue-700"> <strong class="text-gray-900 text-sm">Toplam:</strong>  <b>{{ remainingDays }} gün</b></p>
      </div>
