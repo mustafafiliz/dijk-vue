@@ -2,7 +2,6 @@
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
-import PDFViewer from 'pdf-viewer-vue'
 import { ref, onMounted, computed, watch } from 'vue'
 
 const meStore = useMeStore()
