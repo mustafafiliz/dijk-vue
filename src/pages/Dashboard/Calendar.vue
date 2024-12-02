@@ -30,10 +30,16 @@ const updateFilteredRequests = (data) => {
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
     )
 
+    if (item?.title?.includes('CUMHURİYET BAYRAMI')) {
+      console.log(startDate, endDate, today)
+    }
+
     const isDateInRange = startDate <= today && today <= endDate
 
     return isUserRequest && isDateInRange
   })
+
+  console.log(filteredRequests)
 
   attributes.value = _data
     .filter((item) => !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?._id)
@@ -47,9 +53,15 @@ const updateFilteredRequests = (data) => {
         startDate.setDate(startDate.getDate() + 1)
       }
 
-      const existingItem = acc.find((i) => i.dates.some((date) => dates.includes(date)))
+      // Find existing item with same type and dates
+      const existingItem = acc.find(
+        (i) =>
+          i.dot === eventColors?.[item.type].dotColor &&
+          i.dates.some((date) => dates.includes(date))
+      )
+
       if (existingItem) {
-        existingItem.dates = [...existingItem.dates, ...dates]
+        existingItem.dates = [...new Set([...existingItem.dates, ...dates])]
       } else {
         acc.push({
           dot: eventColors?.[item.type].dotColor,
@@ -57,21 +69,6 @@ const updateFilteredRequests = (data) => {
         })
       }
 
-      acc.forEach((item) => {
-        const dateCounts = {}
-        item.dates.forEach((date) => {
-          dateCounts[date] = (dateCounts[date] || 0) + 1
-        })
-        item.dates = Object.keys(dateCounts).reduce((acc, date) => {
-          if (dateCounts[date] <= 2) {
-            acc.push(...Array(dateCounts[date]).fill(date))
-          } else {
-            acc.push(...Array(2).fill(date))
-          }
-          return acc
-        }, [])
-      })
-      console.log(acc)
       return acc
     }, [])
 }
