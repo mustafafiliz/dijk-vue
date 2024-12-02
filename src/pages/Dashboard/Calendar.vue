@@ -15,8 +15,10 @@ const attributes = ref([])
 const showOnlyMe = ref(false)
 
 const meStore = useMeStore()
-const dateOnly = (date) => date.toISOString().split('T')[0]
-
+const dateOnly = (date) => {
+  const d = new Date(date)
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
+}
 const updateFilteredRequests = (data) => {
   const _data = data || requests.value
 
@@ -33,7 +35,7 @@ const updateFilteredRequests = (data) => {
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
     )
 
-    if (item?.title?.includes('CUMHURİYET BAYRAMI')) {
+    if (item?.title === 'CUMHURİYET BAYRAMI') {
       console.log(startDate, endDate, today)
       console.log('start_date', item.start_date)
       console.log('end_date', item.end_date)
