@@ -68,7 +68,7 @@ export default {
     },
 
     formatDateTime(date, time) {
-      return `${date.toISOString().split('T')[0]}T${time}`
+      return `${this.dateOnly(date)}T${time}`
     },
 
     validateDatesAndTimes() {
