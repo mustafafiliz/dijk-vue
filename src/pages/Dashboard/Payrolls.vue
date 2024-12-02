@@ -5,6 +5,7 @@ import { useMeStore } from '@/stores/me'
 import { ref, onMounted, computed, watch } from 'vue'
 
 const meStore = useMeStore()
+const loading = ref(true)
 const startYear = new Date(meStore.user.work_start_date).getFullYear()
 const endYear = ref(new Date().getFullYear())
 const showPdfModal = ref(false)
@@ -24,12 +25,15 @@ const payrolls = ref([])
 const { axios } = useAxios()
 
 const getPayrolls = async () => {
+  loading.value = true
   try {
     const { data } = await axios.get(`/payrolls/${selectedYear.value}`)
 
     payrolls.value = data
   } catch (error) {
     return error
+  } finally {
+    loading.value = false
   }
 }
 
@@ -87,7 +91,7 @@ onMounted(() => {
             </option>
           </select>
         </div>
-        <div class="overflow-x-auto">
+        <div v-if="!loading" class="overflow-x-auto">
           <table class="w-full bg-white rounded-lg overflow-hidden shadow">
             <thead>
               <tr class="bg-gray-50">
@@ -115,6 +119,12 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div v-else class="flex flex-col items-center justify-items-center pt-20">
+          <div
+            class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+          ></div>
+          <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
         </div>
       </div>
     </div>
