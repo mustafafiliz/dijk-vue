@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useSessionStore } from '@/stores/session'
 
 const api = axios.create({
-  baseURL: 'https://dijikapi.maverabilisim.com/api/v1',
+  baseURL: 'https://dijik.maverabilisim.com/api/v1',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

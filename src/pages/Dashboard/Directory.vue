@@ -85,7 +85,7 @@ watch(searchQuery, (newQuery) => {
           placeholder="Ad, Soyad, Telefon, Görev ..."
           v-model="searchQuery"
         />
-        <div v-if="isLoading" class="flex flex-col items-center justify-items-center pt-20">
+        <div v-if="isLoading" class="flex flex-col items-center justify-items-center pt-10">
           <div
             class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
           ></div>

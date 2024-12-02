@@ -14,6 +14,7 @@ const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
 const showOnlyMe = ref(false)
+const loading = ref(true)
 
 const meStore = useMeStore()
 const updateFilteredRequests = (data) => {
@@ -65,6 +66,7 @@ const getDateRange = (year) => {
 
 onMounted(async () => {
   const { axios } = useAxios()
+  loading.value = true
   const { startDate, endDate } = getDateRange(date.value.getFullYear())
   try {
     const response = await axios.get(`/permits?start_date=${startDate}&end_date=${endDate}`)
@@ -81,10 +83,13 @@ onMounted(async () => {
     updateFilteredRequests(datas)
   } catch (error) {
     console.error('Failed to fetch permits:', error)
+  } finally {
+    loading.value = false
   }
 })
 
 const handleDidMove = async (newYear) => {
+  loading.value = true
   if (currentYear.value !== newYear) {
     const { axios } = useAxios()
     const { startDate, endDate } = getDateRange(newYear)
@@ -105,6 +110,8 @@ const handleDidMove = async (newYear) => {
       currentYear.value = newYear
     } catch (error) {
       console.error('Failed to fetch permits:', error)
+    } finally {
+      loading.value = false
     }
   }
 }
@@ -139,7 +146,7 @@ const handleDidMove = async (newYear) => {
         </div>
       </div>
 
-      <div class="flex flex-col gap-3 md:flex-row sticky top-0">
+      <div v-if="!loading" class="flex flex-col gap-3 md:flex-row sticky top-0">
         <DatePicker
           class="w-full rounded-2xl border-none p-4 md:max-w-[300px] md:sticky md:top-4"
           title-position="left"
@@ -176,8 +183,13 @@ const handleDidMove = async (newYear) => {
           </div>
         </div>
       </div>
+      <div v-else class="flex flex-col items-center justify-items-center">
+        <div
+          class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+        ></div>
+        <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+      </div>
     </div>
-
     <BottomNavigation />
   </div>
 </template>
