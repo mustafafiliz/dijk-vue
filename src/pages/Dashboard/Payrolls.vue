@@ -2,6 +2,7 @@
 import BottomNavigation from '@/components/BottomNavigation.vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
+import PDFViewer from 'pdf-viewer-vue'
 import { ref, onMounted, computed, watch } from 'vue'
 
 const meStore = useMeStore()
@@ -9,7 +10,9 @@ const loading = ref(true)
 const startYear = new Date(meStore.user.work_start_date).getFullYear()
 const endYear = ref(new Date().getFullYear())
 const showPdfModal = ref(false)
-const pdfUrl = ref('')
+const detailLoading = ref(false)
+const pdfData = ref(null)
+
 const yearOptions = computed(() => {
   const options = []
   for (let year = startYear; year <= endYear.value; year++) {
@@ -38,13 +41,16 @@ const getPayrolls = async () => {
 }
 
 const getPayrollDetail = async (payrolId) => {
+  detailLoading.value = true
+  showPdfModal.value = true
   try {
     const { data } = await axios.get(`/payrolls/detail/${payrolId}`)
 
-    pdfUrl.value = data.url
-    showPdfModal.value = true
+    pdfData.value = data
   } catch (error) {
     return error
+  } finally {
+    detailLoading.value = false
   }
 }
 
@@ -113,7 +119,7 @@ onMounted(() => {
                     @click="getPayrollDetail(item._id)"
                     class="underline py-2 rounded-full text-xs font-semibold transition-colors"
                   >
-                    Bordro Görüntüle
+                    Detay
                   </button>
                 </td>
               </tr>
@@ -133,16 +139,50 @@ onMounted(() => {
   </div>
   <div
     v-if="showPdfModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
   >
-    <div class="bg-white p-4 rounded-lg w-11/12 h-5/6 relative">
-      <button
-        @click="showPdfModal = false"
-        class="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+    <button
+      @click="showPdfModal = false"
+      class="absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       >
-        ✕
-      </button>
-      <iframe :src="pdfUrl" class="w-full h-full" frameborder="0"></iframe>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div
+      class="bg-white p-4 !pt-4 max-h-[90vh] max-w-[275px] w-11/12 overflow-y-auto rounded-lg relative"
+    >
+      <h3 class="!text-lg !text-center font-medium mb-6">Bordro Detayı</h3>
+
+      <div v-if="detailLoading" class="flex flex-col items-center justify-center">
+        <div
+          class="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-blue-500 mb-3"
+        ></div>
+        <div class="text-gray-700">Yükleniyor...</div>
+      </div>
+
+      <div v-else class="flex justify-center gap-4 px-4">
+        <a
+          @click="showPdfModal = false"
+          :href="pdfData?.url"
+          target="_blank"
+          class="px-6 py-3 text-sm w-full text-center bg-gentian-flower text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Görüntüle
+        </a>
+      </div>
     </div>
   </div>
 </template>
