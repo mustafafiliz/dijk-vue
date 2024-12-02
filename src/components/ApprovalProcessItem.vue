@@ -269,17 +269,31 @@ const handleCloseHtmlModal = () => {
     <!-- HTML Modal -->
     <div
       v-if="showHtmlModal"
-      class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
     >
-      <div class="bg-white w-[100vw] h-[100dvh]">
-        <div class="relative">
-          <button @click="handleCloseHtmlModal" class="absolute top-2 right-2">
-            <svg width="25" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 18L18 6M6 6l12 12" stroke="black" stroke-width="2" />
-            </svg>
-          </button>
-          <div class="overflow-auto w-[100vw] h-[100dvh] pt-4" v-html="html"></div>
-        </div>
+      <button
+        @click="handleCloseHtmlModal"
+        class="absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-x"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="bg-white p-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
+        <h3 class="!text-2xl !text-center font-medium">{{ application.title }}</h3>
+        <div class="mt-10" v-html="html"></div>
       </div>
     </div>
   </div>
