@@ -10,9 +10,9 @@ defineProps({
 </script>
 
 <template>
-  <a
+  <RouterLink
     v-if="item"
-    :href="item?.type === 'holiday' ? '#' : `/dashboard/profile/${item?.user?._id || item?._id}`"
+    :to="item?.type === 'holiday' ? '#' : `/dashboard/profile/${item?.user?._id || item?._id}`"
     class="bg-white relative pt-1 pb-2 px-4 font-medium text-12 rounded-2xl shadow-[0_0_10px_0_rgba(0,0,0,0.1)]"
   >
     <div v-if="!item.now_birthday" class="flex items-center justify-between text-[10px]">
@@ -69,5 +69,5 @@ defineProps({
         </div>
       </div>
     </div>
-  </a>
+  </RouterLink>
 </template>

@@ -89,9 +89,9 @@
       </span>
     </RouterLink>
 
-    <a
+    <RouterLink
       class="flex flex-col items-center flex-1 gap-1 md:flex-row"
-      :href="`/dashboard/profile/${meStore?.getUser?._id}`"
+      :to="`/dashboard/profile/${meStore?.getUser?._id}`"
     >
       <svg
         width="25"
@@ -123,7 +123,7 @@
       >
         Profilim
       </span>
-    </a>
+    </RouterLink>
 
     <button
       class="hidden md:flex flex-row items-center flex-1 gap-1 mt-4 pt-4 border-t border-gray-200"

@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Login from '@/pages/Login.vue'
 import DashboardHome from '@/pages/Dashboard/Home.vue'
-import DashboardProfile from '@/pages/Dashboard/Profile/Index.vue'
+import DashboardProfile from '@/pages/Dashboard/Profile/ProfileLayout.vue'
 import DashboardFields from '@/pages/Dashboard/Fields.vue'
 import DashboardArticles from '@/pages/Dashboard/Articles.vue'
 import DashboardVideos from '@/pages/Dashboard/Videos.vue'
@@ -26,7 +26,10 @@ const routes = [
   { path: '/auth/login', component: Login },
   { path: '/auth/reset-password', component: ResetPassword },
   { path: '/dashboard/home', component: DashboardHome },
-  { path: '/dashboard/profile/:id', component: DashboardProfile },
+  {
+    path: '/dashboard/profile/:id',
+    component: DashboardProfile
+  },
   { path: '/dashboard/profile/organization/:id', component: DashboardProfileOrganization },
   { path: '/dashboard/fields', component: DashboardFields },
   { path: '/dashboard/articles', component: DashboardArticles },

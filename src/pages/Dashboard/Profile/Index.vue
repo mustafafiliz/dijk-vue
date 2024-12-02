@@ -258,8 +258,8 @@ const imageSettings = ref({
         <!-- QR End -->
         <template v-if="manager">
           <div class="font-semibold ps-2">Yöneticisi</div>
-          <a
-            :href="`/dashboard/profile/${manager?._id}`"
+          <RouterLink
+            :to="`/dashboard/profile/${manager?._id}`"
             class="flex items-center bg-white rounded-2xl py-3 px-4 gap-x-[18px]"
           >
             <img
@@ -279,7 +279,7 @@ const imageSettings = ref({
               <div class="text-black">{{ manager.full_name }}</div>
               <div class="font-medium">{{ manager.work_title_text }}</div>
             </div>
-          </a>
+          </RouterLink>
           <div class="flex gap-x-2">
             <a
               v-if="manager?.phone"
