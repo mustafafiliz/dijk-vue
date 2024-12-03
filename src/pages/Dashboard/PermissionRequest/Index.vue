@@ -66,9 +66,9 @@ const getDateRange = (year) => {
 
 onMounted(async () => {
   const { axios } = useAxios()
-  loading.value = true
   const { startDate, endDate } = getDateRange(date.value.getFullYear())
   try {
+    loading.value = true
     const response = await axios.get(`/permits?start_date=${startDate}&end_date=${endDate}`)
 
     const datas = response.data.map((item) => {
@@ -89,11 +89,11 @@ onMounted(async () => {
 })
 
 const handleDidMove = async (newYear) => {
-  loading.value = true
   if (currentYear.value !== newYear) {
     const { axios } = useAxios()
     const { startDate, endDate } = getDateRange(newYear)
     try {
+      loading.value = true
       const response = await axios.get(`/permits?start_date=${startDate}&end_date=${endDate}`)
 
       const datas = response.data.map((item) => {
@@ -146,7 +146,7 @@ const handleDidMove = async (newYear) => {
         </div>
       </div>
 
-      <div v-if="!loading" class="flex flex-col gap-3 md:flex-row sticky top-0">
+      <div class="flex flex-col gap-3 md:flex-row sticky top-0">
         <DatePicker
           class="w-full rounded-2xl border-none p-4 md:max-w-[300px] md:sticky md:top-4"
           title-position="left"
@@ -171,23 +171,24 @@ const handleDidMove = async (newYear) => {
           <RouterLink to="/dashboard/permission-request/new">
             <Button class="w-full lg:!w-[220px] !py-3"> Talep Oluştur </Button>
           </RouterLink>
-
-          <CalendarCard
-            v-if="filteredRequests.length > 0"
-            v-for="item in filteredRequests"
-            :key="item._id"
-            :item="item"
-          />
-          <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
-            <div class="text-center text-12 text-night-sky">Bu tarihte izin talebi yok</div>
+          <div v-if="loading" class="flex flex-col items-center justify-items-center mt-5">
+            <div
+              class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+            ></div>
+            <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
           </div>
+          <template v-else>
+            <CalendarCard
+              v-if="filteredRequests.length > 0"
+              v-for="item in filteredRequests"
+              :key="item._id"
+              :item="item"
+            />
+            <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
+              <div class="text-center text-12 text-night-sky">Bu tarihte izin talebi yok</div>
+            </div>
+          </template>
         </div>
-      </div>
-      <div v-else class="flex flex-col items-center justify-items-center">
-        <div
-          class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
-        ></div>
-        <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
       </div>
     </div>
     <BottomNavigation />

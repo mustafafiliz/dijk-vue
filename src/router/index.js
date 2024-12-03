@@ -10,6 +10,7 @@ import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
 import DashboardPayrolls from '@/pages/Dashboard/Payrolls.vue'
+import DashboardClassifieds from '@/pages/Dashboard/Classifieds.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
@@ -36,6 +37,7 @@ const routes = [
   { path: '/dashboard/announcements', component: DashboardAnnouncements },
   { path: '/dashboard/videos', component: DashboardVideos },
   { path: '/dashboard/payrolls', component: DashboardPayrolls },
+  { path: '/dashboard/classifieds', component: DashboardClassifieds },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },

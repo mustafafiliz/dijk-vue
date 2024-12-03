@@ -14,6 +14,7 @@ const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
 const showOnlyMe = ref(false)
+const loading = ref(false)
 
 const meStore = useMeStore()
 
@@ -54,6 +55,7 @@ onMounted(async () => {
   const { startDate, endDate } = getDateRange(date.value.getFullYear())
 
   try {
+    loading.value = true
     const response = await axios.get(`/overtimes?start_date=${startDate}&end_date=${endDate}`)
 
     const datas = response.data.map((item) => {
@@ -67,6 +69,8 @@ onMounted(async () => {
     updateFilteredRequests(datas)
   } catch (error) {
     console.error('Failed to fetch overtime requests:', error)
+  } finally {
+    loading.value = false
   }
 })
 
@@ -75,6 +79,7 @@ const handleDidMove = async (newYear) => {
     const { axios } = useAxios()
     const { startDate, endDate } = getDateRange(newYear)
     try {
+      loading.value = true
       const response = await axios.get(`/overtimes?start_date=${startDate}&end_date=${endDate}`)
 
       const datas = response.data.map((item) => {
@@ -91,6 +96,8 @@ const handleDidMove = async (newYear) => {
       currentYear.value = newYear
     } catch (error) {
       console.error('Failed to fetch permits:', error)
+    } finally {
+      loading.value = false
     }
   }
 }
@@ -145,16 +152,23 @@ const handleDidMove = async (newYear) => {
           <RouterLink to="/dashboard/overtime-request/new">
             <Button class="w-full lg:!w-[220px] !py-3"> Talep Oluştur </Button>
           </RouterLink>
-
-          <CalendarCard
-            v-if="filteredRequests.length > 0"
-            v-for="item in filteredRequests"
-            :key="item._id"
-            :item="item"
-          />
-          <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
-            <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
+          <div v-if="loading" class="flex flex-col items-center justify-items-center mt-5">
+            <div
+              class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+            ></div>
+            <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
           </div>
+          <tempalte v-else>
+            <CalendarCard
+              v-if="filteredRequests.length > 0"
+              v-for="item in filteredRequests"
+              :key="item._id"
+              :item="item"
+            />
+            <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
+              <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
+            </div>
+          </tempalte>
         </div>
       </div>
     </div>

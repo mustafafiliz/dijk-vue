@@ -512,7 +512,7 @@ const imageSettings = ref({
               <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Senior Tarih:</div>
+              <div class="text-black text-[13px]">Başlangıç Tarih:</div>
               <div class="font-medium">
                 {{ new Date(user?.senior_date).toLocaleDateString('tr-TR') }}
               </div>

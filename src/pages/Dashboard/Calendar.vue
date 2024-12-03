@@ -13,6 +13,7 @@ const requests = ref([])
 const filteredRequests = ref([])
 const attributes = ref([])
 const showOnlyMe = ref(false)
+const loading = ref(true)
 
 const meStore = useMeStore()
 const dateOnly = (date) => {
@@ -45,8 +46,6 @@ const updateFilteredRequests = (data) => {
 
     return isUserRequest && isDateInRange
   })
-
-  console.log(filteredRequests)
 
   attributes.value = _data
     .filter((item) => !showOnlyMe.value || item.user?._id || item?._id === meStore.getUser?._id)
@@ -96,6 +95,7 @@ onMounted(async () => {
   const { startDate, endDate } = getDateRange(date.value.getFullYear())
 
   try {
+    loading.value = true
     const response = await axios.get(`/calendar?start_date=${startDate}&end_date=${endDate}`)
 
     const birthdays = response.data.birthdays.map((item) => {
@@ -136,6 +136,8 @@ onMounted(async () => {
     updateFilteredRequests(allData)
   } catch (error) {
     console.error('Failed to fetch permits:', error)
+  } finally {
+    loading.value = false
   }
 })
 
@@ -144,6 +146,7 @@ const handleDidMove = async (newYear) => {
     const { axios } = useAxios()
     const { startDate, endDate } = getDateRange(newYear)
     try {
+      loading.value = true
       const response = await axios.get(`/calendar?start_date=${startDate}&end_date=${endDate}`)
 
       const birthdays = response.data.birthdays.map((item) => {
@@ -186,6 +189,8 @@ const handleDidMove = async (newYear) => {
       currentYear.value = newYear
     } catch (error) {
       console.error('Failed to fetch permits:', error)
+    } finally {
+      loading.value = false
     }
   }
 }
@@ -241,15 +246,23 @@ const handleDidMove = async (newYear) => {
             />
             <label for="showOnlyMe">Bana Ait Olanları Göster</label>
           </label>
-          <CalendarCard
-            v-if="filteredRequests.length > 0"
-            v-for="item in filteredRequests"
-            :key="item._id"
-            :item="item"
-          />
-          <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
-            <div class="text-center text-12 text-night-sky">Bu tarihte veri yok</div>
+          <div v-if="loading" class="flex flex-col items-center justify-items-center mt-5">
+            <div
+              class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+            ></div>
+            <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
           </div>
+          <template v-else>
+            <CalendarCard
+              v-if="filteredRequests.length > 0"
+              v-for="item in filteredRequests"
+              :key="item._id"
+              :item="item"
+            />
+            <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
+              <div class="text-center text-12 text-night-sky">Bu tarihte veri yok</div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
