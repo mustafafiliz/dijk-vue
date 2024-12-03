@@ -6,7 +6,6 @@ import { useAxios } from '@/plugins/axios'
 import { toast } from 'vue3-toastify'
 import Datepicker from 'vue3-datepicker'
 import { useMeStore } from '@/stores/me'
-import { tr } from 'date-fns/locale'
 
 export default {
   components: {
@@ -125,8 +124,8 @@ export default {
   mounted() {
     this.getPermitGroups()
     const meStore = useMeStore()
-    this.permitStartTime = meStore.getUser?.job_start_time || '09:00'
-    this.permitEndTime = meStore.getUser?.job_end_time || '18:00'
+    this.permitStartTime = meStore.user?.work_start_hour || '09:00'
+    this.permitEndTime = meStore.user?.work_end_hour || '18:00'
   }
 }
 </script>
