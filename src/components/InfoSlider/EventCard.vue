@@ -1,10 +1,13 @@
 <template>
-  <div class="border border-gray-200 rounded-lg bg-white overflow-hidden">
-    <div v-for="event in upcomingEvents" :key="event._id" class="text-12 relative ps-3">
+  <div
+    @click="openModal"
+    class="flex items-center justify-between pr-2 border border-gray-200 py-2 rounded-lg bg-white overflow-hidden"
+  >
+    <div class="text-12 relative ps-3">
       <div class="font-medium">
         {{ event.title }}
       </div>
-      <div class="flex items-center gap-x-1 text-wild-dove font-bold">
+      <div class="flex items-center gap-x-1 text-wild-dove font-bold mt-2">
         <svg
           width="16"
           height="16"
@@ -27,6 +30,21 @@
         {{ event.start_date }} - {{ event.end_date }}
       </div>
     </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="feather feather-book-open"
+    >
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+    </svg>
     <!-- Modal -->
     <div
       v-if="isOpen"
@@ -53,8 +71,8 @@
         </svg>
       </button>
       <div class="bg-white p-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
-        <h3 class="!text-2xl !text-center font-medium">{{ article.title }}</h3>
-        <div v-html="article.description" class="iframeModalContainer mt-10"></div>
+        <h3 class="!text-2xl !text-center font-medium">{{ event.title }}</h3>
+        <div v-html="event.description" class="iframeModalContainer mt-10"></div>
       </div>
     </div>
   </div>
@@ -64,7 +82,7 @@
 import { ref, defineProps } from 'vue'
 
 const props = defineProps({
-  article: {
+  event: {
     type: Object,
     required: true
   }
@@ -72,20 +90,11 @@ const props = defineProps({
 
 const isOpen = ref(false)
 
-const toggleAccordion = () => {
-  isOpen.value = !isOpen.value
+const openModal = () => {
+  isOpen.value = true
 }
 
 const closeModal = () => {
   isOpen.value = false
 }
 </script>
-
-<style>
-.announcement {
-  cursor: pointer;
-}
-.rotate-180 {
-  transform: rotate(180deg);
-}
-</style>

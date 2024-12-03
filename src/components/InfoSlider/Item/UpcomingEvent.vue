@@ -47,7 +47,7 @@ defineProps({
     </InfoSliderHeader>
 
     <div v-if="upcomingEvents?.length > 0" class="flex flex-col gap-y-2 mt-2">
-      <EventCard v-for="event in upcomingEvents" :key="events._id" :event="event" />
+      <EventCard v-for="event in upcomingEvents" :key="event._id" :event="event" />
     </div>
     <div
       v-else

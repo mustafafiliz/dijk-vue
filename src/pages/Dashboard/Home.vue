@@ -85,8 +85,6 @@ const getEvents = async () => {
   try {
     const response = await axios.get('/events')
 
-    console.log(response.data.data.slice(0, 2))
-
     upcomingEvents.value = response.data.data.slice(0, 2)
   } catch (error) {
     return error
@@ -131,7 +129,7 @@ const getArticles = async () => {
   try {
     const { data } = await axios.get('/articles')
 
-    articles.value = data.data
+    articles.value = data
   } catch (error) {
     return error
   }
@@ -163,7 +161,7 @@ onMounted(async () => {
         <div class="col-span-2 flex justify-center">
           <WeatcherCard class="order-1" />
         </div>
-        <div class="order-2 md:order-3 md:col-span-2">
+        <div class="order-2 md:col-span-2">
           <div class="flex items-center gap-x-2 mb-4">
             <svg
               width="36"
@@ -193,7 +191,6 @@ onMounted(async () => {
 
           <QuickActions />
         </div>
-
         <InfoSlider class="order-3">
           <template #slide0>
             <InfoSliderItemVacation
@@ -202,9 +199,6 @@ onMounted(async () => {
             />
           </template>
           <template #slide1>
-            <InfoSliderItemUpcomingEvent :upcoming-events="upcomingEvents" />
-          </template>
-          <template #slide2>
             <InfoSliderItemUserData
               :user-data="{
                 name: user.full_name,
@@ -217,8 +211,10 @@ onMounted(async () => {
             />
           </template>
         </InfoSlider>
-
-        <InfoSlider class="order-4">
+        <div class="bg-white rounded-2xl h-full order-4 p-2">
+          <InfoSliderItemUpcomingEvent :upcoming-events="upcomingEvents" />
+        </div>
+        <InfoSlider class="order-5">
           <template #slide0>
             <InfoSliderItemUpcomingBirthday />
           </template>
@@ -226,8 +222,7 @@ onMounted(async () => {
             <InfoSliderItemUpcomingHoliday />
           </template>
         </InfoSlider>
-
-        <InfoSlider class="order-5">
+        <InfoSlider class="order-6">
           <template #slide0>
             <InfoSliderItemUpcomingVacation />
           </template>
@@ -235,7 +230,7 @@ onMounted(async () => {
             <InfoSliderItemOvertimeRequest />
           </template>
         </InfoSlider>
-        <div class="bg-white rounded-2xl h-full order-6 p-2">
+        <div class="bg-white rounded-2xl h-full order-7 p-2">
           <InfoSliderHeader to="/dashboard/announcements" title="Duyurular">
             <template #icon>
               <div class="relative">
@@ -293,7 +288,7 @@ onMounted(async () => {
             />
           </div>
         </div>
-        <div class="bg-white p-2 rounded-2xl col-span-2 order-7">
+        <div class="bg-white p-2 rounded-2xl col-span-1 order-8">
           <InfoSliderHeader to="/dashboard/videos" title="Eğitimler">
             <template #icon>
               <svg
@@ -323,7 +318,7 @@ onMounted(async () => {
               </svg>
             </template>
           </InfoSliderHeader>
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-2 flex-1 overflow-x-auto mt-2">
+          <div class="grid grid-cols-2 gap-x-2 flex-1 overflow-x-auto mt-2">
             <div :key="video._id" v-for="video in videos" class="relative">
               <VideoBox :title="video.title" :iframe="video.iframe" />
               <div
@@ -353,7 +348,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <div class="col-span-2 order-8 bg-white p-2 rounded-2xl">
+        <div class="col-span-2 order-9 bg-white p-2 rounded-2xl">
           <InfoSliderHeader title="Haberler" to="/dashboard/articles">
             <template #icon>
               <div class="relative flex items-center">
