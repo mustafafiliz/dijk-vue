@@ -29,8 +29,8 @@ const avatarClass = computed(() => {
 // userName computed property olarak tanımlandı
 const userName = computed(() => {
   const user = meStore.getUser
-  const name = user?.name || ''
-  const surname = user?.surname || ''
+  const name = user?.full_name.split(' ')[0] || ''
+  const surname = user?.full_name.split(' ')[1] || ''
   return (name.charAt(0) + surname.charAt(0)).toUpperCase()
 })
 </script>

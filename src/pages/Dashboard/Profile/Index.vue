@@ -193,7 +193,8 @@ const imageSettings = ref({
                   class="w-24 h-24 rounded-full border-[4px] bg-white flex items-center justify-center"
                 >
                   <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
-                    (user?.name?.charAt(0) || '') + (user?.surname?.charAt(0) || '')
+                    (user?.full_name?.split(' ')?.[0].charAt(0).toUpperCase() || '') +
+                    (user?.full_name?.split(' ')?.[1].charAt(0).toUpperCase() || '')
                   }}</span>
                 </div>
                 <div class="text-center">

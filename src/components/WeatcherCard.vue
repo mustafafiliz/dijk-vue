@@ -10,16 +10,16 @@ const meStore = useMeStore()
 const updateGreetingAndImage = () => {
   const hour = new Date().getHours()
   if (hour >= 6 && hour < 12) {
-    greeting.value = `Günaydın ${meStore.user.name}`
+    greeting.value = `Günaydın ${meStore.user.full_name}`
     imageSrc.value = '/images/sunny.jpg'
   } else if (hour >= 12 && hour < 17) {
-    greeting.value = `İyi Günler ${meStore.user.name}`
+    greeting.value = `İyi Günler ${meStore.user.full_name}`
     imageSrc.value = '/images/sunny.jpg'
   } else if (hour >= 17 && hour < 21) {
-    greeting.value = `İyi Akşamlar ${meStore.user.name}`
+    greeting.value = `İyi Akşamlar ${meStore.user.full_name}`
     imageSrc.value = '/images/night.png'
   } else {
-    greeting.value = `İyi Geceler ${meStore.user.name}`
+    greeting.value = `İyi Geceler ${meStore.user.full_name}`
     imageSrc.value = '/images/night.png'
   }
 }
