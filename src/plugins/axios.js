@@ -3,7 +3,7 @@ import { useSessionStore } from '@/stores/session'
 
 const api = axios.create({
   baseURL: 'https://dijik.maverabilisim.com/api/v1',
-  timeout: 10000,
+  timeout: 900000,
   headers: {
     'Content-Type': 'application/json'
   }
