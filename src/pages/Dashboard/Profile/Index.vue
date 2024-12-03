@@ -117,7 +117,8 @@ const imageSettings = ref({
               class="w-24 h-24 rounded-20 border-[6px] bg-white flex items-center justify-center"
             >
               <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
-                (user?.name?.charAt(0) || '') + (user?.surname?.charAt(0) || '')
+                (user?.full_name?.split(' ')?.[0]?.charAt(0) || '') +
+                (user?.full_name?.split(' ')?.[1]?.charAt(0) || '')
               }}</span>
             </div>
             <span
@@ -495,8 +496,8 @@ const imageSettings = ref({
               </div>
             </div>
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Soyadı:</div>
-              <div class="font-medium">{{ user?.surname }}</div>
+              <div class="text-black text-[13px]">Adı Soyadı:</div>
+              <div class="font-medium">{{ user?.full_name }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">TC No:</div>
