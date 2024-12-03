@@ -1,6 +1,7 @@
 <template>
   <div class="border border-gray-200 rounded-lg bg-white overflow-hidden">
-    <div class="bg-gray-100 aspect-[16/9]"></div>
+    <div v-if="article?.image && article.image === null" class="bg-gray-100 aspect-[16/9]"></div>
+    <img v-else :src="article.image" :alt="article.title" class="aspect-[16/9]" />
     <div @click="toggleAccordion" class="flex justify-between items-center cursor-pointer">
       <h3 class="text-sm font-medium p-2">{{ article.title }}</h3>
     </div>

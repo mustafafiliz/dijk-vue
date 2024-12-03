@@ -17,10 +17,15 @@ const isLoading = ref(false)
 const fetchContacts = async () => {
   try {
     isLoading.value = true
-    const { data } = await axios.get(`/contacts?page=${page.value}&search=${searchQuery.value}`)
+    const response = await axios.get(`/contacts`, {
+      params: {
+        page: page.value,
+        search: searchQuery.value
+      }
+    })
 
-    hasNextPage.value = Boolean(data.next_page_url)
-    contacts.value.push(...data.data)
+    hasNextPage.value = Boolean(response.next_page_url)
+    contacts.value.push(...response.data)
   } catch (error) {
     console.error('Error fetching team members:', error)
   } finally {
