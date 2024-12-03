@@ -84,6 +84,10 @@ const getMyRemainingPermits = async () => {
 const getEvents = async () => {
   try {
     const response = await axios.get('/events')
+
+    console.log(response.data.data.slice(0, 2))
+
+    upcomingEvents.value = response.data.data.slice(0, 2)
   } catch (error) {
     return error
   }
@@ -97,7 +101,6 @@ const getCalendarData = async () => {
         end_date: dateOnly(new Date(new Date().setDate(new Date().getDate() + 30)))
       }
     })
-    console.log(data)
     upcomingHolidays.value = data.holidays
   } catch (error) {
     return error
@@ -199,20 +202,7 @@ onMounted(async () => {
             />
           </template>
           <template #slide1>
-            <InfoSliderItemUpcomingEvent
-              :upcoming-events="[
-                {
-                  startDate: '01.01.2021',
-                  endDate: '01.01.2021',
-                  title: 'İnsan Kaynakları uygulaması hakkında toplantı.'
-                },
-                {
-                  startDate: '01.01.2021',
-                  endDate: '01.01.2021',
-                  title: 'İnsan Kaynakları uygulaması hakkında toplantı.'
-                }
-              ]"
-            />
+            <InfoSliderItemUpcomingEvent :upcoming-events="upcomingEvents" />
           </template>
           <template #slide2>
             <InfoSliderItemUserData

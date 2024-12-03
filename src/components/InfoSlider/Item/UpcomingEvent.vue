@@ -6,48 +6,21 @@ defineProps({
   upcomingEvents: [
     {
       title: String,
-      startDate: String,
-      endDate: String
+      start_date: String,
+      end_date: String,
+      description: String,
+      _id: String
     },
     {
       default: () => ({
-        startDate: '',
+        start_date: '',
         endDate: '',
-        title: ''
+        title: '',
+        description: ''
       })
     }
   ]
 })
-
-const getTodayFormatted = () => {
-  const today = new Date()
-  const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi']
-  const months = [
-    'Ocak',
-    'Şubat',
-    'Mart',
-    'Nisan',
-    'Mayıs',
-    'Haziran',
-    'Temmuz',
-    'Ağustos',
-    'Eylül',
-    'Ekim',
-    'Kasım',
-    'Aralık'
-  ]
-
-  const day = today.getDate()
-  const month = months[today.getMonth()]
-  const dayOfWeek = days[today.getDay()]
-
-  return `${day} ${month} ${dayOfWeek}`
-}
-
-const createEventColor = (index) => {
-  const colors = ['#FFAB57', '#A483FF']
-  return colors[index % colors.length]
-}
 </script>
 
 <template>
@@ -72,16 +45,8 @@ const createEventColor = (index) => {
       </template>
     </InfoSliderHeader>
 
-    <div class="flex gap-x-1 mt-2 text-12 font-semibold">
-      {{ getTodayFormatted() }} <span class="text-wild-dove">Bugün</span>
-    </div>
-
     <div v-if="upcomingEvents?.length > 0" class="flex flex-col gap-y-2 mt-2">
-      <div v-for="(event, index) in upcomingEvents" class="text-12 relative ps-3">
-        <div
-          class="w-1 left-0 top-0 bottom-0 rounded-full absolute"
-          :style="`background-color: ${createEventColor(index)}`"
-        ></div>
+      <div v-for="event in upcomingEvents" :key="event._id" class="text-12 relative ps-3">
         <div class="font-medium">
           {{ event.title }}
         </div>
@@ -105,7 +70,7 @@ const createEventColor = (index) => {
               fill="#292D32"
             />
           </svg>
-          {{ event.startDate }} - {{ event.endDate }}
+          {{ event.start_date }} - {{ event.end_date }}
         </div>
       </div>
     </div>
