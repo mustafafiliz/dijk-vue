@@ -3,7 +3,7 @@
     @click="openModal"
     class="flex items-center justify-between pr-2 border border-gray-200 py-2 rounded-lg bg-white overflow-hidden"
   >
-    <div class="text-12 relative ps-3">
+    <div class="text-12 relative ps-3 cursor-pointer">
       <div class="font-medium">
         {{ event.title }}
       </div>
@@ -40,7 +40,7 @@
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="feather feather-book-open"
+      class="feather feather-book-open cursor-pointer"
     >
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>

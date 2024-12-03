@@ -34,6 +34,9 @@ const updateCurrentTime = () => {
 }
 
 onMounted(() => {
+  updateGreetingAndImage()
+  updateCurrentTime()
+
   setInterval(() => {
     updateGreetingAndImage()
     updateCurrentTime()

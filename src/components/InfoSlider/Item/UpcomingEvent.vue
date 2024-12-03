@@ -26,7 +26,7 @@ defineProps({
 
 <template>
   <div class="flex flex-col h-full">
-    <InfoSliderHeader title="Yaklaşan Etkinlikler" to="/events">
+    <InfoSliderHeader title="Yaklaşan Etkinlikler" to="/dashboard/events">
       <template #icon>
         <svg
           width="36"

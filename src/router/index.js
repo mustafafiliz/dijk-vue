@@ -5,6 +5,7 @@ import DashboardProfile from '@/pages/Dashboard/Profile/ProfileLayout.vue'
 import DashboardFields from '@/pages/Dashboard/Fields.vue'
 import DashboardArticles from '@/pages/Dashboard/Articles.vue'
 import DashboardVideos from '@/pages/Dashboard/Videos.vue'
+import DashboardEvents from '@/pages/Dashboard/Events.vue'
 import DashboardAnnouncements from '@/pages/Dashboard/Announcements.vue'
 import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
@@ -37,6 +38,7 @@ const routes = [
   { path: '/dashboard/announcements', component: DashboardAnnouncements },
   { path: '/dashboard/videos', component: DashboardVideos },
   { path: '/dashboard/payrolls', component: DashboardPayrolls },
+  { path: '/dashboard/events', component: DashboardEvents },
   { path: '/dashboard/classifieds', component: DashboardClassifieds },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
