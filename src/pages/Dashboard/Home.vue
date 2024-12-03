@@ -158,7 +158,7 @@ onMounted(async () => {
   <div
     class="flex flex-col max-md:h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="p-4 flex-1 max-w-5xl min-h-dvh">
+    <div class="p-4 flex-1 max-w-5xl lg:min-h-dvh">
       <div class="flex items-center">
         <img class="me-auto" src="/images/logo.png" alt="" />
         <UserAvatar />
