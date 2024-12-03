@@ -397,30 +397,6 @@ const imageSettings = ref({
           </div>
         </div>
 
-        <div class="flex flex-col gap-y-2 p-2">
-          <div class="font-semibold ps-2">Sertifikalar</div>
-
-          <template v-for="education in user?.personel_educations" :key="education.id">
-            <div
-              class="flex items-center bg-white rounded-20 py-3 px-4 gap-x-[18px] mb-1 last:mb-0"
-            >
-              <div class="text-12 text-squant font-semibold">
-                <div class="text-black text-[13px]">{{ education.title }}</div>
-                <div class="font-medium">
-                  {{ new Date(education.start_date).toLocaleDateString('tr-TR') }} -
-                  {{ new Date(education.end_date).toLocaleDateString('tr-TR') }}
-                </div>
-              </div>
-            </div>
-          </template>
-          <div
-            v-if="!user?.personel_educations || user?.personel_educations.length === 0"
-            class="bg-white rounded-20 py-3 px-4 text-center text-gray-500 text-xs"
-          >
-            Bulunamadı
-          </div>
-        </div>
-
         <div class="flex flex-col gap-y-1 p-2">
           <div class="flex items-center justify-between font-semibold px-2">Yabancı Diller</div>
           <div class="flex flex-col gap-2 bg-white rounded-2xl overflow-hidden">
