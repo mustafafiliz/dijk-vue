@@ -40,7 +40,11 @@ defineProps({
     </InfoSliderHeader>
 
     <div class="text-12 font-semibold text-squant mt-2">Kalan yıllık izin sayısı</div>
-    <div v-if="remainingAnnualLeave" class="mt-1 text-gamora text-20 font-bold">
+    <div
+      v-if="remainingAnnualLeave"
+      :class="remainingAnnualLeave?.toString().includes('-') ? 'text-red-500' : 'text-gamora'"
+      class="mt-1 text-20 font-bold"
+    >
       {{ remainingAnnualLeave }} Gün
     </div>
     <div class="mt-1 bg-beluga h-1 rounded-full overflow-hidden flex">

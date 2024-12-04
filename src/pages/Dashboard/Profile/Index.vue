@@ -183,8 +183,8 @@ const imageSettings = ref({
             <div class="flex flex-col items-center gap-6">
               <div class="flex flex-col items-center gap-2">
                 <img
-                  v-if="user?.photo"
-                  :src="user.photo"
+                  v-if="user?.image"
+                  :src="user.image"
                   alt="Profil Fotoğrafı"
                   class="w-20 h-20 rounded-full object-cover border-4 border-gamora"
                 />

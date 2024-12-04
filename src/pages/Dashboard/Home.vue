@@ -269,7 +269,7 @@ onMounted(async () => {
               />
             </template>
           </InfoSlider>
-          <div class="bg-white rounded-2xl h-full order-4 p-2">
+          <div v-if="upcomingEvents?.length > 0" class="bg-white rounded-2xl h-full order-4 p-2">
             <InfoSliderItemUpcomingEvent :upcoming-events="upcomingEvents" />
           </div>
           <InfoSlider class="order-5">
