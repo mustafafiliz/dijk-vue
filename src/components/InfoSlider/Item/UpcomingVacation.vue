@@ -1,8 +1,24 @@
 <script setup>
 import InfoSliderHeader from '@/components/InfoSlider/Header.vue'
 import { defineProps } from 'vue'
+import UpComingCard from '../UpComingCard.vue'
 
-defineProps({})
+defineProps({
+  upcomingVacations: [
+    {
+      full_name: String,
+      date: String,
+      _id: String
+    },
+    {
+      default: () => ({
+        full_name: '',
+        date: '',
+        _id: ''
+      })
+    }
+  ]
+})
 </script>
 
 <template>
@@ -27,57 +43,12 @@ defineProps({})
       </template>
     </InfoSliderHeader>
 
-    <div class="flex flex-col mt-4 gap-y-2">
-      <div class="flex items-center gap-x-2 text-night-sky text-14 font-semibold">
-        <div>
-          <svg
-            width="36"
-            height="37"
-            viewBox="0 0 36 37"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M18 36.5C27.9414 36.5 36 28.4414 36 18.5C36 8.5586 27.9414 0.5 18 0.5C8.0586 0.5 0 8.5586 0 18.5C0 28.4414 8.0586 36.5 18 36.5ZM23.4 14.9C23.4 16.3322 22.8311 17.7057 21.8184 18.7184C20.8057 19.7311 19.4322 20.3 18 20.3C16.5678 20.3 15.1943 19.7311 14.1816 18.7184C13.1689 17.7057 12.6 16.3322 12.6 14.9C12.6 13.4678 13.1689 12.0943 14.1816 11.0816C15.1943 10.0689 16.5678 9.5 18 9.5C19.4322 9.5 20.8057 10.0689 21.8184 11.0816C22.8311 12.0943 23.4 13.4678 23.4 14.9ZM7.2 27.5C8.45642 25.8222 10.0868 24.4605 11.9616 23.5231C13.8364 22.5857 15.9039 22.0985 18 22.1C20.0961 22.0985 22.1636 22.5857 24.0384 23.5231C25.9132 24.4605 27.5436 25.8222 28.8 27.5C27.5436 29.1778 25.9132 30.5395 24.0384 31.4769C22.1636 32.4143 20.0961 32.9015 18 32.9C15.9039 32.9015 13.8364 32.4143 11.9616 31.4769C10.0868 30.5395 8.45642 29.1778 7.2 27.5Z"
-              fill="#292D32"
-            />
-          </svg>
-        </div>
-
-        <div>
-          Hasan Güner
-          <div class="text-wild-dove text-12">3 Gün Sonra</div>
-        </div>
-
-        <div class="ms-auto">23 Eylül Günü</div>
-      </div>
-      <div class="flex items-center gap-x-2 text-night-sky text-14 font-semibold">
-        <div>
-          <svg
-            width="36"
-            height="37"
-            viewBox="0 0 36 37"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M18 36.5C27.9414 36.5 36 28.4414 36 18.5C36 8.5586 27.9414 0.5 18 0.5C8.0586 0.5 0 8.5586 0 18.5C0 28.4414 8.0586 36.5 18 36.5ZM23.4 14.9C23.4 16.3322 22.8311 17.7057 21.8184 18.7184C20.8057 19.7311 19.4322 20.3 18 20.3C16.5678 20.3 15.1943 19.7311 14.1816 18.7184C13.1689 17.7057 12.6 16.3322 12.6 14.9C12.6 13.4678 13.1689 12.0943 14.1816 11.0816C15.1943 10.0689 16.5678 9.5 18 9.5C19.4322 9.5 20.8057 10.0689 21.8184 11.0816C22.8311 12.0943 23.4 13.4678 23.4 14.9ZM7.2 27.5C8.45642 25.8222 10.0868 24.4605 11.9616 23.5231C13.8364 22.5857 15.9039 22.0985 18 22.1C20.0961 22.0985 22.1636 22.5857 24.0384 23.5231C25.9132 24.4605 27.5436 25.8222 28.8 27.5C27.5436 29.1778 25.9132 30.5395 24.0384 31.4769C22.1636 32.4143 20.0961 32.9015 18 32.9C15.9039 32.9015 13.8364 32.4143 11.9616 31.4769C10.0868 30.5395 8.45642 29.1778 7.2 27.5Z"
-              fill="#292D32"
-            />
-          </svg>
-        </div>
-
-        <div>
-          Hasan Güner
-          <div class="text-wild-dove text-12">3 Gün Sonra</div>
-        </div>
-
-        <div class="ms-auto">23 Eylül Günü</div>
-      </div>
+    <div
+      v-if="upcomingVacations.length > 0"
+      class="flex flex-col mt-4 gap-y-2 max-h-[140px] overflow-y-auto"
+    >
+      <UpComingCard v-for="item in upcomingVacations" :item="item" />
     </div>
+    <div v-else class="flex items-center justify-center h-full text-sm">Bulunamadı.</div>
   </div>
 </template>

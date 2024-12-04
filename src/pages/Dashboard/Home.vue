@@ -28,6 +28,7 @@ const upcomingPermits = ref([])
 const upcomingEvents = ref([])
 const upcomingBirthdays = ref([])
 const upcomingHolidays = ref([])
+const upcomingOvertimes = ref([])
 const myRemainingPermits = ref(null)
 const videos = ref([])
 const showModal = ref(false)
@@ -45,7 +46,10 @@ const closeModal = () => {
   showModal.value = false
 }
 
-const dateOnly = (date) => date.toISOString().split('T')[0]
+const dateOnly = (date) => {
+  const d = new Date(date)
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
+}
 
 const calculateExperience = (startDate) => {
   const start = new Date(startDate)
@@ -93,14 +97,59 @@ const getEvents = async () => {
 }
 
 const getCalendarData = async () => {
+  const today = new Date()
+  const endDate = new Date(new Date().setDate(new Date().getDate() + 30))
+
   try {
     const { data } = await axios.get('/calendar', {
       params: {
         start_date: dateOnly(new Date()),
-        end_date: dateOnly(new Date(new Date().setDate(new Date().getDate() + 30)))
+        end_date: dateOnly(endDate)
       }
     })
-    upcomingHolidays.value = data.holidays
+
+    const birthdays = data.birthdays.map((item) => {
+      const birthdayDate = new Date(item.birthday)
+      const targetYear =
+        birthdayDate.getMonth() < today.getMonth() ? today.getFullYear() + 1 : today.getFullYear()
+      birthdayDate.setFullYear(targetYear)
+      return {
+        ...item,
+        date: dateOnly(birthdayDate),
+        type: 'birthday'
+      }
+    })
+
+    const holidays = data.holidays.map((item) => {
+      return {
+        ...item,
+        date: dateOnly(item.start_date)
+      }
+    })
+
+    const permits = data.permits.map((item) => {
+      return {
+        ...item,
+        full_name: item.user.full_name,
+        date: dateOnly(item.start_date),
+        type: 'permit'
+      }
+    })
+
+    const overtimes = data.overtimes.map((item) => {
+      return {
+        ...item,
+        full_name: item.user.full_name,
+        date: item.start_date,
+        dateRange: item.start_date.split(' ')?.[1] + ' ' + item.end_date.split(' ')?.[1],
+        type: 'overtime'
+      }
+    })
+
+    upcomingBirthdays.value = birthdays
+    upcomingHolidays.value = holidays
+    upcomingPermits.value = permits
+    upcomingOvertimes.value = overtimes
   } catch (error) {
     return error
   }
@@ -274,18 +323,18 @@ onMounted(async () => {
           </div>
           <InfoSlider class="order-5">
             <template #slide0>
-              <InfoSliderItemUpcomingBirthday />
+              <InfoSliderItemUpcomingBirthday :upcomingBirthdays="upcomingBirthdays" />
             </template>
             <template #slide1>
-              <InfoSliderItemUpcomingHoliday />
+              <InfoSliderItemUpcomingHoliday :upcomingHolidays="upcomingHolidays" />
             </template>
           </InfoSlider>
           <InfoSlider class="order-6">
             <template #slide0>
-              <InfoSliderItemUpcomingVacation />
+              <InfoSliderItemUpcomingVacation :upcomingVacations="upcomingPermits" />
             </template>
             <template #slide1>
-              <InfoSliderItemOvertimeRequest />
+              <InfoSliderItemOvertimeRequest :upcomingOvertimes="upcomingOvertimes" />
             </template>
           </InfoSlider>
           <div class="bg-white rounded-2xl h-full order-7 p-2">

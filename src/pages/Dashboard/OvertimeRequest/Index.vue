@@ -158,7 +158,7 @@ const handleDidMove = async (newYear) => {
             ></div>
             <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
           </div>
-          <tempalte v-else>
+          <template v-else>
             <CalendarCard
               v-if="filteredRequests.length > 0"
               v-for="item in filteredRequests"
@@ -168,7 +168,7 @@ const handleDidMove = async (newYear) => {
             <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
               <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
             </div>
-          </tempalte>
+          </template>
         </div>
       </div>
     </div>
