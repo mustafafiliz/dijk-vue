@@ -12,6 +12,8 @@ import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
 import DashboardPayrolls from '@/pages/Dashboard/Payrolls.vue'
 import DashboardClassifieds from '@/pages/Dashboard/Classifieds.vue'
+import DashboardExpenseList from '@/pages/Dashboard/ExpenseRequest/Index.vue'
+import DashboardExpenseRequestNew from '@/pages/Dashboard/ExpenseRequest/NewRequest.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
@@ -47,6 +49,8 @@ const routes = [
   { path: '/dashboard/permission-request/new', component: DashboardPermissionRequestNew },
   { path: '/dashboard/overtime-request/list', component: DashboardOvertimeRequestList },
   { path: '/dashboard/overtime-request/new', component: DashboardOvertimeRequestNew },
+  { path: '/dashboard/expense/list', component: DashboardExpenseList },
+  { path: '/dashboard/expense/new', component: DashboardExpenseRequestNew },
   { path: '/dashboard/calendar', component: DashboardCalendar },
   { path: '/dashboard/settings', component: DashboardSettings },
   { path: '/dashboard/performance', component: DashboardPerformance },
