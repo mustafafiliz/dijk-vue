@@ -52,6 +52,23 @@ export const useMeStore = defineStore('me', {
       } finally {
         this.isLoading = false
       }
+    },
+
+    async updateUserStatus(status) {
+      const { axios } = useAxios()
+      this.isLoading = true
+      this.error = null
+
+      try {
+        const response = await axios.get(`/auth/statu-update/${status}`)
+        this.user = { ...this.user, statu: status }
+        return response
+      } catch (error) {
+        this.error = error.response?.data?.message || 'An error occurred'
+        throw error
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 })

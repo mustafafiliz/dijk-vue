@@ -30,13 +30,15 @@ function getAvatarInitials(fullName) {
     <RouterLink :to="`/dashboard/profile/${person?._id}`">
       <img
         v-if="person?.image"
-        class="border-gamora border-[3px] w-12 h-12 box-content object-cover rounded-full"
+        :class="person?.statu ? 'border-gamora' : 'border-gray-500'"
+        class="border-[3px] w-12 h-12 box-content object-cover rounded-full"
         :src="person?.image"
         alt=""
       />
       <div
         v-else
-        class="w-12 h-12 min-w-12 min-h-12 bg-gray-300 rounded-full flex items-center justify-center"
+        :class="person?.statu ? 'border-gamora' : 'border-gray-500'"
+        class="border-[3px] w-[54px] h-[54px] min-w-[54px] min-h-[54px] bg-gray-300 rounded-full flex items-center justify-center"
       >
         <span class="text-white" :class="vertical ? 'text-[13px]' : ''">
           {{ getAvatarInitials(person.name) }}

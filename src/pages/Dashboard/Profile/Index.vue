@@ -20,6 +20,17 @@ const handleLogout = async () => {
   await meStore.logout()
 }
 
+const toggleUserStatus = async () => {
+  if (meStore.user._id !== userId) return
+
+  try {
+    await meStore.updateUserStatus(!user.value.statu)
+    user.value = meStore.getUser
+  } catch (error) {
+    console.error('Status update failed:', error)
+  }
+}
+
 onMounted(async () => {
   try {
     if (userId !== storeUser.value._id) {
@@ -106,14 +117,14 @@ const imageSettings = ref({
           <div class="relative">
             <img
               v-if="user?.image"
-              :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+              :class="user?.statu ? 'border-gamora' : 'border-gray-500'"
               class="border-[6px] w-24 h-24 object-cover rounded-20"
               :src="user?.image"
               alt=""
             />
             <div
               v-else
-              :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+              :class="user?.statu ? 'border-gamora' : 'border-gray-500'"
               class="w-24 h-24 rounded-20 border-[6px] bg-white flex items-center justify-center"
             >
               <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
@@ -122,10 +133,11 @@ const imageSettings = ref({
               }}</span>
             </div>
             <span
-              :class="user?.is_active ? 'bg-gamora' : 'bg-gray-500'"
+              @click="toggleUserStatus"
+              :class="user?.statu ? 'bg-gamora' : 'bg-gray-500'"
               class="text-white font-semibold text-14 rounded-lg py-[2px] px-[13px] absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
-              {{ user?.is_active ? 'Aktif' : 'Pasif' }}
+              {{ user?.statu ? 'Aktif' : 'Pasif' }}
             </span>
           </div>
 
@@ -190,7 +202,7 @@ const imageSettings = ref({
                 />
                 <div
                   v-else
-                  :class="user?.is_active ? 'border-gamora' : 'border-gray-500'"
+                  :class="user?.statu ? 'border-gamora' : 'border-gray-500'"
                   class="w-24 h-24 rounded-full border-[4px] bg-white flex items-center justify-center"
                 >
                   <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
