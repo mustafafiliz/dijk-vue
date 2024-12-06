@@ -6,6 +6,7 @@ import { useAxios } from '@/plugins/axios'
 import { toast } from 'vue3-toastify'
 import Datepicker from 'vue3-datepicker'
 import { useMeStore } from '@/stores/me'
+import { nextTick } from 'vue'
 
 export default {
   components: {
@@ -72,6 +73,8 @@ export default {
     },
 
     validateDatesAndTimes() {
+      if (!this.selectedPermit) return
+
       if (this.permitEndDate < this.permitStartDate) {
         this.permitEndDate = this.permitStartDate
       } else {
@@ -95,11 +98,18 @@ export default {
     async confirmPermit() {
       const { axios } = useAxios()
       this.loading = true
+
+      let permit_start_date = this.formatDateTime(this.permitStartDate, this.permitStartTime)
+      permit_start_date = permit_start_date.split('T')[0] + ' ' + permit_start_date.split('T')[1]
+
+      let permit_end_date = this.formatDateTime(this.permitEndDate, this.permitEndTime)
+      permit_end_date = permit_end_date.split('T')[0] + ' ' + permit_end_date.split('T')[1]
+
       try {
         await axios.post('/permits', {
           permit_code: this.selectedPermit,
-          permit_start_date: this.formatDateTime(this.permitStartDate, this.permitStartTime),
-          permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime),
+          permit_start_date,
+          permit_end_date,
           permit_message: `${this.permitMessage} Yerine Bakacak Kişi: ${this.substitutePerson}`
         })
 
