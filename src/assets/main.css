@@ -181,3 +181,8 @@ body {
   cursor: default;
   font-size: 0.8em;
 }
+
+select,
+option {
+  background-color: #fff;
+}
