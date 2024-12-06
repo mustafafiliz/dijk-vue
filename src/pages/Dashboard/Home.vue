@@ -54,25 +54,42 @@ const dateOnly = (date) => {
 const calculateExperience = (startDate) => {
   const start = new Date(startDate)
   const today = new Date()
-  const diffTime = Math.abs(today - start)
-  const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365))
-  const diffMonths = Math.floor(
-    (diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30)
-  )
-  const diffDays = Math.floor(
-    ((diffTime % (1000 * 60 * 60 * 24 * 365)) % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)
-  )
+
+  let years = today.getFullYear() - start.getFullYear()
+  let months = today.getMonth() - start.getMonth()
+  let days = today.getDate() - start.getDate()
+
+  // Adjust for negative months
+  if (months < 0) {
+    years--
+    months += 12
+  }
+
+  // Adjust for negative days
+  if (days < 0) {
+    months--
+    // Get last day of previous month
+    const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0)
+    days += lastMonth.getDate()
+  }
+
+  // Handle edge case when months becomes negative after days adjustment
+  if (months < 0) {
+    years--
+    months += 12
+  }
 
   let experience = ''
-  if (diffYears > 0) {
-    experience += `${diffYears} yıl `
+  if (years > 0) {
+    experience += `${years} yıl `
   }
-  if (diffMonths > 0) {
-    experience += `${diffMonths} ay `
+  if (months > 0) {
+    experience += `${months} ay `
   }
-  if (diffDays > 0) {
-    experience += `${diffDays} gün `
+  if (days > 0) {
+    experience += `${days} gün`
   }
+
   return experience.trim()
 }
 
