@@ -118,50 +118,58 @@ const getCalendarData = async () => {
   const endDate = new Date(new Date().setDate(new Date().getDate() + 30))
 
   try {
-    const { data } = await axios.get('/calendar', {
+    const { data } = await axios.get('/calendar?is_approved=true', {
       params: {
         start_date: dateOnly(new Date()),
         end_date: dateOnly(endDate)
       }
     })
 
-    const birthdays = data.birthdays.map((item) => {
-      const birthdayDate = new Date(item.birthday)
-      const targetYear =
-        birthdayDate.getMonth() < today.getMonth() ? today.getFullYear() + 1 : today.getFullYear()
-      birthdayDate.setFullYear(targetYear)
-      return {
-        ...item,
-        date: dateOnly(birthdayDate),
-        type: 'birthday'
-      }
-    })
+    const birthdays = data.birthdays
+      .map((item) => {
+        const birthdayDate = new Date(item.birthday)
+        const targetYear =
+          birthdayDate.getMonth() < today.getMonth() ? today.getFullYear() + 1 : today.getFullYear()
+        birthdayDate.setFullYear(targetYear)
+        return {
+          ...item,
+          date: dateOnly(birthdayDate),
+          type: 'birthday'
+        }
+      })
+      .reverse()
 
-    const holidays = data.holidays.map((item) => {
-      return {
-        ...item,
-        date: dateOnly(item.start_date)
-      }
-    })
+    const holidays = data.holidays
+      .map((item) => {
+        return {
+          ...item,
+          date: dateOnly(item.start_date)
+        }
+      })
+      .reverse()
 
-    const permits = data.permits.map((item) => {
-      return {
-        ...item,
-        full_name: item.user.full_name,
-        date: dateOnly(item.start_date),
-        type: 'permit'
-      }
-    })
+    const permits = data.permits
+      .map((item) => {
+        return {
+          ...item,
+          full_name: item.user.full_name,
+          date: dateOnly(item.start_date),
+          type: 'permit'
+        }
+      })
+      .reverse()
 
-    const overtimes = data.overtimes.map((item) => {
-      return {
-        ...item,
-        full_name: item.user.full_name,
-        date: item.start_date,
-        dateRange: item.start_date.split(' ')?.[1] + ' ' + item.end_date.split(' ')?.[1],
-        type: 'overtime'
-      }
-    })
+    const overtimes = data.overtimes
+      .map((item) => {
+        return {
+          ...item,
+          full_name: item.user.full_name,
+          date: item.start_date,
+          dateRange: item.start_date.split(' ')?.[1] + ' ' + item.end_date.split(' ')?.[1],
+          type: 'overtime'
+        }
+      })
+      .reverse()
 
     upcomingBirthdays.value = birthdays
     upcomingHolidays.value = holidays
