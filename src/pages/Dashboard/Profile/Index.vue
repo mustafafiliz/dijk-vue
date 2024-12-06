@@ -507,12 +507,6 @@ const imageSettings = ref({
                 {{ new Date(user?.work_start_date).toLocaleDateString('tr-TR') }}
               </div>
             </div>
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
-              <div class="font-medium">
-                {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
-              </div>
-            </div>
           </div>
         </div>
       </template>
