@@ -201,11 +201,11 @@ const imageSettings = ref({
                   v-if="user?.image"
                   :src="user.image"
                   alt="Profil Fotoğrafı"
-                  class="w-20 h-20 rounded-full object-cover border-4 border-gamora"
+                  :class="user?.statu ? 'border-gamora' : 'border-gray-500'"
+                  class="w-20 h-20 rounded-full object-cover border-4"
                 />
                 <div
                   v-else
-                  :class="user?.statu ? 'border-gamora' : 'border-gray-500'"
                   class="w-24 h-24 rounded-full border-[4px] bg-white flex items-center justify-center"
                 >
                   <span class="text-gray-500 text-2xl lg:text-3xl font-medium">{{
@@ -336,10 +336,11 @@ const imageSettings = ref({
               class="flex items-center flex-1 justify-center text-14 font-medium gap-x-2 bg-white rounded-[10px] p-2"
             >
               <svg
-                width="24"
-                height="24"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
+                stroke="#000"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <g clip-path="url(#clip0_2083_227)">
