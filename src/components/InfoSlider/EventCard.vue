@@ -45,35 +45,34 @@
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
     </svg>
-    <!-- Modal -->
-    <div
-      v-if="isOpen"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  </div>
+  <div
+    v-if="isOpen === true"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <button
+      @click="closeModal"
+      class="absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
     >
-      <button
-        @click="closeModal"
-        class="absolute top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-x"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-x"
-        >
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-      <div class="bg-white p-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
-        <h3 class="!text-2xl !text-center font-medium">{{ event.title }}</h3>
-        <div v-html="event.description" class="iframeModalContainer mt-10"></div>
-      </div>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="bg-white p-4 !pt-6 max-h-[90vh] overflow-y-auto rounded-lg relative">
+      <h3 class="!text-2xl !text-center font-medium">{{ event.title }}</h3>
+      <div v-html="event.description" class="iframeModalContainer mt-10"></div>
     </div>
   </div>
 </template>
