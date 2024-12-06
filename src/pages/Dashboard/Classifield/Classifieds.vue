@@ -1,12 +1,10 @@
 <script setup>
 import BottomNavigation from '@/components/BottomNavigation.vue'
-import AnnouncementAccordion from '@/components/InfoSlider/AnnouncementAccordion.vue'
-import ArticleCard from '@/components/InfoSlider/ArticleCard.vue'
-import Spinner from '@/components/Spinner.vue'
 import Input from '@/components/Input.vue'
 import { useAxios } from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 import VButton from '@/components/Button.vue'
+import ClassifiedCard from '@/components/Classfieds/ClassifiedCard.vue'
 
 const classifieds = ref([])
 const { axios } = useAxios()
@@ -150,9 +148,15 @@ onMounted(() => {
         >
           <div class="text-center text-sm">Yeni ilan bulunmamaktadır.</div>
         </div>
-        <div v-else class="grid grid-cols-1 gap-4">
-          <!-- Add your classified items rendering logic here -->
-        </div>
+        <template v-else>
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+            <ClassifiedCard
+              v-for="classified in classifieds"
+              :key="classified._id"
+              :classified="classified"
+            />
+          </div>
+        </template>
       </div>
     </div>
     <BottomNavigation />

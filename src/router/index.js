@@ -11,7 +11,9 @@ import DashboardTeam from '@/pages/Dashboard/Team.vue'
 import DashboardDirectory from '@/pages/Dashboard/Directory.vue'
 import DashboardApprovalProcess from '@/pages/Dashboard/ApprovalProcess.vue'
 import DashboardPayrolls from '@/pages/Dashboard/Payrolls.vue'
-import DashboardClassifieds from '@/pages/Dashboard/Classifieds.vue'
+import DashboardClassifieds from '@/pages/Dashboard/Classifield/Classifieds.vue'
+import DashboardClassifiedsNew from '@/pages/Dashboard/Classifield/NewClassified.vue'
+import DashboardClassifiedsDetail from '@/pages/Dashboard/Classifield/ClassifiedDetail.vue'
 import DashboardExpenseList from '@/pages/Dashboard/ExpenseRequest/Index.vue'
 import DashboardExpenseRequestNew from '@/pages/Dashboard/ExpenseRequest/NewRequest.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
@@ -42,6 +44,8 @@ const routes = [
   { path: '/dashboard/payrolls', component: DashboardPayrolls },
   { path: '/dashboard/events', component: DashboardEvents },
   { path: '/dashboard/classifieds', component: DashboardClassifieds },
+  { path: '/dashboard/classifieds/new', component: DashboardClassifiedsNew },
+  { path: '/dashboard/classifieds/:id', component: DashboardClassifiedsDetail },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },
