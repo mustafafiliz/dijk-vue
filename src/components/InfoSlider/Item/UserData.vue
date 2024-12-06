@@ -52,7 +52,7 @@ defineProps({
           </td>
 
           <td class="py-2">
-            İş Ünvanı
+            Çalışma Ünvanı
             <div class="text-gentian-flower mt-1">{{ userData.jobTitle }}</div>
           </td>
         </tr>

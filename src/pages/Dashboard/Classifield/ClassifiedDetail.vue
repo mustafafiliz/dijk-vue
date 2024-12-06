@@ -58,32 +58,19 @@
     </div>
 
     <!-- Seller Info -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-      <h2 class="text-lg font-semibold mb-4">Satıcı Bilgileri</h2>
-      <div class="flex items-center">
-        <img
-          :src="classified.seller.image"
-          :alt="classified.seller.full_name"
-          class="w-16 h-16 rounded-full object-cover mr-4"
-        />
-        <div>
-          <h3 class="font-medium">{{ classified.seller.full_name }}</h3>
-          <p class="text-gray-600">{{ classified.seller.department_text }}</p>
-          <p class="text-gray-600">{{ classified.seller.work_title_text }}</p>
-          <div class="mt-2 space-y-1">
-            <a
-              :href="`mailto:${classified.seller.email}`"
-              class="text-blue-600 hover:underline block"
-            >
-              {{ classified.seller.email }}
-            </a>
-            <a :href="`tel:${classified.seller.phone}`" class="text-blue-600 hover:underline block">
-              +90{{ classified.seller.phone }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h2 class="text-lg font-semibold mb-4">Satıcı Bilgileri</h2>
+    <PersonBox
+      :person="{
+        _id: classified.seller._id,
+        name: classified.seller.full_name,
+        role: classified.seller.work_title_text,
+        image: classified.seller?.image,
+        email: classified.seller.email,
+        whatsapp: classified.seller.phone,
+        phone: classified.seller.phone,
+        statu: classified.seller.statu
+      }"
+    />
   </div>
 
   <div v-else class="flex justify-center items-center h-64">
@@ -95,6 +82,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAxios } from '@/plugins/axios'
+import PersonBox from '@/components/PersonBox.vue'
 
 const route = useRoute()
 const { axios } = useAxios()
