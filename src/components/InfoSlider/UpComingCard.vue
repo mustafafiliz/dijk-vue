@@ -4,18 +4,19 @@
     class="flex items-center gap-x-2 text-night-sky text-14 font-semibold"
   >
     <div>
-      <span class="text-[13px]">{{ item?.full_name || item?.title }}</span>
-      <div v-if="isCurrentDay || calculateDaysUntil === 0" class="text-wild-dove text-12">
-        Bugün
+      <span class="text-[13px]">{{ displayName }}</span>
+      <div class="text-wild-dove text-12">
+        {{ displayStatus }}
       </div>
-      <div v-else class="text-wild-dove text-12">{{ calculateDaysUntil }} Gün Sonra</div>
     </div>
 
     <div class="ms-auto">
       <div v-if="item.type === 'overtime'" class="text-wild-dove text-12 text-right">
         {{ item.dateRange }}
       </div>
-      <div class="font-semibold">{{ item.date.split(' ')[0] }}</div>
+      <div class="font-semibold">
+        {{ displayDate }}
+      </div>
     </div>
   </RouterLink>
 </template>
@@ -32,11 +33,20 @@ const props = defineProps({
   }
 })
 
+const displayName = computed(() => {
+  return props.item?.full_name || props.item?.title
+})
+
+const todayFormatted = computed(() => {
+  return dayjs().format('YYYY-MM-DD')
+})
+
 const isCurrentDay = computed(() => {
   if (props.item.type === 'permit') {
     const today = dayjs()
     const startDate = dayjs(props.item.date)
     const endDate = dayjs(props.item.end_date)
+
     return (
       (today.isAfter(startDate) && today.isBefore(endDate)) ||
       today.isSame(startDate) ||
@@ -50,5 +60,19 @@ const calculateDaysUntil = computed(() => {
   const today = dayjs()
   const targetDate = dayjs(props.item.date)
   return targetDate.diff(today, 'day')
+})
+
+const displayStatus = computed(() => {
+  if (isCurrentDay.value || calculateDaysUntil.value === 0) {
+    return 'Bugün'
+  }
+  return `${calculateDaysUntil.value} Gün Sonra`
+})
+
+const displayDate = computed(() => {
+  if (isCurrentDay.value) {
+    return todayFormatted.value
+  }
+  return props.item.date.split(' ')[0]
 })
 </script>
