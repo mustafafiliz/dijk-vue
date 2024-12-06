@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full">
     <input
       class="w-full outline-none h-16 bg-transparent leading-[3] !ps-1"
       id="phone"
