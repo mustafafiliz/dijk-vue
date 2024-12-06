@@ -6,12 +6,15 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
 import Button from '@/components/Button.vue'
 import { useAxios } from '@/plugins/axios'
 import { useRoute } from 'vue-router'
+import LinkedinUrlSection from '@/components/LinkedinUrlSection.vue'
 
 const meStore = useMeStore()
 const storeUser = computed(() => meStore.getUser)
 const user = ref(null)
 const { axios } = useAxios()
 const manager = ref(null)
+const showLinkedinModal = ref(false)
+const linkedinUrl = ref('')
 
 const userId = useRoute().params.id
 
@@ -158,6 +161,7 @@ const imageSettings = ref({
           Organizasyon
         </RouterLink>
         <!-- QR Start -->
+
         <Button
           @click="qrIsActive = true"
           class="!text-black !py-3 lg:text-base text-sm"
@@ -173,7 +177,6 @@ const imageSettings = ref({
         >
           Çıkış Yap
         </Button>
-
         <div
           v-show="qrIsActive"
           class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
@@ -355,7 +358,7 @@ const imageSettings = ref({
           </div>
         </template>
       </div>
-
+      <LinkedinUrlSection v-if="user" :default-user="user" />
       <template v-if="userId === storeUser?._id">
         <div class="flex flex-col gap-y-2 p-2">
           <div class="font-semibold ps-2">İş Deneyimleri</div>
