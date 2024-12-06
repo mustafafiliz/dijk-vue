@@ -8,8 +8,10 @@
       v-if="meStore.user?.image"
       :src="meStore.user?.image"
       :alt="meStore.user?.full_name"
-      class="w-full h-full rounded-full"
+      :class="meStore?.user?.statu ? 'border-gamora' : 'border-gray-500'"
+      class="w-full h-full rounded-full border-[2px]"
     />
+
     <span v-else>{{ userName }}</span>
   </RouterLink>
 </template>
