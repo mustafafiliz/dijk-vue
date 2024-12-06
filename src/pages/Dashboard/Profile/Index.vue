@@ -486,22 +486,20 @@ const imageSettings = ref({
 
           <div class="grid grid-cols-2 gap-4 p-2 bg-white rounded-xl">
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Telefon:</div>
-              <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
-            </div>
-            <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">Adı Soyadı:</div>
               <div class="font-medium">{{ user?.full_name }}</div>
+            </div>
+            <div class="text-12 text-squant font-semibold">
+              <div class="text-black text-[13px]">Telefon:</div>
+              <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">TC No:</div>
               <div class="font-medium">{{ user?.tc_no }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
-              <div class="font-medium">
-                {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
-              </div>
+              <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
+              <div class="font-medium">{{ user?.work_title_text }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">Çalışma Başlangıç Tarihi:</div>
@@ -510,8 +508,10 @@ const imageSettings = ref({
               </div>
             </div>
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
-              <div class="font-medium">{{ user?.work_title_text }}</div>
+              <div class="text-black text-[13px]">Çalışma Bitiş Tarihi:</div>
+              <div class="font-medium">
+                {{ new Date(user?.work_end_date).toLocaleDateString('tr-TR') }}
+              </div>
             </div>
           </div>
         </div>
