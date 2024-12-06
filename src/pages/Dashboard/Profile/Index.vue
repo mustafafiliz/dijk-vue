@@ -298,7 +298,7 @@ const imageSettings = ref({
             <a
               v-if="manager?.phone"
               target="_blank"
-              :href="`tel:${manager?.phone}`"
+              :href="`tel:+90${manager?.phone}`"
               class="flex items-center flex-1 justify-center text-14 font-medium gap-x-2 bg-white rounded-[10px] p-2 text-gamora"
             >
               <svg
@@ -329,7 +329,7 @@ const imageSettings = ref({
             <a
               v-if="manager?.phone"
               target="_blank"
-              :href="`https://wa.me/${user?.phone}`"
+              :href="`https://wa.me/+90${manager?.phone}`"
               class="flex items-center flex-1 justify-center text-14 font-medium gap-x-2 bg-white rounded-[10px] p-2"
             >
               <svg
