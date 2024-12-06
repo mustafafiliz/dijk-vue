@@ -490,12 +490,6 @@ const imageSettings = ref({
               <div class="font-medium">{{ user?.phone ? `+90 ${user?.phone}` : '' }}</div>
             </div>
             <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Başlangıç Tarih:</div>
-              <div class="font-medium">
-                {{ new Date(user?.senior_date).toLocaleDateString('tr-TR') }}
-              </div>
-            </div>
-            <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">Adı Soyadı:</div>
               <div class="font-medium">{{ user?.full_name }}</div>
             </div>
@@ -517,10 +511,6 @@ const imageSettings = ref({
             </div>
             <div class="text-12 text-squant font-semibold">
               <div class="text-black text-[13px]">Çalışma Ünvanı:</div>
-              <div class="font-medium">{{ user?.work_title }}</div>
-            </div>
-            <div class="text-12 text-squant font-semibold">
-              <div class="text-black text-[13px]">Çalışma Ünvanı Metni:</div>
               <div class="font-medium">{{ user?.work_title_text }}</div>
             </div>
           </div>
