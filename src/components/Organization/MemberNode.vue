@@ -50,7 +50,8 @@ const toggleSubMembers = () => {
         image: member?.image,
         email: member.email,
         whatsapp: member.phone,
-        phone: member.phone
+        phone: member.phone,
+        statu: member.statu
       }"
     />
     <button

@@ -1,6 +1,6 @@
 <template>
   <RouterLink
-    :to="`/dashboard/profile/${item._id}`"
+    :to="`/dashboard/profile/${item?.user?._id || item._id}`"
     class="flex items-center gap-x-2 text-night-sky text-14 font-semibold"
   >
     <div>
