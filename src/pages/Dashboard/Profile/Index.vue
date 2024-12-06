@@ -68,7 +68,7 @@ const renderAs = ref('svg')
 const background = ref('#ffffff')
 const foreground = ref('#000000')
 const imageSettings = ref({
-  src: '/images/company-logo.jpg',
+  src: meStore?.user?.company_image || undefined,
   width: 50,
   height: 50,
   x: 75,

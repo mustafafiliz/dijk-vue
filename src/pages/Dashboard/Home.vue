@@ -226,7 +226,19 @@ onMounted(async () => {
   >
     <div class="p-4 flex-1 max-w-5xl lg:min-h-dvh">
       <div class="flex items-center">
-        <img class="me-auto" src="/images/logo.png" alt="" />
+        <img
+          v-if="meStore?.user?.company_image && me?.user?.company_image !== null"
+          class="me-auto w-10 h-10 rounded-full"
+          :src="meStore.user.company_image"
+          alt=""
+        />
+        <div
+          v-else
+          class="flex items-center justify-center rounded-full bg-white border border-gray-100 text-sm"
+        >
+          {{ meStore?.user?.erp_company_text.split(' ')[0].charAt(0).toUpperCase() }}
+          {{ meStore?.user?.erp_company_text.split(' ')[1].charAt(0).toUpperCase() }}
+        </div>
         <UserAvatar />
       </div>
       <div class="mt-4 flex flex-col gap-4 md:grid md:grid-cols-2">
