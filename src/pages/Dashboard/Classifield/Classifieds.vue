@@ -117,11 +117,6 @@ onMounted(() => {
           />
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <RouterLink to="/dashboard/classifieds/new" class="block">
-            <VButton class="w-full !text-xs lg:!text-sm !py-3 bg-gentian-flower">
-              Yeni İlan Oluştur
-            </VButton>
-          </RouterLink>
           <div class="block">
             <VButton
               @click="handleFilter"
@@ -130,6 +125,11 @@ onMounted(() => {
               Filtreyi Uygula
             </VButton>
           </div>
+          <RouterLink to="/dashboard/classifieds/new" class="block">
+            <VButton class="w-full !text-xs lg:!text-sm !py-3 bg-gentian-flower">
+              Yeni İlan Oluştur
+            </VButton>
+          </RouterLink>
         </div>
       </div>
 
