@@ -46,6 +46,7 @@ const routes = [
   { path: '/dashboard/classifieds', component: DashboardClassifieds },
   { path: '/dashboard/classifieds/new', component: DashboardClassifiedsNew },
   { path: '/dashboard/classifieds/:id', component: DashboardClassifiedsDetail },
+  { path: '/dashboard/classifieds/:id/edit', component: DashboardClassifiedsDetail },
   { path: '/dashboard/team', component: DashboardTeam },
   { path: '/dashboard/directory', component: DashboardDirectory },
   { path: '/dashboard/approval-process', component: DashboardApprovalProcess },
