@@ -24,6 +24,8 @@ const meStore = useMeStore()
 
 const user = meStore.user
 
+const isOffToday = ref(false)
+const isOffTodayPermit = ref(null)
 const upcomingPermits = ref([])
 const upcomingEvents = ref([])
 const upcomingBirthdays = ref([])
@@ -93,138 +95,74 @@ const calculateExperience = (startDate) => {
   return experience.trim()
 }
 
-const getMyRemainingPermits = async () => {
-  try {
-    const response = await axios.get('/permit-groups')
-
-    myRemainingPermits.value = response.data.find((item) => item?.is_annual_permit)
-  } catch (error) {
-    return error
-  }
-}
-
-const getEvents = async () => {
-  try {
-    const response = await axios.get('/events')
-
-    upcomingEvents.value = response.data.data.slice(0, 2)
-  } catch (error) {
-    return error
-  }
-}
-
-const getCalendarData = async () => {
+const getHomePageData = async () => {
   const today = new Date()
-  const endDate = new Date(new Date().setDate(new Date().getDate() + 30))
 
   try {
-    const { data } = await axios.get('/calendar?is_approved=true', {
-      params: {
-        start_date: dateOnly(new Date()),
-        end_date: dateOnly(endDate)
+    const data = await axios.get('/homepage')
+
+    const birthdays = data.birthdays.map((item) => {
+      const birthdayDate = new Date(item.birthday)
+      const targetYear =
+        birthdayDate.getMonth() < today.getMonth() ? today.getFullYear() + 1 : today.getFullYear()
+      birthdayDate.setFullYear(targetYear)
+      return {
+        ...item,
+        date: dateOnly(birthdayDate),
+        type: 'birthday'
       }
     })
 
-    const birthdays = data.birthdays
-      .map((item) => {
-        const birthdayDate = new Date(item.birthday)
-        const targetYear =
-          birthdayDate.getMonth() < today.getMonth() ? today.getFullYear() + 1 : today.getFullYear()
-        birthdayDate.setFullYear(targetYear)
-        return {
-          ...item,
-          date: dateOnly(birthdayDate),
-          type: 'birthday'
-        }
-      })
-      .reverse()
+    const holidays = data.holidays.map((item) => {
+      return {
+        ...item,
+        date: dateOnly(item.start_date)
+      }
+    })
 
-    const holidays = data.holidays
-      .map((item) => {
-        return {
-          ...item,
-          date: dateOnly(item.start_date)
-        }
-      })
-      .reverse()
+    const permits = data.permits.map((item) => {
+      return {
+        ...item,
+        full_name: item.user.full_name,
+        date: dateOnly(item.start_date),
+        type: 'permit'
+      }
+    })
 
-    const permits = data.permits
-      .map((item) => {
-        return {
-          ...item,
-          full_name: item.user.full_name,
-          date: dateOnly(item.start_date),
-          type: 'permit'
-        }
-      })
-      .reverse()
-
-    const overtimes = data.overtimes
-      .map((item) => {
-        return {
-          ...item,
-          full_name: item.user.full_name,
-          date: item.start_date,
-          dateRange: item.start_date.split(' ')?.[1] + ' ' + item.end_date.split(' ')?.[1],
-          type: 'overtime'
-        }
-      })
-      .reverse()
+    const overtimes = data.overtimes.map((item) => {
+      return {
+        ...item,
+        full_name: item.user.full_name,
+        date: item.start_date,
+        dateRange: item.start_date.split(' ')?.[1] + ' ' + item.end_date.split(' ')?.[1],
+        type: 'overtime'
+      }
+    })
 
     upcomingBirthdays.value = birthdays
     upcomingHolidays.value = holidays
     upcomingPermits.value = permits
     upcomingOvertimes.value = overtimes
-  } catch (error) {
-    return error
-  }
-}
 
-const getVideos = async () => {
-  try {
-    const { data: response } = await axios.get('/videos')
+    articles.value = data.articles
+    announcements.value = data.announcements
+    videos.value = data.videos
+    upcomingEvents.value = data.events
 
-    videos.value = response.data.slice(0, 3)
-  } catch (error) {
-    return error
-  }
-}
+    myRemainingPermits.value = data.annual_permit_day
+    isOffToday.value = data.is_off_today
+    isOffTodayPermit.value = data.is_off_today_permit
 
-const getAnnouncements = async () => {
-  try {
-    const { data } = await axios.get('/announcements')
-
-    announcements.value = data.data
-  } catch (error) {
-    return error
-  }
-}
-
-const getArticles = async () => {
-  try {
-    const { data } = await axios.get('/articles')
-
-    articles.value = data
-  } catch (error) {
-    return error
-  }
-}
-
-onMounted(async () => {
-  try {
-    await Promise.all([
-      getMyRemainingPermits(),
-      getCalendarData(),
-      getEvents(),
-      getVideos(),
-      getAnnouncements(),
-      getArticles()
-    ])
+    console.log('hey', data.is_off_today)
   } catch (error) {
     return error
   } finally {
     loading.value = false
   }
+}
+
+onMounted(async () => {
+  getHomePageData()
 })
 </script>
 
@@ -339,7 +277,9 @@ onMounted(async () => {
             <template #slide0>
               <InfoSliderItemVacation
                 total-annual-leave="14"
-                :remaining-annual-leave="myRemainingPermits?.available_day"
+                :remaining-annual-leave="myRemainingPermits"
+                :is-off-today="isOffToday"
+                :is-off-today-permit="isOffTodayPermit"
               />
             </template>
             <template #slide1>

@@ -6,6 +6,8 @@ defineProps({
   remainingAnnualLeave: Number,
   annualLeaveEndDate: String,
   totalAnnualLeave: Number,
+  isOffToday: Boolean,
+  isOffTodayPermit: Object,
   currentVacation: {
     type: Object,
     default: () => ({
@@ -57,16 +59,15 @@ defineProps({
     <div class="flex justify-between items-start mt-3 font-semibold text-12">
       <div>
         Geçerli İzin:
-        <span v-if="currentVacation.type" class="text-gentian-flower">
-          {{ currentVacation.type }}
+        <span v-if="isOffTodayPermit" class="text-gentian-flower">
+          {{ isOffTodayPermit?.start_date }} - {{ isOffTodayPermit?.end_date }}
         </span>
         <span v-else> - </span>
       </div>
 
       <div>
-        <div v-if="currentVacation.startDate && currentVacation.endDate" class="text-end">
-          {{ currentVacation.startDate }} - {{ currentVacation.endDate }}
-          <div>Toplam: <span class="text-gentian-flower"> 1 Gün </span></div>
+        <div v-if="isOffToday" class="text-end">
+          <div class="text-gentian-flower">İzinli</div>
         </div>
 
         <div v-else class="text-end">
