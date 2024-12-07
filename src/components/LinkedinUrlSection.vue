@@ -117,8 +117,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.defaultUser.social_links)
-
 // Store and API setup
 const meStore = useMeStore()
 const { axios } = useAxios()

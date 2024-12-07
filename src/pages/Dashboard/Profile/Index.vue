@@ -134,14 +134,43 @@ const imageSettings = ref({
               }}</span>
             </div>
             <span
+              v-if="userId !== meStore.user._id"
               @click="toggleUserStatus"
               :class="user?.statu ? 'bg-gamora' : 'bg-gray-500'"
               class="text-white font-semibold text-14 rounded-lg py-[2px] px-[13px] absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
             >
               {{ user?.statu ? 'Aktif' : 'Pasif' }}
             </span>
+            <div
+              v-else
+              @change="toggleUserStatus"
+              class="cursor-pointer -mt-1 -mb-5 relative z-[50]"
+            >
+              <div
+                class="flex items-center justify-center gap-2 absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2"
+              >
+                <label class="relative inline-flex items-center cursor-pointer z-10">
+                  <input
+                    type="checkbox"
+                    :checked="user?.statu"
+                    class="sr-only peer"
+                    :disabled="meStore.user._id !== userId"
+                  />
+                  <div
+                    class="w-14 h-6 bg-[#6a7280] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[34px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gamora"
+                  ></div>
+                  <div
+                    :class="user?.statu ? 'left-1.5' : 'right-1.5'"
+                    class="text-[11px] text-white font-semibold absolute top-1/2 -translate-y-1/2 transition-all"
+                  >
+                    {{ user?.statu ? 'Aktif' : 'Pasif' }}
+                  </div>
+                </label>
+              </div>
+            </div>
           </div>
 
+           
           <div class="text-center mt-6">
             <div class="font-semibold">{{ user?.full_name }}</div>
             <div class="text-12 font-bold">
@@ -361,6 +390,7 @@ const imageSettings = ref({
       <template v-if="userId === storeUser?._id">
         <div class="flex flex-col gap-y-2 p-2">
           <div class="font-semibold ps-2">İş Deneyimleri</div>
+           
           <div
             v-for="(experience, index) in user?.personel_experiences"
             :key="index"
@@ -529,3 +559,9 @@ const imageSettings = ref({
     <BottomNavigation />
   </div>
 </template>
+
+<style scoped>
+.peer:checked ~ .peer-checked\:bg-gamora {
+  background-color: #0fba00;
+}
+</style>
