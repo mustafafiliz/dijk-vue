@@ -85,7 +85,7 @@
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
       <div class="flex justify-between items-start">
         <div>
-          <h1 class="text-2xl font-bold mb-2">{{ classified.title }}</h1>
+          <h1 class="text-2xl font-semibold mb-2">{{ classified.title }}</h1>
           <div class="text-xl font-semibold text-blue-600">
             {{ formatPrice(classified.price) }} ₺
           </div>
