@@ -182,8 +182,7 @@ body {
   font-size: 0.8em;
 }
 
-select,
-option {
+select {
   background-color: #fff;
 }
 .carousel__icon {
