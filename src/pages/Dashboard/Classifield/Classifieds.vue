@@ -85,14 +85,14 @@ onMounted(() => {
               :maxLength="50"
             />
           </div>
-          <div class="bg-white pr-2 rounded-3xl h-[44px] flex">
+          <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
             <select v-model="condition" class="w-full rounded-3xl text-sm py-3 px-4 outline-none">
               <option :value="undefined">Sıfır / İkinci El</option>
               <option value="1">Sıfır</option>
               <option value="2">İkinci El</option>
             </select>
           </div>
-          <div class="bg-white pr-2 rounded-3xl h-[44px] flex">
+          <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
             <select
               v-model="myClassifieds"
               class="w-full rounded-3xl text-sm py-3 px-4 outline-none"
