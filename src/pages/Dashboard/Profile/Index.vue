@@ -13,8 +13,6 @@ const storeUser = computed(() => meStore.getUser)
 const user = ref(null)
 const { axios } = useAxios()
 const manager = ref(null)
-const showLinkedinModal = ref(false)
-const linkedinUrl = ref('')
 
 const userId = useRoute().params.id
 

@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useMeStore } from '@/stores/me'
 import { useAxios } from '@/plugins/axios'
 import Button from './Button.vue'
@@ -128,6 +128,7 @@ const showModal = ref(false)
 const showCopied = ref(false)
 const editUrl = ref('')
 const isLoading = ref(false)
+const linkedInUrl = ref(props.defaultUser?.social_links?.[0]?.link || '')
 
 // Computed properties
 const isOwnProfile = computed(() => {
@@ -139,10 +140,6 @@ const hasLinkedIn = computed(() => {
     props.defaultUser?.social_links?.length > 0 &&
     props.defaultUser.social_links[0]?.name === 'Linkedin'
   )
-})
-
-const linkedInUrl = computed(() => {
-  return props.defaultUser?.social_links?.[0]?.link || ''
 })
 
 // Modal handlers
@@ -173,6 +170,7 @@ const saveUrl = async () => {
       }
     })
 
+    linkedInUrl.value = editUrl.value
     await meStore.fetchUserProfile()
     closeModal()
   } catch (error) {
@@ -192,4 +190,11 @@ const copyToClipboard = () => {
     }, 2000)
   }
 }
+
+watch(
+  () => props.defaultUser?.social_links?.[0]?.link,
+  (newValue) => {
+    linkedInUrl.value = newValue || ''
+  }
+)
 </script>
