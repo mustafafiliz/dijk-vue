@@ -23,10 +23,9 @@
   </div>
 
   <div v-if="classified" class="max-w-4xl mx-auto p-4">
-    <div v-if="isOwnClassified" class="grid grid-cols-2 gap-3 mb-4">
-      <RouterLink :class="w - full" :to="`/dashboard/classifieds/${classified._id}/edit`">
+    <div v-if="isOwnClassified || classified.statu === 1" class="grid grid-cols-2 gap-3 mb-4">
+      <RouterLink :to="`/dashboard/classifieds/${classified._id}/edit`">
         <Button
-          @click="handleEdit"
           class="flex w-full items-center gap-2 h-[40px] !text-sm bg-gentian-flower text-white rounded-lg hover:opacity-90"
         >
           <svg
@@ -99,7 +98,6 @@
           {{ classified.statu_text }}
         </div>
       </div>
-
       <div class="mt-4 text-gray-500">İlan Tarihi: {{ formatDate(classified.created_at) }}</div>
     </div>
 
@@ -122,20 +120,70 @@
   <div v-else class="flex justify-center items-center h-64">
     <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div
+    v-if="showDeleteModal"
+    class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+  >
+    <div class="bg-white rounded-3xl shadow-lg w-11/12 md:w-1/3">
+      <div class="p-4">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 bg-lusty-red grid place-items-center rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#fff"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+          </div>
+          <h2 class="text-lg font-semibold ml-2">İlanı Kaldır</h2>
+        </div>
+        <p class="mb-4 text-sm text-gray-700">Bu ilanı kaldırmak istediğinize emin misiniz?</p>
+      </div>
+      <div class="flex">
+        <Button
+          class="!rounded-tr-none !rounded-br-none !rounded-tl-none bg-gray-700 text-white !w-full !py-3"
+          @click="showDeleteModal = false"
+        >
+          İptal
+        </Button>
+        <Button
+          :is-loading="isDeleting"
+          class="!rounded-tl-none !rounded-bl-none !rounded-tr-none bg-lusty-red text-white !w-full !py-3"
+          @click="confirmDelete"
+        >
+          Kaldır
+        </Button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAxios } from '@/plugins/axios'
-import PersonBox from '@/components/PersonBox.vue'
 import { useMeStore } from '@/stores/me'
+import { toast } from 'vue3-toastify'
+import PersonBox from '@/components/PersonBox.vue'
 import Button from '@/components/Button.vue'
 
 const route = useRoute()
+const router = useRouter()
 const { axios } = useAxios()
 const classified = ref(null)
 const meStore = useMeStore()
+const showDeleteModal = ref(false)
+const isDeleting = ref(false)
 
 const isOwnClassified = computed(() => {
   return classified.value?.seller?._id === meStore.user?._id
@@ -164,6 +212,24 @@ const fetchClassifiedDetail = async () => {
     classified.value = response.data
   } catch (error) {
     console.error('Error fetching classified details:', error)
+  }
+}
+
+const handleDelete = () => {
+  showDeleteModal.value = true
+}
+
+const confirmDelete = async () => {
+  isDeleting.value = true
+  try {
+    await axios.delete(`/classifieds/${route.params.id}`)
+    toast.success('İlan başarıyla kaldırıldı')
+    router.replace('/dashboard/classifieds')
+  } catch (error) {
+    toast.error(error.response?.data?.message || 'İlan kaldırılırken bir hata oluştu')
+  } finally {
+    isDeleting.value = false
+    showDeleteModal.value = false
   }
 }
 

@@ -15,6 +15,7 @@ const title = ref('')
 const description = ref('')
 const price = ref('')
 const condition = ref('1')
+const status = ref('1')
 const images = ref([])
 const isLoading = ref(false)
 
@@ -24,6 +25,7 @@ const isFormValid = computed(() => {
     description.value.trim() !== '' &&
     price.value !== '' &&
     condition.value !== '' &&
+    status.value !== '' &&
     images.value.length > 0
   )
 })
@@ -38,6 +40,7 @@ const fetchClassifiedDetail = async () => {
     description.value = classified.description
     price.value = classified.price
     condition.value = classified.condition?.toString() || '1'
+    status.value = classified.statu?.toString() || '1'
 
     images.value = classified.images.map((imageUrl) => ({
       blob: imageUrl,
@@ -81,16 +84,16 @@ const submitClassified = async () => {
   formData.append('description', description.value)
   formData.append('price', price.value)
   formData.append('condition', condition.value)
+  formData.append('statu', status.value)
 
-  // Only append new images that were uploaded
-  const newImages = images.value.filter((img) => !img.isExisting)
-  newImages.forEach((image, index) => {
-    formData.append(`images[${index}]`, image.file)
+  // Handle all images
+  images.value.forEach((image, index) => {
+    if (image.isExisting) {
+      formData.append(`images[${index}]`, image.url)
+    } else {
+      formData.append(`images[${index}]`, image.file)
+    }
   })
-
-  // Add existing image URLs
-  const existingImages = images.value.filter((img) => img.isExisting).map((img) => img.url)
-  formData.append('existingImages', JSON.stringify(existingImages))
 
   try {
     isLoading.value = true
@@ -101,7 +104,7 @@ const submitClassified = async () => {
     })
 
     toast.success('İlanınız başarıyla güncellendi.')
-    router.push(`/dashboard/classifieds/${route.params.id}`)
+    router.replace(`/dashboard/classifieds/${route.params.id}`)
   } catch (error) {
     toast.error('İlan güncellenirken bir hata oluştu')
   } finally {
@@ -167,6 +170,20 @@ onMounted(() => {
               >
                 <option value="1">Sıfır</option>
                 <option value="2">İkinci El</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold mb-2">İlan Durumu</label>
+            <div class="pr-2 bg-white rounded-3xl">
+              <select
+                v-model="status"
+                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
+              >
+                <option value="0">İptal Edildi</option>
+                <option value="1">Açık</option>
+                <option value="2">Satıldı</option>
               </select>
             </div>
           </div>
