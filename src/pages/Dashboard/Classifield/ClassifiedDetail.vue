@@ -102,7 +102,7 @@
             <div>
               <h1 class="text-2xl font-semibold mb-2">{{ classified.title }}</h1>
               <div class="text-xl font-semibold text-blue-600">
-                {{ formatPrice(classified.price) }} ₺
+                {{ formatPrice(classified.price) }} TL
               </div>
             </div>
             <div
