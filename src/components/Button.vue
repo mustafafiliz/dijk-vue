@@ -29,7 +29,7 @@ const variantClasses = {
 
 <template>
   <button
-    class="flex items-center justify-center bg:opacity-50 disabled:cursor-not-allowed"
+    class="flex items-center justify-center disabled:bg-opacity-50 disabled:cursor-not-allowed"
     :class="[variantClasses[variant], { 'opacity-50 cursor-not-allowed': isDisabled || isLoading }]"
     :type="type"
     :disabled="isDisabled || isLoading"
