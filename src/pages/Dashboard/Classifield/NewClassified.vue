@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import Button from '@/components/Button.vue'
 import Input from '@/components/Input.vue'
 import Textarea from '@/components/Textarea.vue'
 import { useAxios } from '@/plugins/axios'
 import { toast } from 'vue3-toastify'
 import router from '@/router'
+import { formatPrice } from '@/helpers/format'
 
 const title = ref('')
 const description = ref('')
@@ -53,7 +54,10 @@ const submitClassified = async () => {
   const formData = new FormData()
   formData.append('title', title.value)
   formData.append('description', description.value)
-  formData.append('price', price.value)
+
+  const cleanPrice = price.value.replace(/\./g, '').replace(',', '.')
+  formData.append('price', cleanPrice)
+
   formData.append('condition', condition.value)
 
   images.value.forEach((image, index) => {
@@ -75,6 +79,12 @@ const submitClassified = async () => {
     isLoading.value = false
   }
 }
+
+watch(price, (newValue) => {
+  if (newValue) {
+    price.value = formatPrice(newValue)
+  }
+})
 </script>
 
 <template>
@@ -118,7 +128,19 @@ const submitClassified = async () => {
 
           <div>
             <label class="block font-semibold mb-2">Fiyat</label>
-            <Input v-model="price" type="number" class="!text-[12px] lg:text-base !py-4" />
+            <Input
+              v-model="price"
+              type="text"
+              class="!text-[12px] lg:text-base !py-4"
+              @keypress="
+                (e) => {
+                  const charCode = e.which ? e.which : e.keyCode
+                  if (charCode !== 44 && (charCode < 48 || charCode > 57)) {
+                    e.preventDefault()
+                  }
+                }
+              "
+            />
           </div>
 
           <div>

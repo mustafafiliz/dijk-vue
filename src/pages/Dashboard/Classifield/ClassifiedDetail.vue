@@ -71,12 +71,11 @@
         <div class="overflow-x-auto flex gap-2 scrollbar-hide scroll-smooth" ref="sliderContainer">
           <Carousel v-bind="config">
             <Slide v-for="slide in classified.images" :key="slide">
-              <div class="pb-7">
+              <div class="pb-7 min-w-full">
                 <img
-                  :key="index"
                   :src="slide"
                   :alt="`Image ${index + 1}`"
-                  class="w-full h-64 object-cover rounded-lg flex-shrink-0"
+                  class="w-full h-64 object-cover rounded-lg"
                 />
               </div>
             </Slide>
@@ -196,8 +195,7 @@ const showDeleteModal = ref(false)
 const isDeleting = ref(false)
 
 const config = {
-  itemsToShow: 1,
-  arrow: false
+  itemsToShow: 1
 }
 
 const isOwnClassified = computed(() => {
