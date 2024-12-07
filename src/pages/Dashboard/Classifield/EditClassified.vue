@@ -151,7 +151,7 @@ onMounted(() => {
             <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
               <select
                 v-model="status"
-                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
+                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-1"
               >
                 <option value="0">İptal Edildi</option>
                 <option value="1">Açık</option>
@@ -162,7 +162,7 @@ onMounted(() => {
 
           <div>
             <label class="block font-semibold mb-2">Başlık</label>
-            <Input v-model="title" class="!text-[12px] lg:text-base !py-4" />
+            <Input v-model="title" class="!text-[12px] lg:text-base !py-4 h-[45.5px]" />
           </div>
 
           <div>
@@ -172,7 +172,11 @@ onMounted(() => {
 
           <div>
             <label class="block font-semibold mb-2">Fiyat</label>
-            <Input v-model="price" type="number" class="!text-[12px] lg:text-base !py-4" />
+            <Input
+              v-model="price"
+              type="number"
+              class="!text-[12px] lg:text-base !py-4 h-[45.5px]"
+            />
           </div>
 
           <div>
@@ -180,7 +184,7 @@ onMounted(() => {
             <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
               <select
                 v-model="condition"
-                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
+                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-1"
               >
                 <option value="1">Sıfır</option>
                 <option value="2">İkinci El</option>

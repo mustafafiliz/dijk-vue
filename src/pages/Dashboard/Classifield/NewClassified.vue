@@ -118,7 +118,7 @@ watch(price, (newValue) => {
         <div class="space-y-4">
           <div>
             <label class="block font-semibold mb-2">Başlık</label>
-            <Input v-model="title" class="!text-[12px] lg:text-base !py-4" />
+            <Input v-model="title" class="!text-[12px] lg:text-base !py-4 h-[45.5px]" />
           </div>
 
           <div>
@@ -131,7 +131,7 @@ watch(price, (newValue) => {
             <Input
               v-model="price"
               type="text"
-              class="!text-[12px] lg:text-base !py-4"
+              class="!text-[12px] lg:text-base !py-4 h-[45.5px]"
               @keypress="
                 (e) => {
                   const charCode = e.which ? e.which : e.keyCode
@@ -148,7 +148,7 @@ watch(price, (newValue) => {
             <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
               <select
                 v-model="condition"
-                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
+                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-1"
               >
                 <option value="1">Sıfır</option>
                 <option value="2">İkinci El</option>
