@@ -186,3 +186,6 @@ select,
 option {
   background-color: #fff;
 }
+.carousel__icon {
+  display: none !important;
+}

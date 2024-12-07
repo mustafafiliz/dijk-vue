@@ -5,6 +5,7 @@ import Input from '@/components/Input.vue'
 import Textarea from '@/components/Textarea.vue'
 import { useAxios } from '@/plugins/axios'
 import { toast } from 'vue3-toastify'
+import router from '@/router'
 
 const title = ref('')
 const description = ref('')
@@ -66,8 +67,8 @@ const submitClassified = async () => {
         'Content-Type': 'multipart/form-data'
       }
     })
-
     toast.success('İlanınız başarıyla oluşturuldu.')
+    router.back()
   } catch (error) {
     // todo: Handle error
   } finally {
