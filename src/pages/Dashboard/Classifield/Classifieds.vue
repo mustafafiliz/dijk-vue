@@ -120,13 +120,15 @@ onMounted(() => {
           <div class="block">
             <VButton
               @click="handleFilter"
-              class="w-full !text-xs lg:!text-sm !py-3 bg-gray-100 !text-gray-900 block"
+              class="w-full !text-xs lg:!text-sm !py-3 bg-white border border-gray-200 !text-gray-900 block"
             >
               Filtreyi Uygula
             </VButton>
           </div>
           <RouterLink to="/dashboard/classifieds/new" class="block">
-            <VButton class="w-full !text-xs lg:!text-sm !py-3 bg-gentian-flower">
+            <VButton
+              class="w-full !text-xs lg:!text-sm !py-3 bg-gentian-flower border border-gentian-flower"
+            >
               Yeni İlan Oluştur
             </VButton>
           </RouterLink>
