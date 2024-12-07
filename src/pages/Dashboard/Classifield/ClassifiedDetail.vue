@@ -68,24 +68,22 @@
         </div>
 
         <!-- Image Gallery -->
-        <div class="overflow-x-auto flex gap-2 scrollbar-hide scroll-smooth" ref="sliderContainer">
-          <Carousel v-bind="config">
-            <Slide v-for="slide in classified.images" :key="slide">
-              <div class="pb-7 min-w-full">
-                <img
-                  :src="slide"
-                  :alt="`Image ${index + 1}`"
-                  class="w-full h-64 object-cover rounded-lg"
-                />
-              </div>
-            </Slide>
+        <Carousel v-bind="config">
+          <Slide v-for="slide in classified.images" :key="slide">
+            <div class="pb-7 min-w-full">
+              <img
+                :src="slide"
+                :alt="`Image ${index + 1}`"
+                class="w-full h-64 object-cover rounded-lg"
+              />
+            </div>
+          </Slide>
 
-            <template #addons>
-              <Navigation />
-              <Pagination />
-            </template>
-          </Carousel>
-        </div>
+          <template #addons>
+            <Navigation />
+            <Pagination />
+          </template>
+        </Carousel>
 
         <!-- Main Info -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
