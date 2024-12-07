@@ -68,22 +68,33 @@
         </div>
 
         <!-- Image Gallery -->
-        <Carousel v-bind="config">
-          <Slide v-for="slide in classified.images" :key="slide">
-            <div class="pb-7 min-w-full">
-              <img
-                :src="slide"
-                :alt="`Image ${index + 1}`"
-                class="w-full h-64 object-cover rounded-lg"
-              />
-            </div>
-          </Slide>
+        <div class="max-w-[calc(100vw-28px)] lg:max-w-4xl">
+          <swiper
+            :modules="[Navigation, Pagination]"
+            :navigation="{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }"
+            :pagination="{
+              el: '.swiper-pagination',
+              clickable: true
+            }"
+            :slides-per-view="1"
+            :space-between="5"
+          >
+            <swiper-slide v-for="slide in classified.images" :key="slide">
+              <div class="pb-8">
+                <img
+                  :src="slide"
+                  :alt="`Image ${index + 1}`"
+                  class="w-full h-64 object-cover rounded-lg"
+                />
+              </div>
+            </swiper-slide>
 
-          <template #addons>
-            <Navigation />
-            <Pagination />
-          </template>
-        </Carousel>
+            <div class="swiper-pagination"></div>
+          </swiper>
+        </div>
 
         <!-- Main Info -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -181,8 +192,11 @@ import { useMeStore } from '@/stores/me'
 import { toast } from 'vue3-toastify'
 import PersonBox from '@/components/PersonBox.vue'
 import Button from '@/components/Button.vue'
-import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 
 const route = useRoute()
 const router = useRouter()
@@ -191,10 +205,6 @@ const classified = ref(null)
 const meStore = useMeStore()
 const showDeleteModal = ref(false)
 const isDeleting = ref(false)
-
-const config = {
-  itemsToShow: 1
-}
 
 const isOwnClassified = computed(() => {
   return classified.value?.seller?._id === meStore.user?._id
