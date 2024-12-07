@@ -161,7 +161,7 @@ onMounted(() => {
             <Input v-model="price" type="number" class="!text-[12px] lg:text-base !py-4" />
           </div>
 
-          <div>
+          <div class="bg-white px-2 rounded-3xl h-[45.5px] flex flex-col">
             <label class="block font-semibold mb-2">Durum</label>
             <div class="pr-2 bg-white rounded-3xl">
               <select
