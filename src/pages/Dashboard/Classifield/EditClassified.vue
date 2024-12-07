@@ -147,6 +147,20 @@ onMounted(() => {
       <div class="flex flex-col gap-4 pt-8">
         <div class="space-y-4">
           <div>
+            <label class="block font-semibold mb-2">İlan Durumu</label>
+            <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
+              <select
+                v-model="status"
+                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
+              >
+                <option value="0">İptal Edildi</option>
+                <option value="1">Açık</option>
+                <option value="2">Satıldı</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
             <label class="block font-semibold mb-2">Başlık</label>
             <Input v-model="title" class="!text-[12px] lg:text-base !py-4" />
           </div>
@@ -170,20 +184,6 @@ onMounted(() => {
               >
                 <option value="1">Sıfır</option>
                 <option value="2">İkinci El</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block font-semibold mb-2">İlan Durumu</label>
-            <div class="pr-2 bg-white rounded-3xl">
-              <select
-                v-model="status"
-                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-4"
-              >
-                <option value="0">İptal Edildi</option>
-                <option value="1">Açık</option>
-                <option value="2">Satıldı</option>
               </select>
             </div>
           </div>
