@@ -1,8 +1,6 @@
 <script setup>
 import BottomNavigation from '@/components/BottomNavigation.vue'
-import AnnouncementAccordion from '@/components/InfoSlider/AnnouncementAccordion.vue'
 import ArticleCard from '@/components/InfoSlider/ArticleCard.vue'
-import Spinner from '@/components/Spinner.vue'
 import { useAxios } from '@/plugins/axios'
 import { ref, onMounted } from 'vue'
 
