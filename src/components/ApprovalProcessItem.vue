@@ -193,6 +193,7 @@ const handleCloseHtmlModal = () => {
               >İptal</Button
             >
             <button
+              :disabled="loading"
               @click="handleStatusChange(false, rejectMessage)"
               class="flex-1 w-full h-12 flex items-center justify-center gap-x-2 bg-gray-100 rounded-[10px] py-2 text-lusty-red font-medium text-14"
               type="button"
@@ -254,6 +255,7 @@ const handleCloseHtmlModal = () => {
               >İptal</Button
             >
             <button
+              :disabled="loading"
               @click="handleStatusChange(true, approveMessage)"
               class="flex-1 h-12 flex items-center justify-center gap-x-2 bg-gray-100 rounded-[10px] p-2 text-gamora font-medium text-14"
               type="button"
