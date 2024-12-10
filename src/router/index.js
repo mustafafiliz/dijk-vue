@@ -17,6 +17,8 @@ import DashboardClassifiedsDetail from '@/pages/Dashboard/Classifield/Classified
 import DashboardClassifiedsEdit from '@/pages/Dashboard/Classifield/EditClassified.vue'
 import DashboardExpenseList from '@/pages/Dashboard/ExpenseRequest/Index.vue'
 import DashboardExpenseRequestNew from '@/pages/Dashboard/ExpenseRequest/NewRequest.vue'
+import DashboardPrePayRequestList from '@/pages/Dashboard/PrePayRequest/PrePayRequestList.vue'
+import DashboardPrePayRequestNew from '@/pages/Dashboard/PrePayRequest/PrePayRequestNew.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
@@ -55,6 +57,8 @@ const routes = [
   { path: '/dashboard/permission-request/new', component: DashboardPermissionRequestNew },
   { path: '/dashboard/overtime-request/list', component: DashboardOvertimeRequestList },
   { path: '/dashboard/overtime-request/new', component: DashboardOvertimeRequestNew },
+  { path: '/dashboard/prepay-request/list', component: DashboardPrePayRequestList },
+  { path: '/dashboard/prepay-request/new', component: DashboardPrePayRequestNew },
   { path: '/dashboard/expense/list', component: DashboardExpenseList },
   { path: '/dashboard/expense/new', component: DashboardExpenseRequestNew },
   { path: '/dashboard/calendar', component: DashboardCalendar },
