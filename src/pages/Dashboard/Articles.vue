@@ -15,7 +15,7 @@ const getArticles = async () => {
   try {
     const { data } = await axios.get('/articles')
 
-    articles.value = data.data
+    articles.value = data
   } catch (error) {
     return error
   } finally {
