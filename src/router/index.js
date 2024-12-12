@@ -47,173 +47,173 @@ const routes = [
   {
     path: '/auth/login',
     component: Login,
-    meta: { title: 'DijiPortal - Giriş Yap' }
+    meta: { title: 'Diji Portal - Giriş Yap' }
   },
   {
     path: '/auth/reset-password',
     component: ResetPassword,
-    meta: { title: 'DijiPortal - Şifre Sıfırlama' }
+    meta: { title: 'Diji Portal - Şifre Sıfırlama' }
   },
 
   // Dashboard Routes
   {
     path: '/dashboard/home',
     component: DashboardHome,
-    meta: { title: 'DijiPortal - Ana Sayfa' }
+    meta: { title: 'Diji Portal - Ana Sayfa' }
   },
   {
     path: '/dashboard/profile/:id',
     component: DashboardProfile,
-    meta: { title: 'DijiPortal - Profil' }
+    meta: { title: 'Diji Portal - Profil' }
   },
   {
     path: '/dashboard/profile/organization/:id',
     component: DashboardProfileOrganization,
-    meta: { title: 'DijiPortal - Organizasyon' }
+    meta: { title: 'Diji Portal - Organizasyon' }
   },
   {
     path: '/dashboard/fields',
     component: DashboardFields,
-    meta: { title: 'DijiPortal - Alanlar' }
+    meta: { title: 'Diji Portal - Alanlar' }
   },
   {
     path: '/dashboard/articles',
     component: DashboardArticles,
-    meta: { title: 'DijiPortal - Haberler' }
+    meta: { title: 'Diji Portal - Haberler' }
   },
   {
     path: '/dashboard/announcements',
     component: DashboardAnnouncements,
-    meta: { title: 'DijiPortal - Duyurular' }
+    meta: { title: 'Diji Portal - Duyurular' }
   },
   {
     path: '/dashboard/videos',
     component: DashboardVideos,
-    meta: { title: 'DijiPortal - Eğitimler' }
+    meta: { title: 'Diji Portal - Eğitimler' }
   },
   {
     path: '/dashboard/payrolls',
     component: DashboardPayrolls,
-    meta: { title: 'DijiPortal - Bordro' }
+    meta: { title: 'Diji Portal - Bordro' }
   },
   {
     path: '/dashboard/events',
     component: DashboardEvents,
-    meta: { title: 'DijiPortal - Etkinlikler' }
+    meta: { title: 'Diji Portal - Etkinlikler' }
   },
 
   // Classified Routes
   {
     path: '/dashboard/classifieds',
     component: DashboardClassifieds,
-    meta: { title: 'DijiPortal - İlanlar' }
+    meta: { title: 'Diji Portal - İlanlar' }
   },
   {
     path: '/dashboard/classifieds/new',
     component: DashboardClassifiedsNew,
-    meta: { title: 'DijiPortal - Yeni İlan' }
+    meta: { title: 'Diji Portal - Yeni İlan' }
   },
   {
     path: '/dashboard/classifieds/:id',
     component: DashboardClassifiedsDetail,
-    meta: { title: 'DijiPortal - İlan Detay' }
+    meta: { title: 'Diji Portal - İlan Detay' }
   },
   {
     path: '/dashboard/classifieds/:id/edit',
     component: DashboardClassifiedsEdit,
-    meta: { title: 'DijiPortal - İlan Düzenle' }
+    meta: { title: 'Diji Portal - İlan Düzenle' }
   },
 
   // Team & Directory Routes
   {
     path: '/dashboard/team',
     component: DashboardTeam,
-    meta: { title: 'DijiPortal - Takım' }
+    meta: { title: 'Diji Portal - Takım' }
   },
   {
     path: '/dashboard/directory',
     component: DashboardDirectory,
-    meta: { title: 'DijiPortal - Rehber' }
+    meta: { title: 'Diji Portal - Rehber' }
   },
 
   // Request Routes
   {
     path: '/dashboard/approval-process',
     component: DashboardApprovalProcess,
-    meta: { title: 'DijiPortal - Onayımdaki Süreçler' }
+    meta: { title: 'Diji Portal - Onayımdaki Süreçler' }
   },
   {
     path: '/dashboard/permission-request/list',
     component: DashboardPermissionRequestList,
-    meta: { title: 'DijiPortal - İzin Talepleri' }
+    meta: { title: 'Diji Portal - İzin Talepleri' }
   },
   {
     path: '/dashboard/permission-request/new',
     component: DashboardPermissionRequestNew,
-    meta: { title: 'DijiPortal - Yeni İzin Talebi' }
+    meta: { title: 'Diji Portal - Yeni İzin Talebi' }
   },
   {
     path: '/dashboard/overtime-request/list',
     component: DashboardOvertimeRequestList,
-    meta: { title: 'DijiPortal - Mesai Talepleri' }
+    meta: { title: 'Diji Portal - Mesai Talepleri' }
   },
   {
     path: '/dashboard/overtime-request/new',
     component: DashboardOvertimeRequestNew,
-    meta: { title: 'DijiPortal - Yeni Mesai Talebi' }
+    meta: { title: 'Diji Portal - Yeni Mesai Talebi' }
   },
   {
     path: '/dashboard/prepay-request/list',
     component: DashboardPrePayRequestList,
-    meta: { title: 'DijiPortal - Avans Talepleri' }
+    meta: { title: 'Diji Portal - Avans Talepleri' }
   },
   {
     path: '/dashboard/prepay-request/new',
     component: DashboardPrePayRequestNew,
-    meta: { title: 'DijiPortal - Yeni Avans Talebi' }
+    meta: { title: 'Diji Portal - Yeni Avans Talebi' }
   },
   {
     path: '/dashboard/installment-request/list',
     component: DashboardInstallmentRequestList,
-    meta: { title: 'DijiPortal - Taksit Talepleri' }
+    meta: { title: 'Diji Portal - Taksit Talepleri' }
   },
   {
     path: '/dashboard/installment-request/new',
     component: DashboardInstallmentRequestNew,
-    meta: { title: 'DijiPortal - Yeni Taksit Talebi' }
+    meta: { title: 'Diji Portal - Yeni Taksit Talebi' }
   },
   {
     path: '/dashboard/expense/list',
     component: DashboardExpenseList,
-    meta: { title: 'DijiPortal - Masraf Talepleri' }
+    meta: { title: 'Diji Portal - Masraf Talepleri' }
   },
   {
     path: '/dashboard/expense/new',
     component: DashboardExpenseRequestNew,
-    meta: { title: 'DijiPortal - Yeni Masraf Talebi' }
+    meta: { title: 'Diji Portal - Yeni Masraf Talebi' }
   },
 
   // Other Dashboard Routes
   {
     path: '/dashboard/calendar',
     component: DashboardCalendar,
-    meta: { title: 'DijiPortal - Takvim' }
+    meta: { title: 'Diji Portal - Takvim' }
   },
   {
     path: '/dashboard/settings',
     component: DashboardSettings,
-    meta: { title: 'DijiPortal - Ayarlar' }
+    meta: { title: 'Diji Portal - Ayarlar' }
   },
   {
     path: '/dashboard/performance',
     component: DashboardPerformance,
-    meta: { title: 'DijiPortal - Performans' }
+    meta: { title: 'Diji Portal - Performans' }
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound,
-    meta: { title: 'DijiPortal - Sayfa Bulunamadı' }
+    meta: { title: 'Diji Portal - Sayfa Bulunamadı' }
   }
 ]
 
@@ -224,7 +224,7 @@ const router = createRouter({
 
 // Global navigation guard for setting page titles
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'DijiPortal'
+  document.title = to.meta.title || 'Diji Portal'
   next()
 })
 
