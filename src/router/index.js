@@ -19,6 +19,8 @@ import DashboardExpenseList from '@/pages/Dashboard/ExpenseRequest/Index.vue'
 import DashboardExpenseRequestNew from '@/pages/Dashboard/ExpenseRequest/NewRequest.vue'
 import DashboardPrePayRequestList from '@/pages/Dashboard/PrePayRequest/PrePayRequestList.vue'
 import DashboardPrePayRequestNew from '@/pages/Dashboard/PrePayRequest/PrePayRequestNew.vue'
+import DashboardInstallmentRequestList from '@/pages/Dashboard/InstallmentRequest/InstallmentRequestList.vue'
+import DashboardInstallmentRequestNew from '@/pages/Dashboard/InstallmentRequest/InstallmentRequestNew.vue'
 import DashboardPermissionRequestList from '@/pages/Dashboard/PermissionRequest/Index.vue'
 import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/NewRequest.vue'
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
@@ -59,6 +61,8 @@ const routes = [
   { path: '/dashboard/overtime-request/new', component: DashboardOvertimeRequestNew },
   { path: '/dashboard/prepay-request/list', component: DashboardPrePayRequestList },
   { path: '/dashboard/prepay-request/new', component: DashboardPrePayRequestNew },
+  { path: '/dashboard/installment-request/list', component: DashboardInstallmentRequestList },
+  { path: '/dashboard/installment-request/new', component: DashboardInstallmentRequestNew },
   { path: '/dashboard/expense/list', component: DashboardExpenseList },
   { path: '/dashboard/expense/new', component: DashboardExpenseRequestNew },
   { path: '/dashboard/calendar', component: DashboardCalendar },

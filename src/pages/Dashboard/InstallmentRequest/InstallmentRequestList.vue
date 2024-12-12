@@ -10,7 +10,6 @@ const meStore = useMeStore()
 const loading = ref(true)
 const startYear = new Date(meStore.user.work_start_date).getFullYear()
 const endYear = ref(new Date().getFullYear())
-const detailLoading = ref(false)
 
 const yearOptions = computed(() => {
   const options = []
@@ -24,7 +23,7 @@ const yearOptions = computed(() => {
 })
 
 const selectedYear = ref(endYear.value)
-const prepays = ref([])
+const loans = ref([])
 const { axios } = useAxios()
 
 const getYearDateRange = (year) => {
@@ -36,14 +35,14 @@ const getYearDateRange = (year) => {
   }
 }
 
-const getPrepays = async () => {
+const getLoans = async () => {
   loading.value = true
   try {
     const { start_date, end_date } = getYearDateRange(selectedYear.value)
-    const { data } = await axios.get(`/pre-pays`, {
+    const { data } = await axios.get(`/loans`, {
       params: { start_date, end_date }
     })
-    prepays.value = data
+    loans.value = data
   } catch (error) {
     console.error('Error fetching prepays:', error)
   } finally {
@@ -65,11 +64,11 @@ const getStatusColor = (status) => {
 }
 
 watch(selectedYear, () => {
-  getPrepays()
+  getLoans()
 })
 
 onMounted(() => {
-  getPrepays()
+  getLoans()
 })
 </script>
 
@@ -95,12 +94,14 @@ onMounted(() => {
           />
         </svg>
       </button>
-      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Avanslarım</div>
+      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">
+        Taksitli Borçlarım
+      </div>
 
       <div class="grid grid-cols-1 gap-4">
-        <RouterLink to="/dashboard/prepay-request/new">
+        <RouterLink to="/dashboard/installment-request/new">
           <Button class="w-full !py-3 text-base lg:text-lg text-nowrap"
-            >Avans Talebi Oluştur</Button
+            >Taksitli Borç Talebi Oluştur</Button
           >
         </RouterLink>
         <!-- Year Selector -->
@@ -125,8 +126,8 @@ onMounted(() => {
         <!-- Cards Grid -->
         <div v-else class="grid grid-cols-1 gap-4">
           <div
-            v-if="prepays.length > 0"
-            v-for="item in prepays"
+            v-if="loans.length > 0"
+            v-for="item in loans"
             :key="item._id"
             class="bg-white rounded-xl p-4 shadow-sm"
           >

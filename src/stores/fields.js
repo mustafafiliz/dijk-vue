@@ -8,7 +8,7 @@ export const useFieldsStore = defineStore('fields', {
       { title: 'Masraf', to: '/dashboard/expense/list', image: '/images/harcama.svg' },
       {
         title: 'Taksitli Borç',
-        to: '/dashboard/expense/list',
+        to: '/dashboard/installment-request/list',
         image: '/images/taksitli-borc.png'
       },
       { title: 'Fazla Mesai', to: '/dashboard/overtime-request/list', image: '/images/mesai.svg' },
