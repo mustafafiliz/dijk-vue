@@ -37,12 +37,23 @@ const checkAndUpdateStorage = () => {
   const parsedStoredItems = JSON.parse(storedItems)
   let needsUpdate = false
 
-  defaultItems.forEach((defaultItem) => {
-    const storedItem = parsedStoredItems.find((item) => item.title === defaultItem.title)
-    if (storedItem && storedItem.to !== defaultItem.to) {
-      needsUpdate = true
+  if (parsedStoredItems.length !== defaultItems.length) {
+    needsUpdate = true
+  } else {
+    for (let i = 0; i < defaultItems.length; i++) {
+      const defaultItem = defaultItems[i]
+      const storedItem = parsedStoredItems.find((item) => item.title === defaultItem.title)
+
+      if (
+        !storedItem ||
+        storedItem.to !== defaultItem.to ||
+        storedItem.title !== defaultItem.title
+      ) {
+        needsUpdate = true
+        break
+      }
     }
-  })
+  }
 
   if (needsUpdate) {
     localStorage.setItem('fieldsItems', JSON.stringify(defaultItems))
