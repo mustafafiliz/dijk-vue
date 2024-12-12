@@ -6,7 +6,7 @@ import { useAxios } from '@/plugins/axios'
 import { toast } from 'vue3-toastify'
 import Datepicker from 'vue3-datepicker'
 import { useMeStore } from '@/stores/me'
-import { nextTick } from 'vue'
+import tr from 'date-fns/locale/tr'
 
 export default {
   components: {
@@ -29,7 +29,8 @@ export default {
       substitutePerson: '',
       loading: false,
       showModal: false,
-      submitted: false
+      submitted: false,
+      dateLocale: tr
     }
   },
   methods: {
@@ -199,7 +200,11 @@ export default {
             Başlangıç Tarihi <span class="text-red-500">*</span>
           </div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker v-model="permitStartDate" :locale="tr" class="outline-none w-full" />
+            <Datepicker
+              v-model="permitStartDate"
+              :locale="dateLocale"
+              class="outline-none w-full"
+            />
             <Input
               class="!text-12 !py-0 !px-0 !w-fit text-squant"
               type="time"
@@ -213,7 +218,7 @@ export default {
             Bitiş Tarihi <span class="text-red-500">*</span>
           </div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker v-model="permitEndDate" :locale="tr" class="outline-none w-full" />
+            <Datepicker v-model="permitEndDate" :locale="dateLocale" class="outline-none w-full" />
             <Input
               class="!text-12 !py-0 !px-0 !w-fit text-squant"
               type="time"

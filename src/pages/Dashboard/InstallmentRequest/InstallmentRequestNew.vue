@@ -8,6 +8,7 @@ import { toast } from 'vue3-toastify'
 import router from '@/router'
 import { formatPrice } from '@/helpers/format'
 import dayjs from 'dayjs'
+import tr from 'date-fns/locale/tr'
 
 const today = dayjs(new Date()).format('YYYY-MM-DD')
 const date = ref(new Date())
@@ -17,6 +18,7 @@ const loan_options = ref([])
 const showModal = ref(false)
 const showConfirmModal = ref(false)
 const isLoading = ref(false)
+const dateLocale = ref(tr)
 const { axios } = useAxios()
 
 const selectedCurrency = computed(() => {
@@ -124,7 +126,7 @@ onMounted(() => {
         <div>
           <div class="font-semibold mb-[10px]">Tarih <span class="text-red-500">*</span></div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker v-model="date" :locale="tr" class="outline-none w-full" />
+            <Datepicker v-model="date" :locale="dateLocale" class="outline-none w-full" />
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { createPinia } from 'pinia'
 import 'v-calendar/style.css'
+import '@vuepic/vue-datepicker/dist/main.css'
 import './assets/main.css'
 
 import { createApp } from 'vue'

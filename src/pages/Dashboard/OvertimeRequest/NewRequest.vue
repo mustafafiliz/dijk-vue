@@ -6,6 +6,8 @@ import Datepicker from 'vue3-datepicker'
 import { useMeStore } from '@/stores/me'
 import { toast } from 'vue3-toastify'
 import { useAxios } from '@/plugins/axios'
+import tr from 'date-fns/locale/tr'
+
 
 export default {
   components: {
@@ -25,7 +27,8 @@ export default {
       showConfirmModal: false,
       submitted: false,
       overtime_code: 'FM01',
-      isEndTimeUpdating: false
+      isEndTimeUpdating: false,
+      dateLocale:tr
     }
   },
   mounted() {
@@ -125,7 +128,7 @@ export default {
         <div>
           <div class="font-semibold mb-[10px]">Mesai Tarihi <span class="text-red-500">*</span></div>
           <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker v-model="overtimeDate" :locale="tr" class="outline-none w-full" />
+            <Datepicker v-model="overtimeDate" :locale="dateLocale" class="outline-none w-full" />
           </div>
         </div>
 
