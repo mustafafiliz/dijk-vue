@@ -185,12 +185,12 @@ const routes = [
   {
     path: '/dashboard/expense/list',
     component: DashboardExpenseList,
-    meta: { title: 'DijiPortal - Harcama Talepleri' }
+    meta: { title: 'DijiPortal - Masraf Talepleri' }
   },
   {
     path: '/dashboard/expense/new',
     component: DashboardExpenseRequestNew,
-    meta: { title: 'DijiPortal - Yeni Harcama Talebi' }
+    meta: { title: 'DijiPortal - Yeni Masraf Talebi' }
   },
 
   // Other Dashboard Routes
