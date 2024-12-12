@@ -44,7 +44,7 @@ const getLoans = async () => {
     })
     loans.value = data
   } catch (error) {
-    console.error('Error fetching prepays:', error)
+    console.error('Error fetching loans:', error)
   } finally {
     loading.value = false
   }
@@ -104,7 +104,7 @@ onMounted(() => {
             >Taksitli Borç Talebi Oluştur</Button
           >
         </RouterLink>
-        <!-- Year Selector -->
+
         <div
           class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
         >
@@ -115,7 +115,6 @@ onMounted(() => {
           </select>
         </div>
 
-        <!-- Loading State -->
         <div v-if="loading" class="flex flex-col items-center justify-items-center pt-20">
           <div
             class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
@@ -123,7 +122,6 @@ onMounted(() => {
           <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
         </div>
 
-        <!-- Cards Grid -->
         <div v-else class="grid grid-cols-1 gap-4">
           <div
             v-if="loans.length > 0"
@@ -132,7 +130,7 @@ onMounted(() => {
             class="bg-white rounded-xl p-4 shadow-sm"
           >
             <div class="flex justify-between items-start mb-3">
-              <div class="font-medium text-night-sky">{{ item.prePayType.title }}</div>
+              <div class="font-medium text-night-sky">{{ item.loanType?.title }}</div>
               <span
                 :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusColor(item.statu)]"
               >
@@ -151,13 +149,31 @@ onMounted(() => {
               <div class="flex justify-between">
                 <span class="text-gray-500">Tutar:</span>
                 <span class="font-medium">
-                  {{ formatPrice(item.price.toString()) }} {{ item.prePayType.currency }}
+                  {{ formatPrice(item.price.toString()) }} {{ item.loanType?.currency }}
                 </span>
               </div>
 
               <div class="flex justify-between">
-                <span class="text-gray-500">Aktarım Durumu:</span>
-                <span class="font-medium">{{ item.transfer_text }}</span>
+                <span class="text-gray-500">Durum:</span>
+                <span class="font-medium">{{ item.loan_statu_text }}</span>
+              </div>
+
+              <div class="flex justify-between">
+                <span class="text-gray-500">Onaylanan Tutar:</span>
+                <span class="font-medium">
+                  {{ item.approved_price > 0 ? formatPrice(item.approved_price.toString()) : '-' }}
+                  {{ item.approved_price > 0 ? item.loanType?.currency : '' }}
+                </span>
+              </div>
+
+              <div v-if="item.approver" class="flex justify-between">
+                <span class="text-gray-500">Onaylayan:</span>
+                <span class="font-medium">{{ item.approver }}</span>
+              </div>
+
+              <div v-if="item.message" class="flex justify-between">
+                <span class="text-gray-500">Mesaj:</span>
+                <span class="font-medium">{{ item.message }}</span>
               </div>
             </div>
           </div>
