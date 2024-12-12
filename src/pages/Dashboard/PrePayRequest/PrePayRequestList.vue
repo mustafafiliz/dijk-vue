@@ -4,6 +4,7 @@ import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 import { ref, onMounted, computed, watch } from 'vue'
 import { formatPrice } from '@/helpers/format'
+import Button from '@/components/Button.vue'
 
 const meStore = useMeStore()
 const loading = ref(true)
@@ -98,7 +99,12 @@ onMounted(() => {
       </button>
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Avanslarım</div>
 
-      <div class="grid grid-cols-1 gap-4 lg:mt-16">
+      <div class="grid grid-cols-1 gap-4">
+        <RouterLink to="/dashboard/prepay-request/new">
+          <Button class="w-full !py-3 text-base lg:text-lg text-nowrap"
+            >Avans Talebi Oluştur</Button
+          >
+        </RouterLink>
         <!-- Year Selector -->
         <div
           class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
