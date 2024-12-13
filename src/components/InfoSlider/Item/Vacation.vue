@@ -60,20 +60,24 @@ defineProps({
       <div>
         Geçerli İzin:
         <span v-if="isOffTodayPermit" class="text-gentian-flower">
-          {{ isOffTodayPermit?.start_date }} / {{ isOffTodayPermit?.end_date }}
+          {{ isOffTodayPermit?.permit_group?.title || isOffTodayPermit?.title || '-' }}
         </span>
         <span v-else> - </span>
       </div>
 
-      <div>
-        <div v-if="isOffToday" class="text-end">
-          <div class="text-gentian-flower">İzinli</div>
+      <div v-if="isOffTodayPermit" class="text-end">
+        <div class="text-gray-800 w-full space-y-1">
+          <div>{{ isOffTodayPermit?.start_date }} &nbsp; {{ isOffTodayPermit?.start_hour }}</div>
+          <div>{{ isOffTodayPermit?.end_date }} &nbsp; {{ isOffTodayPermit?.end_hour }}</div>
+          <div>
+            Toplam: <span class="text-gentian-flower">{{ isOffTodayPermit?.total_day }} gün</span>
+          </div>
         </div>
+      </div>
 
-        <div v-else class="text-end">
-          Geçerli bir izniniz bulunmuyor.
-          <div class="text-gentian-flower">İyi çalışmalar !</div>
-        </div>
+      <div v-else class="text-end">
+        Geçerli bir izniniz bulunmuyor.
+        <div class="text-gentian-flower">İyi çalışmalar !</div>
       </div>
     </div>
   </div>
