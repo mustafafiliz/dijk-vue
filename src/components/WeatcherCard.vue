@@ -51,12 +51,10 @@ watchEffect(updateCurrentTime, { flush: 'post' })
     class="rounded-lg overflow-hidden relative md:aspect-[400/90] aspect-[400/150] w-full h-auto"
   >
     <div class="absolute inset-0 z-10 bg-black bg-opacity-5" />
-    <div
-      class="z-[11] flex items-center justify-between absolute top-0 left-0 w-full p-[10px] text-white md:p-10"
-    >
-      <div class="font-semibold">
-        <div class="text-[20px] md:text-4xl mt-5">{{ greeting }}</div>
-        <div class="text-[25px] md:text-5xl mt-5">{{ currentTime }}</div>
+    <div class="z-[11] flex items-center justify-between absolute inset-0 w-full px-5 text-white">
+      <div class="font-semibold pb-5">
+        <div class="text-[20px] md:text-3xl lg:text-4xl mt-5">{{ greeting }}</div>
+        <div class="text-[25px] md:text-4xl lg:text-5xl mt-5">{{ currentTime }}</div>
       </div>
     </div>
     <img class="w-full h-full object-cover" :src="imageSrc" alt="" />
