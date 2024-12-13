@@ -60,7 +60,7 @@ defineProps({
       <div>
         Geçerli İzin:
         <span v-if="isOffTodayPermit" class="text-gentian-flower">
-          {{ isOffTodayPermit?.start_date }} - {{ isOffTodayPermit?.end_date }}
+          {{ isOffTodayPermit?.start_date }} / {{ isOffTodayPermit?.end_date }}
         </span>
         <span v-else> - </span>
       </div>
