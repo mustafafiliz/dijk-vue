@@ -102,7 +102,7 @@
             <div>
               <h1 class="text-2xl font-semibold mb-2">{{ classified.title }}</h1>
               <div class="text-xl font-semibold text-blue-600">
-                {{ formatPrice(classified.price) }} TL
+                {{ formatPrice(classified?.price?.toString().replace('.', ',')) }} TL
               </div>
             </div>
             <div
@@ -197,6 +197,7 @@ import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { formatPrice } from '@/helpers/format'
 
 const route = useRoute()
 const router = useRouter()
@@ -209,13 +210,6 @@ const isDeleting = ref(false)
 const isOwnClassified = computed(() => {
   return classified.value?.seller?._id === meStore.user?._id
 })
-
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('tr-TR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(price)
-}
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('tr-TR', {

@@ -149,7 +149,8 @@ onMounted(() => {
               <div class="flex justify-between">
                 <span class="text-gray-500">Tutar:</span>
                 <span class="font-medium">
-                  {{ formatPrice(item.price.toString()) }} {{ item.prePayType.currency }}
+                  {{ formatPrice(item.price.toString().replace('.', ',')) }}
+                  {{ item.prePayType.currency }}
                 </span>
               </div>
 
