@@ -10,7 +10,6 @@ const meStore = useMeStore()
 const loading = ref(true)
 const startYear = new Date(meStore.user.work_start_date).getFullYear()
 const endYear = ref(new Date().getFullYear())
-const detailLoading = ref(false)
 
 const yearOptions = computed(() => {
   const options = []

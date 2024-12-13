@@ -259,8 +259,6 @@ export default {
           sms_verification_code: this.smsCode
         })
         .then((response) => {
-          console.log(response.data)
-
           sessionStore.setSession(response.data)
           window.location.href = '/dashboard/home'
         })

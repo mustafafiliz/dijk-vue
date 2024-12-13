@@ -39,6 +39,9 @@ import DashboardPermissionRequestNew from '@/pages/Dashboard/PermissionRequest/N
 import DashboardOvertimeRequestList from '@/pages/Dashboard/OvertimeRequest/Index.vue'
 import DashboardOvertimeRequestNew from '@/pages/Dashboard/OvertimeRequest/NewRequest.vue'
 
+//User Documents
+import DashboardDocumentsList from '@/pages/Dashboard/UserDocuments/UserDocumentsList.vue'
+
 // Other Pages
 import NotFound from '@/pages/NotFound.vue'
 
@@ -191,6 +194,13 @@ const routes = [
     path: '/dashboard/expense/new',
     component: DashboardExpenseRequestNew,
     meta: { title: 'DijiPortal - Yeni Masraf Talebi' }
+  },
+
+  // User Documents Routes
+  {
+    path: '/dashboard/documents',
+    component: DashboardDocumentsList,
+    meta: { title: 'DijiPortal - Evraklarım' }
   },
 
   // Other Dashboard Routes

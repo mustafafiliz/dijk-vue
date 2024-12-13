@@ -152,8 +152,6 @@ const getHomePageData = async () => {
     myRemainingPermits.value = data.annual_permit_day
     isOffToday.value = data.is_off_today
     isOffTodayPermit.value = data.is_off_today_permit
-
-    console.log('hey', data.is_off_today)
   } catch (error) {
     return error
   } finally {

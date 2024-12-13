@@ -36,12 +36,6 @@ const updateFilteredRequests = (data) => {
       item.now_birthday ? new Date(item.now_birthday) : new Date(item.end_date)
     )
 
-    if (item?.title === 'CUMHURİYET BAYRAMI') {
-      console.log(startDate, endDate, today)
-      console.log('start_date', item.start_date)
-      console.log('end_date', item.end_date)
-    }
-
     const isDateInRange = startDate <= today && today <= endDate
 
     return isUserRequest && isDateInRange

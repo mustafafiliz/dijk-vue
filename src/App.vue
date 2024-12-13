@@ -83,6 +83,17 @@ export default {
 
     try {
       const { data } = await meStore.fetchUserProfile()
+
+      // Check missing documents
+      if (
+        data?.missing_documents?.some((doc) => doc.statu === 0) &&
+        !router.currentRoute.value.path.includes('/dashboard/documents')
+      ) {
+        console.log('Missing documents, redirecting to documents page')
+        router.push('/dashboard/documents')
+        return
+      }
+
       this.userName = data?.name
       this.checkEvents(data?.birthday, data?.senior_date)
     } catch (error) {
