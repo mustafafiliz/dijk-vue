@@ -4,6 +4,7 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
 import { useAxios } from '@/plugins/axios'
 import { onMounted, ref } from 'vue'
 import Button from '@/components/Button.vue'
+import { toast } from 'vue3-toastify'
 
 const { axios } = useAxios()
 const approvalProcesses = ref([])
@@ -58,7 +59,7 @@ const refreshApprovalProcesses = async () => {
 
     approvalProcesses.value = data.data
   } catch (error) {
-    console.error('Error fetching team members:', error)
+    toast.error(error?.response?.data?.message)
   } finally {
     loading.value = false
   }

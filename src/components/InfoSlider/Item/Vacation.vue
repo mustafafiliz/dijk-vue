@@ -70,7 +70,8 @@ defineProps({
           <div>{{ isOffTodayPermit?.start_date }} &nbsp; {{ isOffTodayPermit?.start_hour }}</div>
           <div>{{ isOffTodayPermit?.end_date }} &nbsp; {{ isOffTodayPermit?.end_hour }}</div>
           <div>
-            Toplam: <span class="text-gentian-flower">{{ isOffTodayPermit?.total_day }} gün</span>
+            Toplam İzin Süresi:
+            <span class="text-gentian-flower">{{ isOffTodayPermit?.total_day }} gün</span>
           </div>
         </div>
       </div>

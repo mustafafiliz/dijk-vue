@@ -7,6 +7,7 @@ import { toast } from 'vue3-toastify'
 
 const meStore = useMeStore()
 const loading = ref(true)
+const uploadLoadingMap = ref(new Map())
 const documents = ref([])
 
 const hasRequiredDocuments = computed(() => {
@@ -40,11 +41,20 @@ const getStatusText = (status) => {
 }
 
 const handleFileUpload = async (documentId, event) => {
-  const file = event.target.files[0]
-  if (!file) return
+  const files = event.target.files
+  if (!files.length || files.length > 3) {
+    toast.error('En fazla 3 dosya yükleyebilirsiniz.')
+    return
+  }
 
+  uploadLoadingMap.value.set(documentId, true)
   const formData = new FormData()
-  formData.append('documents[0]', file)
+
+  Array.from(files).forEach((file, index) => {
+    if (index < 3) {
+      formData.append(`documents[${index}]`, file)
+    }
+  })
   formData.append('document_id', documentId)
 
   try {
@@ -59,11 +69,13 @@ const handleFileUpload = async (documentId, event) => {
     if (docIndex !== -1) {
       documents.value[docIndex].statu = 1
     }
-    toast.success('Dosya başarıyla yüklendi.')
+    toast.success('Dosyalar başarıyla yüklendi.')
 
     await meStore.fetchUserProfile()
   } catch (error) {
-    console.error('Error uploading file:', error)
+    toast.error(error?.response?.data?.message)
+  } finally {
+    uploadLoadingMap.value.delete(documentId)
   }
 }
 
@@ -108,7 +120,6 @@ onMounted(() => {
       </button>
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Evraklarım</div>
 
-      <!-- Required Documents Warning -->
       <div
         v-if="hasRequiredDocuments"
         class="lg:mt-6 mb-2 lg:mb-4 p-2 lg:p-4 bg-amber-50 border border-amber-200 rounded-xl"
@@ -137,7 +148,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Loading State -->
       <div v-if="loading" class="flex flex-col items-center justify-items-center pt-20">
         <div
           class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
@@ -145,7 +155,6 @@ onMounted(() => {
         <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
       </div>
 
-      <!-- Documents List -->
       <div v-else class="mt-4 lg:mt-8 grid grid-cols-1 gap-2 lg:gap-4 pb-4">
         <div
           v-for="doc in documents"
@@ -158,10 +167,10 @@ onMounted(() => {
               <span
                 :class="[
                   'inline-block mt-2 px-3 py-1 rounded-full text-[10px] lg:text-xs font-medium',
-                  getStatusColor(doc.statu, doc.required)
+                  getStatusColor(doc.statu)
                 ]"
               >
-                {{ getStatusText(doc.statu, doc.required) }}
+                {{ getStatusText(doc.statu) }}
               </span>
             </div>
 
@@ -169,22 +178,48 @@ onMounted(() => {
               <label :for="doc._id" class="cursor-pointer inline-flex items-center">
                 <div
                   class="bg-gentian-flower hover:bg-blue-700 transition-colors text-white text-xs font-medium px-3 py-1.5 rounded-md flex items-center"
+                  :class="{ 'opacity-75 cursor-not-allowed': uploadLoadingMap.get(doc._id) }"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 mr-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                    />
-                  </svg>
-                  Yükle
+                  <template v-if="uploadLoadingMap.get(doc._id)">
+                    <svg
+                      class="animate-spin h-4 w-4 mr-1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Yükleniyor...
+                  </template>
+                  <template v-else>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 mr-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                      />
+                    </svg>
+                    Yükle
+                  </template>
                 </div>
                 <input
                   :id="doc._id"
@@ -192,6 +227,8 @@ onMounted(() => {
                   class="hidden"
                   @change="(e) => handleFileUpload(doc._id, e)"
                   accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  multiple
+                  :disabled="uploadLoadingMap.get(doc._id)"
                 />
               </label>
             </div>
