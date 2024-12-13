@@ -3,7 +3,7 @@ import BottomNavigation from '@/components/BottomNavigation.vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 import { ref, onMounted, computed } from 'vue'
-import { toast } from 'vue3-toastify/index'
+import { toast } from 'vue3-toastify'
 
 const meStore = useMeStore()
 const loading = ref(true)
