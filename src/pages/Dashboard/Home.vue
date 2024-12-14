@@ -14,13 +14,15 @@ import WeatcherCard from '@/components/WeatcherCard.vue'
 import VideoBox from '@/components/VideoBox.vue'
 import QuickActions from '@/components/QuickActions.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useAxios } from '@/plugins/axios'
 import { useMeStore } from '@/stores/me'
 import ArticleCard from '@/components/InfoSlider/ArticleCard.vue'
+import { useHomeStore } from '@/stores/home'
 
 const { axios } = useAxios()
 const meStore = useMeStore()
+const homeStore = useHomeStore()
 
 const user = meStore.user
 
@@ -97,9 +99,12 @@ const calculateExperience = (startDate) => {
 
 const getHomePageData = async () => {
   const today = new Date()
-
+  let data = homeStore.homeData
   try {
-    const data = await axios.get('/homepage')
+    if (Object.keys(homeStore.homeData).length === 0) {
+      data = await axios.get('/homepage')
+      homeStore.setHomeData(data)
+    }
 
     const birthdays = data.birthdays.map((item) => {
       const birthdayDate = new Date(item.birthday)
