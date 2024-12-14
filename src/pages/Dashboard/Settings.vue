@@ -14,9 +14,9 @@ const currentPassword = ref('')
 const newPassword = ref('')
 const newPasswordConfirm = ref('')
 const isLoading = ref(false)
-const currentPasswordError = ref('') // Mevcut parola hatası
-const newPasswordError = ref('') // Yeni parola hatası
-const confirmPasswordError = ref('') // Yeni parola tekrar hatası
+const currentPasswordError = ref('')
+const newPasswordError = ref('')
+const confirmPasswordError = ref('')
 
 const isFormValid = computed(() => {
   return (
@@ -34,7 +34,7 @@ const handleChangePassword = async () => {
   confirmPasswordError.value = ''
 
   if (newPassword.value !== newPasswordConfirm.value) {
-    confirmPasswordError.value = 'Parolalar eşleşmiyor'
+    confirmPasswordError.value = ['Parolalar eşleşmiyor']
     return
   }
 
