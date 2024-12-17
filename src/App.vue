@@ -44,7 +44,9 @@
     </p>
     <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
   </div>
-  <RouterView v-else />
+  <div v-else>
+    <RouterView />
+  </div>
 </template>
 
 <script>
