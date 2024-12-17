@@ -1,6 +1,29 @@
 <template>
   <div
-    class="flex py-[10px] px-6 md:top-5 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-20"
+    v-if="showQuickMenu"
+    class="fixed inset-0 bg-black/30 z-20"
+    @click="showQuickMenu = false"
+  ></div>
+
+  <div
+    v-if="showQuickMenu"
+    class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-lg p-4 z-30 w-auto after:content-[''] after:absolute after:bottom-[-8px] after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0 after:border-l-[8px] after:border-l-transparent after:border-r-[8px] after:border-r-transparent after:border-t-[8px] after:border-t-white"
+  >
+    <div class="flex flex-col gap-4">
+      <RouterLink
+        v-for="link in quickLinks"
+        :key="link.path"
+        :to="link.path"
+        class="flex items-center gap-2 text-night-sky hover:text-gentian-flower"
+        @click="showQuickMenu = false"
+      >
+        <span class="text-sm font-medium">{{ link.title }}</span>
+      </RouterLink>
+    </div>
+  </div>
+  <div
+    class="flex py-[10px] px-6 md:top-5 sticky bg-white left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-20 md:before:hidden"
+    style="border-radius: 25px 25px 0 0"
   >
     <RouterLink class="flex flex-col items-center flex-1 gap-1 md:flex-row" to="/dashboard/home">
       <svg
@@ -63,7 +86,20 @@
         Alanım
       </span>
     </RouterLink>
-
+    <button
+      class="flex md:hidden relative -mt-8 rounded-full bg-gentian-flower w-14 h-14 items-center justify-center shadow-lg"
+      @click="showQuickMenu = !showQuickMenu"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M12 4V20M4 12H20" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
     <RouterLink
       class="flex flex-col items-center flex-1 gap-1 md:flex-row"
       to="/dashboard/calendar"
@@ -151,10 +187,35 @@
 
 <script setup>
 import { useMeStore } from '@/stores/me'
+import { ref } from 'vue'
 
 const meStore = useMeStore()
+const showQuickMenu = ref(false)
 
 const handleLogout = async () => {
   await meStore.logout()
 }
+
+const quickLinks = [
+  {
+    title: 'Yeni İzin Talebi',
+    path: '/dashboard/permission-request/new'
+  },
+  {
+    title: 'Yeni Mesai Talebi',
+    path: '/dashboard/overtime-request/new'
+  },
+  {
+    title: 'Yeni İlan',
+    path: '/dashboard/classifieds/new'
+  },
+  {
+    title: 'Yeni Avans Talebi',
+    path: '/dashboard/prepay-request/new'
+  },
+  {
+    title: 'Yeni Masraf Talebi',
+    path: '/dashboard/expense/new'
+  }
+]
 </script>
