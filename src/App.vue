@@ -44,50 +44,7 @@
     </p>
     <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
   </div>
-  <div
-    v-else
-    class="md:px-24 bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white"
-  >
-    <div class="fixed bottom-20 right-10 z-20">
-      <div
-        v-if="showQuickMenu"
-        class="fixed inset-0 bg-black/30"
-        @click="showQuickMenu = false"
-      ></div>
-      <div
-        v-if="showQuickMenu"
-        class="absolute bottom-full right-0 mb-4 bg-white rounded-2xl shadow-lg p-4 w-auto after:content-[''] after:absolute after:bottom-[-8px] after:right-[20px] after:w-0 after:h-0 after:border-l-[8px] after:border-l-transparent after:border-r-[8px] after:border-r-transparent after:border-t-[8px] after:border-t-white"
-      >
-        <div class="flex flex-col gap-4 whitespace-nowrap">
-          <RouterLink
-            v-for="link in quickLinks"
-            :key="link.path"
-            :to="link.path"
-            class="flex items-center gap-2 text-night-sky hover:text-gentian-flower"
-            @click="showQuick"
-          >
-            <span class="text-sm font-medium">{{ link.title }}</span>
-          </RouterLink>
-        </div>
-      </div>
-      <button
-        class="hidden md:flex rounded-full bg-gentian-flower w-14 h-14 items-center justify-center shadow-lg"
-        @click="showQuick"
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M12 4V20M4 12H20" stroke="white" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </button>
-    </div>
-
-    <RouterView />
-  </div>
+  <RouterView v-else />
 </template>
 
 <script>
