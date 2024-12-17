@@ -8,6 +8,7 @@ import { eventColors } from '@/helpers/eventColors'
 import CalendarCard from '@/components/Calendar/CalendarCard.vue'
 
 const date = ref(new Date())
+const currentMonth = ref(date.value.getMonth() + 1)
 const currentYear = ref(date.value.getFullYear())
 const requests = ref([])
 const filteredRequests = ref([])
@@ -20,6 +21,7 @@ const dateOnly = (date) => {
   const d = new Date(date)
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0]
 }
+
 const updateFilteredRequests = (data) => {
   const _data = data || requests.value
 
@@ -53,7 +55,6 @@ const updateFilteredRequests = (data) => {
         startDate.setDate(startDate.getDate() + 1)
       }
 
-      // Find existing item with same type and dates
       const existingItem = acc.find(
         (i) =>
           i.dot === eventColors?.[item.type].dotColor &&
@@ -77,16 +78,16 @@ const handleCalendarChange = () => {
   updateFilteredRequests(requests.value)
 }
 
-const getDateRange = (year) => {
-  const startDate = `${year}-01-01`
-  const endDate = `${year}-12-31`
-
+const getMonthRange = (year, month) => {
+  const lastDay = new Date(year, month, 0).getDate()
+  const startDate = `${year}-${month.toString().padStart(2, '0')}-01`
+  const endDate = `${year}-${month.toString().padStart(2, '0')}-${lastDay}`
   return { startDate, endDate }
 }
 
 onMounted(async () => {
   const { axios } = useAxios()
-  const { startDate, endDate } = getDateRange(date.value.getFullYear())
+  const { startDate, endDate } = getMonthRange(currentYear.value, currentMonth.value)
 
   try {
     loading.value = true
@@ -102,43 +103,39 @@ onMounted(async () => {
       }
     })
 
-    const holidays = response.data.holidays.map((item) => {
-      return {
-        ...item,
-        type: 'holiday'
-      }
-    })
+    const holidays = response.data.holidays.map((item) => ({
+      ...item,
+      type: 'holiday'
+    }))
 
-    const overtimes = response.data.overtimes.map((item) => {
-      return {
-        ...item,
-        type: 'overtime'
-      }
-    })
+    const overtimes = response.data.overtimes.map((item) => ({
+      ...item,
+      type: 'overtime'
+    }))
 
-    const permits = response.data.permits.map((item) => {
-      return {
-        ...item,
-        type: 'permit'
-      }
-    })
+    const permits = response.data.permits.map((item) => ({
+      ...item,
+      type: 'permit'
+    }))
 
     const allData = [...birthdays, ...overtimes, ...permits, ...holidays]
-
     requests.value = allData
-
     updateFilteredRequests(allData)
   } catch (error) {
-    console.error('Failed to fetch permits:', error)
+    console.error('Failed to fetch calendar data:', error)
   } finally {
     loading.value = false
   }
 })
 
-const handleDidMove = async (newYear) => {
-  if (currentYear.value !== newYear) {
+const handleDidMove = async (e) => {
+  const newMonth = e?.[0]?.month
+  const newYear = e?.[0]?.year
+
+  if (currentMonth.value !== newMonth || currentYear.value !== newYear) {
     const { axios } = useAxios()
-    const { startDate, endDate } = getDateRange(newYear)
+    const { startDate, endDate } = getMonthRange(newYear, newMonth)
+
     try {
       loading.value = true
       const response = await axios.get(`/calendar?start_date=${startDate}&end_date=${endDate}`)
@@ -153,36 +150,29 @@ const handleDidMove = async (newYear) => {
         }
       })
 
-      const holidays = response.data.holidays.map((item) => {
-        return {
-          ...item,
-          type: 'holiday'
-        }
-      })
+      const holidays = response.data.holidays.map((item) => ({
+        ...item,
+        type: 'holiday'
+      }))
 
-      const overtimes = response.data.overtimes.map((item) => {
-        return {
-          ...item,
-          type: 'overtime'
-        }
-      })
+      const overtimes = response.data.overtimes.map((item) => ({
+        ...item,
+        type: 'overtime'
+      }))
 
-      const permits = response.data.permits.map((item) => {
-        return {
-          ...item,
-          type: 'permit'
-        }
-      })
+      const permits = response.data.permits.map((item) => ({
+        ...item,
+        type: 'permit'
+      }))
 
       const allData = [...birthdays, ...permits, ...overtimes, ...holidays]
-
       requests.value = allData
-
       updateFilteredRequests(allData)
 
+      currentMonth.value = newMonth
       currentYear.value = newYear
     } catch (error) {
-      console.error('Failed to fetch permits:', error)
+      console.error('Failed to fetch calendar data:', error)
     } finally {
       loading.value = false
     }
@@ -227,7 +217,7 @@ const handleDidMove = async (newYear) => {
           :is-dark="false"
           :attributes="attributes"
           locale="tr"
-          @did-move="(e) => handleDidMove(e?.[0]?.year)"
+          @did-move="handleDidMove"
           @update:model-value="handleCalendarChange"
         ></DatePicker>
         <div class="flex flex-col gap-y-3 pb-4 w-full">
