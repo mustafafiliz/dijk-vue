@@ -200,3 +200,14 @@ input:-webkit-autofill:active {
 input:autofill {
   background-color: white !important;
 }
+
+/* Hide webkit scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox and other browsers */
+* {
+  scrollbar-width: none;
+  -ms-overflow-scrollbar: none;
+}
