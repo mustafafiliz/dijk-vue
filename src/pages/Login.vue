@@ -3,12 +3,13 @@
     <div
       class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 py-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
-      <div class="flex-1 flex flex-col md:justify-center justify-between gap-y-10 h-[100dvh]">
+      <div class="flex-1 flex flex-col md:justify-center justify-evenly gap-y-10 h-[100dvh]">
         <img
           class="max-w-full w-[28.5rem] md:mx-auto"
           src="/images/welcome-splash.png"
           alt="Dijik"
         />
+        <img src="/images/logo.png" alt="dijiportal" class="md:hidden w-80 -ml-8" />
         <div class="flex flex-col mt-4 pb-5">
           <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
@@ -53,24 +54,9 @@
             />
           </svg>
         </VButton>
-
         <div class="flex flex-col items-center justify-center h-full p-4">
-          <div class="bg-white rounded-full">
-            <svg
-              width="108"
-              height="108"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M24 48C10.7452 48 0 37.2548 0 24C0 37.2552 10.7448 48 24 48ZM1.72886e-05 23.9709C0.0147578 11.5576 9.45342 1.35201 21.5461 0.123905C9.45313 1.35195 0.0147574 11.5573 1.72886e-05 23.9709ZM48 24C48 10.7448 37.2552 0 24 0C37.2548 0 48 10.7452 48 24ZM29.0912 24.2912C30.4414 22.9409 31.2 21.1096 31.2 19.2C31.2 17.2904 30.4414 15.4591 29.0912 14.1088C27.7409 12.7586 25.9096 12 24 12C22.0904 12 20.2591 12.7586 18.9088 14.1088C17.5586 15.4591 16.8 17.2904 16.8 19.2C16.8 21.1096 17.5586 22.9409 18.9088 24.2912C20.2591 25.6414 22.0904 26.4 24 26.4C25.9096 26.4 27.7409 25.6414 29.0912 24.2912ZM15.9488 30.6975C13.449 31.9474 11.2752 33.763 9.6 36C11.2752 38.2371 13.449 40.0526 15.9488 41.3025C18.4485 42.5523 21.2052 43.2021 24 43.2C26.7948 43.2021 29.5515 42.5523 32.0512 41.3025C34.551 40.0526 36.7248 38.2371 38.4 36C36.7248 33.763 34.551 31.9474 32.0512 30.6975C29.5515 29.4477 26.7948 28.7979 24 28.8C21.2052 28.7979 18.4485 29.4477 15.9488 30.6975Z"
-                fill="#292D32"
-              />
-            </svg>
-          </div>
+          <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80 mb-10" />
+          <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 mb-10" />
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
             <div
