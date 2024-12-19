@@ -12,7 +12,7 @@
           alt="Dijik"
         />
         <img src="/images/logo.png" alt="dijiportal" class="md:hidden w-80 -ml-8" />
-        <div class="flex flex-col mt-4 pb-5">
+        <div class="flex flex-col -mt-5 md:mt-4 pb-5">
           <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
             <span class="text-3xl lg:text-36 text-gentian-flower font-bold">
@@ -60,7 +60,7 @@
           <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80" />
           <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 -mb-20" />
 
-          <div class="flex flex-col items-start w-full md:w-[355px] lg:mt-0 -mt-5">
+          <div class="flex flex-col items-start w-full md:w-[355px]">
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
             >
