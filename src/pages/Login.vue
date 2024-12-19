@@ -57,7 +57,7 @@
           </svg>
         </VButton>
         <div class="flex flex-col items-center justify-center h-full p-4">
-          <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80" />
+          <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80 mb-10" />
           <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 -mb-20" />
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
