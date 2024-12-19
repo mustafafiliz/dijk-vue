@@ -3,7 +3,7 @@
     <div
       class="relative flex flex-col h-dvh max-md:w-dvw max-h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white px-4 py-10 md:!p-0 md:bg-none md:w-full md:text-center md:flex-row"
     >
-      <div class="flex-1 flex flex-col md:justify-center justify-evenly gap-y-10 h-[100dvh]">
+      <div class="flex-1 flex flex-col md:justify-center justify-between gap-y-10 h-[100dvh]">
         <img
           class="max-w-full w-[28.5rem] md:mx-auto"
           src="/images/welcome-splash.png"
@@ -55,8 +55,8 @@
           </svg>
         </VButton>
         <div class="flex flex-col items-center justify-center h-full p-4">
-          <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80 mb-10" />
-          <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 mb-10" />
+          <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80" />
+          <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20" />
 
           <div class="flex flex-col items-start w-full md:w-[355px]">
             <div

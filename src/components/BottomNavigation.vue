@@ -21,7 +21,7 @@
       </RouterLink>
     </div>
   </div>
-  <div class="lg:hidden flex md:top-5 sticky left-0 bottom-0 w-full z-10 h-fit mt-5">
+  <div class="md:hidden flex md:top-5 sticky left-0 bottom-0 w-full z-10 h-fit mt-5">
     <div class="pl-3 w-[calc((100vw-100px)/2)] flex bg-white shadow-t h-full">
       <RouterLink
         class="py-2 h-[64px] flex flex-col items-center flex-1 gap-1 md:flex-row"
@@ -185,7 +185,7 @@
     </div>
   </div>
   <div
-    class="hidden lg:flex py-[10px] bg-white px-6 md:top-5 sticky left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-b-20 md:rounded-t-20 ro md:before:hidden"
+    class="hidden md:flex py-[10px] bg-white px-6 md:top-5 sticky left-0 bottom-0 w-full shadow-[0_0_4px_0_rgba(0,0,0,0.25)] z-10 h-fit md:flex-col md:w-auto md:min-w-52 md:mt-4 md:p-6 md:gap-y-4 md:rounded-b-20 md:rounded-t-20 ro md:before:hidden"
   >
     <RouterLink
       class="py-2 flex flex-col items-center flex-1 gap-1 md:flex-row"

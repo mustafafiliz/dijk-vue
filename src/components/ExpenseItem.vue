@@ -44,8 +44,11 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-2 bg-white py-3 px-4 rounded-20">
-    <div @click="isOpen = !isOpen" class="flex justify-between items-center">
+  <div class="flex flex-col gap-y-2 bg-white rounded-20">
+    <div
+      @click="isOpen = !isOpen"
+      class="py-3 px-4 cursor-pointer flex justify-between items-center"
+    >
       <div class="font-semibold">
         <div>
           {{ description }}
@@ -75,7 +78,7 @@ defineProps({
       </div>
     </div>
     <div v-show="isOpen">
-      <div class="flex flex-col gap-y-2 mt-2">
+      <div class="flex flex-col gap-y-2 mt-2 px-4 pb-4">
         <div class="flex flex-col gap-y-1">
           <div v-if="expenseType" class="flex justify-between items-center font-semibold text-12">
             <div>Masraf Türü</div>

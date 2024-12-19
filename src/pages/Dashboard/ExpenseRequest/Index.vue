@@ -1,6 +1,45 @@
 <script setup>
-import ExpenseItem from '@/components/ExpenseItem.vue'
+import BottomNavigation from '@/components/BottomNavigation.vue'
+import ExpenseItem from '@/components/Expense/ExpenseItem.vue'
 import Button from '@/components/Button.vue'
+import { onMounted, ref } from 'vue'
+import { useAxios } from '@/plugins/axios'
+
+const { axios } = useAxios()
+const expenses = ref([])
+const currentPage = ref(1)
+const lastPage = ref(1)
+const loading = ref(true)
+
+const getExpenseList = async (page = 1) => {
+  try {
+    loading.value = true
+    const response = await axios.get(`/expences?page=${page}`)
+
+    if (page === 1) {
+      expenses.value = response.data
+    } else {
+      expenses.value = [...expenses.value, ...response.data]
+    }
+
+    currentPage.value = response.meta.current_page
+    lastPage.value = response.meta.last_page
+  } catch (error) {
+    return error
+  } finally {
+    loading.value = false
+  }
+}
+
+const loadMore = () => {
+  if (currentPage.value < lastPage.value) {
+    getExpenseList(currentPage.value + 1)
+  }
+}
+
+onMounted(() => {
+  getExpenseList()
+})
 </script>
 
 <template>
@@ -28,57 +67,39 @@ import Button from '@/components/Button.vue'
       <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">
         Masraf Süreçleri
       </div>
-
+      <RouterLink class="mt-auto" to="/dashboard/expense/new">
+        <Button class="w-full !py-3" variant="primary">Yeni Masraf Talebi</Button>
+      </RouterLink>
       <div class="flex flex-col gap-4 pt-4 flex-1">
-        <ExpenseItem
-          :is-new="true"
-          description="Masraf Açıklaması"
-          date="2 Aralık 2024"
-          amount="390 TL"
-          :permissives="[
-            { name: 'John Doe', value: 'true' },
-            { name: 'Jane Doe', value: 'false' },
-            { name: 'Jane Doe', value: 'pending' }
-          ]"
-        />
-        <ExpenseItem
-          :is-new="true"
-          description="Masraf Açıklaması"
-          date="2 Aralık 2024"
-          amount="390 TL"
-          :permissives="[
-            { name: 'John Doe', value: 'true' },
-            { name: 'Jane Doe', value: 'false' },
-            { name: 'Jane Doe', value: 'pending' }
-          ]"
-        />
-        <ExpenseItem
-          :is-new="true"
-          description="Masraf Açıklaması"
-          date="2 Aralık 2024"
-          amount="390 TL"
-          :permissives="[
-            { name: 'John Doe', value: 'true' },
-            { name: 'Jane Doe', value: 'false' },
-            { name: 'Jane Doe', value: 'pending' }
-          ]"
-        />
-        <ExpenseItem
-          :is-new="true"
-          description="Masraf Açıklaması"
-          date="2 Aralık 2024"
-          amount="390 TL"
-          :permissives="[
-            { name: 'John Doe', value: 'true' },
-            { name: 'Jane Doe', value: 'false' },
-            { name: 'Jane Doe', value: 'pending' }
-          ]"
-        />
+        <!-- Loading State -->
+        <div v-if="loading" class="flex flex-col items-center justify-items-center pt-20">
+          <div
+            class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+          ></div>
+          <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+        </div>
 
-        <RouterLink class="mt-auto" to="/dashboard/expense/new">
-          <Button class="w-full !py-3" variant="primary"> Yeni Masraf Talebi </Button>
-        </RouterLink>
+        <!-- Content when not loading -->
+        <template v-else>
+          <!-- Expense Records -->
+          <div v-if="expenses.length > 0">
+            <ExpenseItem v-for="expense in expenses" :key="expense._id" :expense="expense" />
+
+            <!-- Load More Button -->
+            <button
+              v-if="currentPage < lastPage"
+              @click="loadMore"
+              class="w-full mt-4 bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600"
+            >
+              Daha Fazla Yükle
+            </button>
+          </div>
+          <div v-else>
+            <h2 class="text-center my-2">Kayıt bulunamadı.</h2>
+          </div>
+        </template>
       </div>
     </div>
+    <BottomNavigation />
   </div>
 </template>
