@@ -12,7 +12,7 @@
           alt="Dijik"
         />
         <img src="/images/logo.png" alt="dijiportal" class="md:hidden w-80 -ml-8" />
-        <div class="flex flex-col -mt-5 md:mt-4 pb-5">
+        <div class="flex flex-col -mt-3 md:mt-4 pb-5">
           <div class="text-night-sky text-2xl lg:text-28 font-semibold">
             Daha Hızlı İletişim <br />
             <span class="text-3xl lg:text-36 text-gentian-flower font-bold">
