@@ -60,7 +60,7 @@
           <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80" />
           <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 -mb-20" />
 
-          <div class="flex flex-col items-start w-full md:w-[355px]">
+          <div class="flex flex-col items-start w-full md:w-[355px] lg:mt-0 -mt-5">
             <div
               class="bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
             >
