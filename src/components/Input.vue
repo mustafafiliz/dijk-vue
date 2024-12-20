@@ -4,7 +4,7 @@
     :type="type"
     :value="modelValue"
     @input="updateValue"
-    :maxlength="maxLength"
+    :maxlength="maxLength || undefined"
     :class="{ '!border-red-500': error }"
   />
 </template>

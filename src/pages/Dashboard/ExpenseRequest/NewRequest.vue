@@ -186,7 +186,7 @@ onMounted(() => {
 
       <div class="flex flex-col gap-4 pt-8 overflow-y-auto pb-24">
         <div>
-          <div class="font-semibold mb-[10px]">Masraf Adı</div>
+          <div class="font-semibold mb-[10px]">Masraf Belge Başlığı</div>
           <Input
             v-model="title"
             class="!text-[12px] lg:text-base !py-4 h-[45.5px] !border-gray-200"
@@ -205,7 +205,7 @@ onMounted(() => {
           v-for="(line, index) in expenseLines"
           :key="index"
           @click="openModal(index)"
-          class="bg-white rounded-lg overflow-hidden shadow mb-3"
+          class="bg-white rounded-lg overflow-hidden shadow mb-1"
         >
           <div class="border-b last:border-0 py-2 p-3">
             <div class="flex flex-col gap-2 relative">
@@ -250,7 +250,7 @@ onMounted(() => {
         <div class="rounded-2xl overflow-hidden">
           <div class="flex items-center p-4 bg-gray-100">
             <h2 class="text-base font-semibold ml-2">
-              {{ editingIndex !== null ? 'Masraf Düzenle' : 'Yeni Masraf' }}
+              {{ editingIndex !== null ? 'Masraf Kalemini Düzenle' : 'Yeni Masraf Kalemi' }}
             </h2>
           </div>
 

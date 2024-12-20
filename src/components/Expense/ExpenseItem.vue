@@ -1,16 +1,28 @@
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   expense: {
     type: Object,
     required: true
   }
 })
+
+const totalAmount = computed(() => {
+  return props.expense.expence_lines.reduce((total, line) => {
+    return total + Number(line.price)
+  }, 0)
+})
 </script>
 
 <template>
   <div class="bg-white rounded-lg overflow-hidden shadow mb-3">
-    <h3 v-if="expense?.title" class="font-semibold text-base mb-2 pb-2 bg bg-gray-100 p-3">
+    <h3
+      v-if="expense?.title"
+      class="font-semibold flex items-center justify-between gap-1 text-base mb-2 pb-2 bg bg-gray-100 p-3"
+    >
       {{ expense.title }}
+      <span>Toplam: {{ totalAmount }} {{ expense?.expence_lines?.[0]?.currency }}</span>
     </h3>
 
     <div
