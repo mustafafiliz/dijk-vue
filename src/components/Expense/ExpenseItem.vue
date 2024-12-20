@@ -9,7 +9,9 @@ defineProps({
 
 <template>
   <div class="bg-white rounded-lg overflow-hidden shadow mb-3">
-    <h3 class="font-semibold text-base mb-2 pb-2 bg bg-gray-100 p-3">{{ expense.title }}</h3>
+    <h3 v-if="expense?.title" class="font-semibold text-base mb-2 pb-2 bg bg-gray-100 p-3">
+      {{ expense.title }}
+    </h3>
 
     <div
       v-for="line in expense.expence_lines"
@@ -22,7 +24,11 @@ defineProps({
           <span
             class="text-[10px] px-2 py-0.5 rounded-full"
             :class="
-              line.status === 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
+              line.status
+                ? 'opacity-0'
+                : line.status === 0
+                  ? 'bg-yellow-100 text-yellow-800'
+                  : 'bg-green-100 text-green-800'
             "
           >
             {{ line.status_text }}
