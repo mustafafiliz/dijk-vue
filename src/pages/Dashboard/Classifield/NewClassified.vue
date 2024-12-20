@@ -148,7 +148,7 @@ watch(price, (newValue) => {
             <div class="bg-white px-2 rounded-3xl h-[45.5px] flex">
               <select
                 v-model="condition"
-                class="w-full rounded-3xl text-[12px] lg:text-base py-4 px-1"
+                class="w-full !outline-0 rounded-3xl text-[12px] lg:text-base py-4 px-1"
               >
                 <option value="1">Sıfır</option>
                 <option value="2">İkinci El</option>
