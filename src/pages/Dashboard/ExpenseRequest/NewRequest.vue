@@ -174,7 +174,13 @@ const submitExpenseRequest = async () => {
     showConfirmModal.value = false
     showSuccessModal.value = true
   } catch (error) {
-    toast.error(error?.response?.data?.message)
+    if (error?.response?.data?.data) {
+      // Get all validation messages and join them
+      const errorMessages = Object.values(error.response.data.data).flat().join('\n')
+      toast.error(errorMessages)
+    } else {
+      toast.error(error?.response?.data?.message)
+    }
   } finally {
     isLoading.value = false
   }
