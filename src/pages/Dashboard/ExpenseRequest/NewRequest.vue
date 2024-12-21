@@ -106,6 +106,16 @@ const handleFileUpload = (event) => {
   }
 }
 
+const totalAmount = computed(() => {
+  return expenseLines.value.reduce((acc, line) => {
+    const price = parseFloat(line.price.replace(/\./g, '').replace(',', '.')) || 0
+    return {
+      ...acc,
+      [line.currency]: (acc[line.currency] || 0) + price
+    }
+  }, {})
+})
+
 const saveExpenseLine = () => {
   if (editingIndex.value !== null) {
     expenseLines.value[editingIndex.value] = { ...currentExpenseLine.value }
@@ -493,8 +503,11 @@ onMounted(() => {
         <div class="p-6">
           <h2 class="text-lg font-semibold mb-4">Masraf Talebi</h2>
           <p class="text-gray-600 mb-2">
-            <strong>{{ title }}</strong> başlıklı masraf talebini kaydetmek istediğinize emin
-            misiniz?
+            <strong>{{ title }}</strong> başlıklı
+            <span v-for="(amount, currency) in totalAmount" :key="currency">
+              <strong>{{ amount.toLocaleString('tr-TR') }} {{ currency }}</strong>
+            </span>
+            tutarlı masraf talebinizi kaydetmek istediğinize emin misiniz?
           </p>
         </div>
         <div class="flex">
