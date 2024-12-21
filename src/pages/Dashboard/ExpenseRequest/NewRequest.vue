@@ -32,11 +32,31 @@ const currentExpenseLine = ref({
   description: ''
 })
 
-const currencies = ref([
+const baseCurrencies = ref([
   { id: 1, code: 'TL' },
   { id: 2, code: 'USD' },
   { id: 3, code: 'EUR' }
 ])
+
+const currencies = ref(baseCurrencies.value)
+
+watch(
+  expenseLines,
+  (newLines) => {
+    if (newLines.length > 0) {
+      currencies.value = [baseCurrencies.value.find((c) => c.code === newLines[0].currency)]
+    } else {
+      currencies.value = baseCurrencies.value
+    }
+  },
+  { deep: true }
+)
+
+watch(editingIndex, (newIndex) => {
+  if (newIndex === 0) {
+    currencies.value = baseCurrencies.value
+  }
+})
 
 const isModalFormValid = computed(() => {
   return (
@@ -55,7 +75,9 @@ const isMainFormValid = computed(() => {
 const openModal = (index = null) => {
   if (index !== null) {
     editingIndex.value = index
-    currentExpenseLine.value = { ...expenseLines.value[index] }
+    currentExpenseLine.value = {
+      ...expenseLines.value[index]
+    }
   } else {
     editingIndex.value = null
     currentExpenseLine.value = {
@@ -63,7 +85,7 @@ const openModal = (index = null) => {
       receipt_date: new Date(),
       expense_type_id: '',
       price: '',
-      currency: 'TL',
+      currency: currencies.value[0]?.code || 'TL',
       vat_id: '',
       document: null,
       description: ''
@@ -265,7 +287,7 @@ onMounted(() => {
               </div>
             </div>
 
-            <div>
+            <div class="relative z-[11]">
               <div class="font-semibold mb-[10px]">Fiş Tarihi</div>
               <div
                 class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium !border !border-gray-200"
