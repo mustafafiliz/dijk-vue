@@ -4,7 +4,7 @@
     :type="type"
     :value="modelValue"
     @input="updateValue"
-    :maxlength="maxLength || undefined"
+    :maxlength="maxLength"
     :class="{ '!border-red-500': error }"
   />
 </template>
@@ -26,7 +26,7 @@ export default {
     },
     maxLength: {
       type: Number,
-      default: 11
+      default: 100
     }
   },
   methods: {
