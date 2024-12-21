@@ -64,7 +64,8 @@ const isModalFormValid = computed(() => {
     currentExpenseLine.value.expense_type_id &&
     currentExpenseLine.value.price &&
     currentExpenseLine.value.vat_id &&
-    currentExpenseLine.value.description
+    currentExpenseLine.value.description &&
+    currentExpenseLine.value.document
   )
 })
 
