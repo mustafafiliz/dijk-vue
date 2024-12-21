@@ -490,8 +490,7 @@ onMounted(() => {
           <p class="text-gray-600">Masraf talebi başarıyla onaya gönderildi.</p>
         </div>
         <Button
-          variant="primary"
-          class="w-full !rounded-t-none"
+          class="!rounded-t-none bg-green-600 !w-full !py-3"
           @click="$router.push('/dashboard/expense/list')"
           >Tamam</Button
         >

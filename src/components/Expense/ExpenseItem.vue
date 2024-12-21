@@ -1,4 +1,5 @@
 <script setup>
+import { formatPrice } from '@/helpers/format'
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -7,11 +8,14 @@ const props = defineProps({
     required: true
   }
 })
-
 const totalAmount = computed(() => {
-  return props.expense.expence_lines.reduce((total, line) => {
-    return total + Number(line.price)
+  const total = props.expense?.expence_lines.reduce((acc, line) => {
+    const normalizedPrice = line.price.toString().replace(/\./g, ',')
+    const price = parseFloat(normalizedPrice.replace(/,/g, '.')) || 0
+    return acc + price
   }, 0)
+
+  return formatPrice(total.toString())
 })
 </script>
 
@@ -22,7 +26,9 @@ const totalAmount = computed(() => {
       class="font-semibold flex items-center justify-between gap-1 text-base mb-2 pb-2 bg bg-gray-100 p-3"
     >
       {{ expense.title }}
-      <span>Toplam: {{ totalAmount }} {{ expense?.expence_lines?.[0]?.currency }}</span>
+      <span class="text-sm"
+        >Toplam: {{ totalAmount }} {{ expense?.expence_lines?.[0]?.currency }}</span
+      >
     </h3>
 
     <div
@@ -45,7 +51,9 @@ const totalAmount = computed(() => {
           >
             {{ line.status_text }}
           </span>
-          <p class="font-semibold text-sm">{{ line.price }} {{ line.currency }}</p>
+          <p class="font-semibold text-sm">
+            {{ formatPrice(line.price.toString().replace('.', ',')) }} {{ line.currency }}
+          </p>
         </div>
 
         <!-- Description -->
