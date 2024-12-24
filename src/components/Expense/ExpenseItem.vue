@@ -1,6 +1,8 @@
 <script setup>
+import { ref } from 'vue'
 import { formatPrice } from '@/helpers/format'
 import { computed } from 'vue'
+import { VPdfViewer } from '@vue-pdf-viewer/viewer'
 
 const props = defineProps({
   expense: {
@@ -8,6 +10,22 @@ const props = defineProps({
     required: true
   }
 })
+
+const isModalOpen = ref(false)
+const selectedDocument = ref(null)
+const documentType = ref(null)
+
+const openDocumentModal = (document, type) => {
+  selectedDocument.value = document
+  documentType.value = type
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  selectedDocument.value = null
+}
+
 const totalAmount = computed(() => {
   const total = props.expense?.expence_lines.reduce((acc, line) => {
     const normalizedPrice = line.price.toString().replace(/\./g, ',')
@@ -37,7 +55,6 @@ const totalAmount = computed(() => {
       class="border-b last:border-0 py-2 p-3"
     >
       <div class="flex flex-col gap-2">
-        <!-- Status and Amount Row -->
         <div class="flex justify-between items-center">
           <span
             class="text-[10px] px-2 py-0.5 rounded-full"
@@ -56,21 +73,18 @@ const totalAmount = computed(() => {
           </p>
         </div>
 
-        <!-- Description -->
         <p class="text-sm font-medium">{{ line.description }}</p>
 
-        <!-- Receipt Details -->
         <div class="flex gap-2 text-[11px] text-gray-600">
           <p>Fiş No: {{ line.receipt_no }}</p>
           <p>{{ line.receipt_date }}</p>
         </div>
 
-        <!-- Document Link -->
         <a
           v-if="line.document"
-          :href="line.document"
-          target="_blank"
-          class="text-xs text-blue-600 hover:underline inline-flex items-center gap-1"
+          @click.prevent="openDocumentModal(line.document, line.document_type)"
+          href="#"
+          class="text-xs text-blue-600 hover:underline inline-flex items-center gap-1 cursor-pointer"
         >
           <span>{{ line.document_type === 'pdf' ? 'PDF' : 'Görsel' }}</span>
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,6 +96,48 @@ const totalAmount = computed(() => {
             />
           </svg>
         </a>
+      </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div
+      v-if="isModalOpen"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <button
+        @click="closeModal"
+        class="fixed top-2 right-2 w-10 h-10 rounded-full bg-white flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div
+        class="bg-white w-full h-full p-4 !pt-6 overflow-y-auto max-w-[90vw] max-h-[90vh] rounded-xl"
+      >
+        <!-- PDF Viewer -->
+        <div v-if="documentType === 'pdf'" class="flex justify-center items-center h-full">
+          <div class="max-h-[80vh] w-full h-full">
+            <VPdfViewer :src="selectedDocument" class="w-full h-full" />
+          </div>
+        </div>
+
+        <!-- Image Viewer -->
+        <div v-else class="flex justify-center items-center h-full">
+          <img :src="selectedDocument" alt="Döküman" class="object-cover max-h-[80vh]" />
+        </div>
       </div>
     </div>
   </div>
