@@ -71,105 +71,97 @@ const handleChangePassword = async () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
-  >
-    <div class="p-4 pb-20 flex-1 max-w-5xl">
-      <div class="relative">
-        <button class="py-2" type="button" @click="$router.go(-1)">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 36 36"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 25.5L13.5 18L21 10.5"
-              stroke="black"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+  <div class="relative">
+    <button class="py-2" type="button" @click="$router.go(-1)">
+      <svg
+        width="36"
+        height="36"
+        viewBox="0 0 36 36"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M21 25.5L13.5 18L21 10.5"
+          stroke="black"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
 
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
-          Parola Değiştir
-        </div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
+      Parola Değiştir
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-3">
+    <div>
+      <div
+        class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+      >
+        Mevcut Parola
       </div>
-
-      <div class="grid grid-cols-1 gap-3">
-        <div>
-          <div
-            class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
-          >
-            Mevcut Parola
-          </div>
-          <Input
-            :error="currentPasswordError?.length > 0"
-            v-model="currentPassword"
-            class="md:border md:border-gray-300"
-            type="password"
-          />
-          <ErrorLabel
-            v-if="currentPasswordError"
-            v-for="message in currentPasswordError || []"
-            :text="message"
-          />
-        </div>
-
-        <div>
-          <div
-            class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
-          >
-            Yeni Parola
-          </div>
-          <Input
-            :error="newPasswordError?.length > 0"
-            v-model="newPassword"
-            class="md:border md:border-gray-300"
-            type="password"
-          />
-          <ErrorLabel
-            v-if="newPasswordError"
-            v-for="message in newPasswordError || []"
-            :text="message"
-          />
-        </div>
-
-        <div>
-          <div
-            class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
-          >
-            Yeni Parola Tekrar
-          </div>
-          <Input
-            :error="confirmPasswordError?.length > 0"
-            v-model="newPasswordConfirm"
-            class="md:border md:border-gray-300"
-            type="password"
-          />
-          <ErrorLabel
-            v-if="confirmPasswordError"
-            v-for="message in confirmPasswordError || []"
-            :text="message"
-          />
-        </div>
-
-        <div>
-          <Button
-            :is-loading="isLoading"
-            :disabled="!isFormValid"
-            class="w-full lg:w-[220px]"
-            @click="handleChangePassword"
-          >
-            Parolayı Güncelle
-          </Button>
-        </div>
-      </div>
+      <Input
+        :error="currentPasswordError?.length > 0"
+        v-model="currentPassword"
+        class="md:border md:border-gray-300"
+        type="password"
+      />
+      <ErrorLabel
+        v-if="currentPasswordError"
+        v-for="message in currentPasswordError || []"
+        :text="message"
+      />
     </div>
 
-    <BottomNavigation />
+    <div>
+      <div
+        class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+      >
+        Yeni Parola
+      </div>
+      <Input
+        :error="newPasswordError?.length > 0"
+        v-model="newPassword"
+        class="md:border md:border-gray-300"
+        type="password"
+      />
+      <ErrorLabel
+        v-if="newPasswordError"
+        v-for="message in newPasswordError || []"
+        :text="message"
+      />
+    </div>
+
+    <div>
+      <div
+        class="inline-flex bg-white py-1 px-3 rounded-full text-12 font-semibold text-night-sky md:border md:border-gray-300 mb-1"
+      >
+        Yeni Parola Tekrar
+      </div>
+      <Input
+        :error="confirmPasswordError?.length > 0"
+        v-model="newPasswordConfirm"
+        class="md:border md:border-gray-300"
+        type="password"
+      />
+      <ErrorLabel
+        v-if="confirmPasswordError"
+        v-for="message in confirmPasswordError || []"
+        :text="message"
+      />
+    </div>
+
+    <div>
+      <Button
+        :is-loading="isLoading"
+        :disabled="!isFormValid"
+        class="w-full lg:w-[220px]"
+        @click="handleChangePassword"
+      >
+        Parolayı Güncelle
+      </Button>
+    </div>
   </div>
 </template>

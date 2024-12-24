@@ -211,3 +211,25 @@ input:autofill {
   scrollbar-width: none;
   -ms-overflow-scrollbar: none;
 }
+
+.btn-super-parent {
+  bottom: 55px !important;
+  position: relative;
+}
+
+.btn-class-showable::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  height: 15px;
+  background-color: #fff;
+  z-index: -1;
+  width: 100vw;
+}
+.unchecked .btn-title {
+  visibility: visible !important;
+  top: 40px !important;
+}
+.btn-item .active-label {
+  transform: translateY(-5px);
+}

@@ -7,44 +7,49 @@
       <div class="text-xl text-gray-700 font-medium">Yükleniyor...</div>
     </div>
   </div>
-  <div
-    v-else-if="birthdayEvent || seniorEvent"
-    class="fixed inset-0 p-4 flex flex-col gap-5 lg:gap-10 items-center justify-end bg-opacity-80 text-center shadow-xl bg-gradient-to-b pb-44 from-cornflower via-lucid-dreams via-25% to-lynx-white"
-  >
-    <div class="flex items-center justify-center">
-      <img
-        :src="seniorEvent ? '/images/confetti.png' : '/images/birthday-cake.png'"
-        alt="birthday-cake"
-        class="w-20 h-20 mb-4"
-      />
+  <template v-else>
+    <div
+      v-if="birthdayEvent || seniorEvent"
+      class="fixed inset-0 p-4 flex flex-col gap-5 lg:gap-10 items-center justify-end bg-opacity-80 text-center shadow-xl bg-gradient-to-b pb-44 from-cornflower via-lucid-dreams via-25% to-lynx-white"
+    >
+      <div class="flex items-center justify-center">
+        <img
+          :src="seniorEvent ? '/images/confetti.png' : '/images/birthday-cake.png'"
+          alt="birthday-cake"
+          class="w-20 h-20 mb-4"
+        />
+      </div>
+      <h1 class="text-2xl lg:text-5xl font-medium text-gray-800">
+        <template v-if="birthdayEvent">
+          Doğum günün kutlu olsun, <br />
+          {{ userName }} !
+        </template>
+        <template v-else-if="seniorEvent">
+          Yıl dönümünüz kutlu olsun, <br />
+          {{ userName }} !
+        </template>
+      </h1>
+      <p class="text-base lg:text-lg max-w-[600px] text-gray-700">
+        <template v-if="birthdayEvent">
+          Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününde, tüm
+          dilekleriniz gerçekleşsin!
+        </template>
+        <template v-else-if="seniorEvent">
+          <span v-if="yearsWorked === 5">5. yılınız kutlu olsun!</span>
+          <span v-else-if="yearsWorked > 0">Çalıştığınız yıl: {{ yearsWorked }} yıl!</span>
+          <span v-else
+            >Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Yıl dönümünüzde, tüm
+            dilekleriniz gerçekleşsin!</span
+          >
+        </template>
+      </p>
+      <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
     </div>
-    <h1 class="text-2xl lg:text-5xl font-medium text-gray-800">
-      <template v-if="birthdayEvent">
-        Doğum günün kutlu olsun, <br />
-        {{ userName }} !
-      </template>
-      <template v-else-if="seniorEvent">
-        Yıl dönümünüz kutlu olsun, <br />
-        {{ userName }} !
-      </template>
-    </h1>
-    <p class="text-base lg:text-lg max-w-[600px] text-gray-700">
-      <template v-if="birthdayEvent">
-        Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Doğum gününde, tüm
-        dilekleriniz gerçekleşsin!
-      </template>
-      <template v-else-if="seniorEvent">
-        <span v-if="yearsWorked === 5">5. yılınız kutlu olsun!</span>
-        <span v-else-if="yearsWorked > 0">Çalıştığınız yıl: {{ yearsWorked }} yıl!</span>
-        <span v-else
-          >Bu özel günde, sizinle birlikte kutlamaktan mutluluk duyuyoruz. Yıl dönümünüzde, tüm
-          dilekleriniz gerçekleşsin!</span
-        >
-      </template>
-    </p>
-    <VButton class="!px-20" @click="() => stopConfetti()"> Devam Et </VButton>
-  </div>
-  <RouterView v-else />
+    <DefaultLayout v-else-if="!isAuthRoute && !isExcludedLayout && meStore.user">
+      <RouterView />
+    </DefaultLayout>
+    <RouterView v-else />
+  </template>
 </template>
 
 <script>
@@ -52,10 +57,12 @@ import { useSessionStore } from '@/stores/session'
 import { useMeStore } from '@/stores/me'
 import { useRouter } from 'vue-router'
 import VButton from '@/components/Button.vue'
+import DefaultLayout from './layouts/DefaultLayout.vue'
 
 export default {
   components: {
-    VButton
+    VButton,
+    DefaultLayout
   },
 
   data() {
@@ -66,6 +73,35 @@ export default {
       userName: '',
       yearsWorked: 0,
       showQuickMenu: false,
+      meStore: useMeStore(),
+      excludedLayoutPaths: [
+        // Classifieds
+        '/dashboard/classifieds/new',
+        '/dashboard/classifieds/:id/edit',
+
+        // Organization
+        '/dashboard/profile/organization/:id',
+
+        // Permission Requests
+        '/dashboard/permission-request/new',
+        '/dashboard/permission-request/:id/edit',
+
+        // Overtime Requests
+        '/dashboard/overtime-request/new',
+        '/dashboard/overtime-request/:id/edit',
+
+        // Prepay Requests
+        '/dashboard/prepay-request/new',
+        '/dashboard/prepay-request/:id/edit',
+
+        // Installment Requests
+        '/dashboard/installment-request/new',
+        '/dashboard/installment-request/:id/edit',
+
+        // Expense Requests
+        '/dashboard/expense/new',
+        '/dashboard/expense/:id/edit'
+      ],
       quickLinks: [
         {
           title: 'Yeni İzin Talebi',
@@ -91,9 +127,31 @@ export default {
     }
   },
 
+  computed: {
+    isAuthRoute() {
+      return this.$route.path.includes('/auth/')
+    },
+    isExcludedLayout() {
+      return this.excludedLayoutPaths.some((path) => {
+        // Convert the path pattern to regex
+        const regexPath = path.replace(/:\w+/g, '[^/]+')
+        const regex = new RegExp(`^${regexPath}$`)
+        return regex.test(this.$route.path)
+      })
+    }
+  },
+
+  watch: {
+    '$route.path': {
+      immediate: true,
+      handler(newPath) {
+        this.handleRouteChange(newPath)
+      }
+    }
+  },
+
   async created() {
     const sessionStore = useSessionStore()
-    const meStore = useMeStore()
     const router = useRouter()
 
     sessionStore.loadSessionFromCookie()
@@ -105,14 +163,12 @@ export default {
     }
 
     try {
-      const { data } = await meStore.fetchUserProfile()
+      const { data } = await this.meStore.fetchUserProfile()
 
-      // Check missing documents
       if (
         data?.missing_documents?.some((doc) => doc.statu === 0) &&
         !router.currentRoute.value.path.includes('/dashboard/documents')
       ) {
-        console.log('Missing documents, redirecting to documents page')
         router.push('/dashboard/documents')
         return
       }
@@ -129,6 +185,11 @@ export default {
   },
 
   methods: {
+    handleRouteChange(path) {
+      const isExcluded = this.excludedLayoutPaths.includes(path)
+      this.$emit('update-bottom-nav', !isExcluded)
+    },
+
     checkEvents(birthday, seniorDate) {
       const today = new Date()
       const birthdayDate = new Date(birthday)
@@ -204,7 +265,3 @@ export default {
   }
 }
 </script>
-
-<style>
-/* Add any necessary styles here */
-</style>

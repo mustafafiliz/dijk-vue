@@ -73,100 +73,82 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
-  >
-    <div class="relative p-4 flex-1 max-w-5xl">
-      <button class="py-2" type="button" @click="$router.go(-1)">
-        <svg
-          width="36"
-          height="36"
-          viewBox="0 0 36 36"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M21 25.5L13.5 18L21 10.5"
-            stroke="black"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
-      <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Avanslarım</div>
+  <button class="py-2" type="button" @click="$router.go(-1)">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M21 25.5L13.5 18L21 10.5"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+  <div class="absolute lg:top-5 top-7 left-1/2 -translate-x-1/2 font-semibold">Avanslarım</div>
 
-      <div class="grid grid-cols-1 gap-4">
-        <RouterLink to="/dashboard/prepay-request/new">
-          <Button class="w-full !py-3 text-base lg:text-lg text-nowrap"
-            >Avans Talebi Oluştur</Button
-          >
-        </RouterLink>
-        <!-- Year Selector -->
-        <div
-          class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
-        >
-          <select v-model="selectedYear" class="w-full h-full outline-none">
-            <option v-for="option in yearOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </option>
-          </select>
+  <div class="grid grid-cols-1 gap-4">
+    <RouterLink to="/dashboard/prepay-request/new">
+      <Button class="w-full !py-3 text-base lg:text-lg text-nowrap">Avans Talebi Oluştur</Button>
+    </RouterLink>
+    <!-- Year Selector -->
+    <div
+      class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
+    >
+      <select v-model="selectedYear" class="w-full h-full outline-none">
+        <option v-for="option in yearOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Loading State -->
+    <div v-if="loading" class="flex flex-col items-center justify-items-center pt-20">
+      <div
+        class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+      ></div>
+      <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div v-else class="grid grid-cols-1 gap-4">
+      <div
+        v-if="prepays.length > 0"
+        v-for="item in prepays"
+        :key="item._id"
+        class="bg-white rounded-xl p-4 shadow-sm"
+      >
+        <div class="flex justify-between items-start mb-3">
+          <div class="font-medium text-night-sky">{{ item.prePayType.title }}</div>
+          <span :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusColor(item.statu)]">
+            {{ item.statu_text }}
+          </span>
         </div>
 
-        <!-- Loading State -->
-        <div v-if="loading" class="flex flex-col items-center justify-items-center pt-20">
-          <div
-            class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
-          ></div>
-          <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
-        </div>
-
-        <!-- Cards Grid -->
-        <div v-else class="grid grid-cols-1 gap-4">
-          <div
-            v-if="prepays.length > 0"
-            v-for="item in prepays"
-            :key="item._id"
-            class="bg-white rounded-xl p-4 shadow-sm"
-          >
-            <div class="flex justify-between items-start mb-3">
-              <div class="font-medium text-night-sky">{{ item.prePayType.title }}</div>
-              <span
-                :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusColor(item.statu)]"
-              >
-                {{ item.statu_text }}
-              </span>
-            </div>
-
-            <div class="space-y-2 text-sm">
-              <div class="flex justify-between">
-                <span class="text-gray-500">Talep Tarihi:</span>
-                <span class="font-medium">
-                  {{ item.request_date }}
-                </span>
-              </div>
-
-              <div class="flex justify-between">
-                <span class="text-gray-500">Tutar:</span>
-                <span class="font-medium">
-                  {{ formatPrice(item.price.toString().replace('.', ',')) }}
-                  {{ item.prePayType.currency }}
-                </span>
-              </div>
-
-              <div class="flex justify-between">
-                <span class="text-gray-500">Aktarım Durumu:</span>
-                <span class="font-medium">{{ item.transfer_text }}</span>
-              </div>
-            </div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Talep Tarihi:</span>
+            <span class="font-medium">
+              {{ item.request_date }}
+            </span>
           </div>
-          <div v-else>
-            <h2 class="text-center my-2">Kayıt bulunamadı.</h2>
+
+          <div class="flex justify-between">
+            <span class="text-gray-500">Tutar:</span>
+            <span class="font-medium">
+              {{ formatPrice(item.price.toString().replace('.', ',')) }}
+              {{ item.prePayType.currency }}
+            </span>
+          </div>
+
+          <div class="flex justify-between">
+            <span class="text-gray-500">Aktarım Durumu:</span>
+            <span class="font-medium">{{ item.transfer_text }}</span>
           </div>
         </div>
       </div>
+      <div v-else>
+        <h2 class="text-center my-2">Kayıt bulunamadı.</h2>
+      </div>
     </div>
-
-    <BottomNavigation />
   </div>
 </template>

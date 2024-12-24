@@ -105,76 +105,68 @@ const handleDidMove = async (e) => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
-  >
-    <div class="p-4 pb-20 flex-1 max-w-5xl">
-      <div class="relative">
-        <button class="py-2" type="button" @click="$router.go(-1)">
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 36 36"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 25.5L13.5 18L21 10.5"
-              stroke="black"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+  <div class="relative">
+    <button class="py-2" type="button" @click="$router.go(-1)">
+      <svg
+        width="36"
+        height="36"
+        viewBox="0 0 36 36"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M21 25.5L13.5 18L21 10.5"
+          stroke="black"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
 
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
-          Mesai Talepleri
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-3 md:flex-row sticky top-0">
-        <DatePicker
-          class="w-full rounded-2xl border-none p-4 md:max-w-[300px] md:sticky md:top-4"
-          title-position="left"
-          v-model="date"
-          :is-dark="false"
-          :attributes="attributes"
-          locale="tr"
-          @did-move="handleDidMove"
-          @update:model-value="handleCalendarChange"
-        ></DatePicker>
-        <div class="flex flex-col gap-y-3 pb-4 w-full">
-          <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">
-            <input type="checkbox" id="showOnlyMe" @change="handleCalendarChange" />
-            <label for="showOnlyMe">Bana Ait Olanları Göster</label>
-          </label>
-
-          <RouterLink to="/dashboard/overtime-request/new">
-            <Button class="w-full lg:!w-[220px] !py-3"> Talep Oluştur </Button>
-          </RouterLink>
-          <div v-if="loading" class="flex flex-col items-center justify-items-center mt-5">
-            <div
-              class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
-            ></div>
-            <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
-          </div>
-          <template v-else>
-            <CalendarCard
-              v-if="filteredRequests.length > 0"
-              v-for="item in filteredRequests"
-              :key="item._id"
-              :item="item"
-            />
-            <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
-              <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
-            </div>
-          </template>
-        </div>
-      </div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold">
+      Mesai Talepleri
     </div>
+  </div>
 
-    <BottomNavigation />
+  <div class="flex flex-col gap-3 md:flex-row sticky top-0">
+    <DatePicker
+      class="w-full rounded-2xl border-none p-4 md:max-w-[300px] md:sticky md:top-4"
+      title-position="left"
+      v-model="date"
+      :is-dark="false"
+      :attributes="attributes"
+      locale="tr"
+      @did-move="handleDidMove"
+      @update:model-value="handleCalendarChange"
+    ></DatePicker>
+    <div class="flex flex-col gap-y-3 pb-4 w-full">
+      <label class="bg-white rounded-20 p-4 flex items-center gap-x-2">
+        <input type="checkbox" id="showOnlyMe" @change="handleCalendarChange" />
+        <label for="showOnlyMe">Bana Ait Olanları Göster</label>
+      </label>
+
+      <RouterLink to="/dashboard/overtime-request/new">
+        <Button class="w-full lg:!w-[220px] !py-3"> Talep Oluştur </Button>
+      </RouterLink>
+      <div v-if="loading" class="flex flex-col items-center justify-items-center mt-5">
+        <div
+          class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"
+        ></div>
+        <div class="text-sm text-gray-700 font-medium">Yükleniyor...</div>
+      </div>
+      <template v-else>
+        <CalendarCard
+          v-if="filteredRequests.length > 0"
+          v-for="item in filteredRequests"
+          :key="item._id"
+          :item="item"
+        />
+        <div v-else class="bg-white w-full py-10 rounded-2xl mt-1">
+          <div class="text-center text-12 text-night-sky">Bu tarihte mesai talebi yok</div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
