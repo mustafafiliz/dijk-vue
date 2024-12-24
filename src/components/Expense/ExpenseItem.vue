@@ -130,7 +130,7 @@ const totalAmount = computed(() => {
         <!-- PDF Viewer -->
         <div v-if="documentType === 'pdf'" class="flex justify-center items-center h-full">
           <div class="max-h-[80vh] w-full h-full">
-            <VPdfViewer :src="selectedDocument" class="w-full h-full" />
+            <VPdfViewer :src="selectedDocument" class="w-full h-full max-h-[80vh]" />
           </div>
         </div>
 
