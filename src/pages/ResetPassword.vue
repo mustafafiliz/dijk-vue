@@ -31,7 +31,7 @@
         }"
       >
         <VButton
-          class="absolute top-[57px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl md:hidden"
+          class="absolute top-[20px] left-4 px-[6px] pb-[6px] pt-[6px] rounded-xl md:hidden"
           variant="light"
           @click="$router.go(-1)"
         >
