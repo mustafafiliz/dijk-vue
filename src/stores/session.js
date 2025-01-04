@@ -49,23 +49,25 @@ export const useSessionStore = defineStore('session', {
 
     async refreshSession() {
       const refreshToken = this.session.refresh_token
+      const token = this.session.access_token
 
       if (!refreshToken) return null
 
       try {
         const response = await axios.post(
-          'https://dijikapi.maverabilisim.com/api/v1/auth/refresh',
+          'https://dijik.maverabilisim.com/api/v1/auth/refresh',
           {
             refresh_token: refreshToken
           },
           {
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
             }
           }
         )
 
-        this.setSession(response.data) // Update session with new tokens
+        this.setSession(response.data.data) // Update session with new tokens
         return response.data.access_token
       } catch (error) {
         this.clearSession()
