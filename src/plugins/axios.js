@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useSessionStore } from '@/stores/session'
 
 const api = axios.create({
-  baseURL: 'https://dijik.maverabilisim.com/api/v1',
+  baseURL: 'https://dijiportalapi.dedas.local/api/v1',
   timeout: 900000,
   headers: {
     'Content-Type': 'application/json'

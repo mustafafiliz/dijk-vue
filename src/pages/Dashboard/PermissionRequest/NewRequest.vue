@@ -44,7 +44,7 @@ export default {
           title: item.title,
           available_day: item.available_day
         }))
-        this.selectedPermit = response.data.find((item) => item?.is_annual_permit)
+        this.selectedPermit = response.data.find((item) => item?.is_annual_permit)._id
       } catch (error) {
         toast.error(error.response.data.message)
       }
@@ -52,9 +52,12 @@ export default {
 
     async calculateRemainingDays() {
       const { axios } = useAxios()
+
+      const selected = this.permitGroups.find((item) => item.id === this.selectedPermit)
+
       try {
         const response = await axios.post('/permit-day-calculate', {
-          permit_code: this.selectedPermit?.code,
+          permit_code: selected?.code,
           permit_start_date: this.formatDateTime(this.permitStartDate, this.permitStartTime),
           permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime)
         })
@@ -109,7 +112,7 @@ export default {
 
       try {
         await axios.post('/permits', {
-          permit_group_id: this.selectedPermit.id,
+          permit_group_id: this.selectedPermit,
           permit_start_date,
           permit_end_date,
           permit_message: `${this.permitMessage} Yerine Bakacak Kişi: ${this.substitutePerson}`

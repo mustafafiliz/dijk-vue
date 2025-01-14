@@ -26,13 +26,15 @@ export default {
       showModal: false,
       showConfirmModal: false,
       submitted: false,
-      overtime_code: 'FM01',
+      overtime_code: '',
       isEndTimeUpdating: false,
-      dateLocale:tr
+      dateLocale:tr,
+      overtimeGroups:null
     }
   },
   mounted() {
     const { user } = useMeStore()
+    this.getOvertimeGroups()
     this.startTime = user?.value?.work_end_hour || '18:00'
   },
   watch: {
@@ -62,12 +64,27 @@ export default {
       }
       this.showConfirmModal = true
     },
+
+    async getOvertimeGroups() {
+      try {
+        const { axios } = useAxios()
+        const { data } = await axios.get('/overtime-groups')
+        this.overtimeGroups = data
+        // Set default selection to first item's ID
+        if (data && data.length > 0) {
+          this.overtime_code = data[0]._id
+        }
+      } catch (error) {
+        return error
+      }
+    },
+
     async confirmOvertime() {
       this.loading = true
       try {
         const { axios } = useAxios()
         await axios.post('/overtimes', {
-          overtime_code: this.overtime_code,
+          overtime_group_id: this.overtime_code,
           overtime_start_date: this.formatDateTime(this.overtimeDate, this.startTime),
           overtime_end_date: this.formatDateTime(this.overtimeDate, this.endTime),
           overtime_message: this.overtimeMessage
@@ -82,9 +99,12 @@ export default {
         this.loading = false
       }
     },
+ 
     formatDateTime(date, time) {
-      return `${date.toISOString().split('T')[0]}T${time}`
+      const formattedDate = date.toISOString().split('T')[0]
+      return `${formattedDate} ${time}`  
     }
+
   }
 }
 </script>
@@ -131,6 +151,25 @@ export default {
             <Datepicker v-model="overtimeDate" :locale="dateLocale" class="outline-none w-full" />
           </div>
         </div>
+
+        <div>
+      <div class="font-semibold mb-[10px]">Mesai Türü <span class="text-red-500">*</span></div>
+      <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
+        <select 
+          v-model="overtime_code" 
+          class="w-full outline-none bg-transparent"
+        >
+          <option value="" disabled>Seçiniz</option>
+          <option 
+            v-for="group in overtimeGroups" 
+            :key="group._id" 
+            :value="group._id"
+          >
+            {{ group.title }}
+          </option>
+        </select>
+      </div>
+    </div>
 
         <!-- Start Time -->
         <div>
