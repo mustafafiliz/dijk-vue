@@ -39,11 +39,12 @@ export default {
       try {
         const response = await axios.get('/permit-groups')
         this.permitGroups = response.data.map((item) => ({
-          id: item.code,
+          id: item?._id,
+          code: item?.code,
           title: item.title,
           available_day: item.available_day
         }))
-        this.selectedPermit = response.data.find((item) => item?.is_annual_permit)?.code
+        this.selectedPermit = response.data.find((item) => item?.is_annual_permit)
       } catch (error) {
         toast.error(error.response.data.message)
       }
@@ -53,7 +54,7 @@ export default {
       const { axios } = useAxios()
       try {
         const response = await axios.post('/permit-day-calculate', {
-          permit_code: this.selectedPermit,
+          permit_code: this.selectedPermit?.code,
           permit_start_date: this.formatDateTime(this.permitStartDate, this.permitStartTime),
           permit_end_date: this.formatDateTime(this.permitEndDate, this.permitEndTime)
         })
@@ -108,7 +109,7 @@ export default {
 
       try {
         await axios.post('/permits', {
-          permit_code: this.selectedPermit,
+          permit_group_id: this.selectedPermit.id,
           permit_start_date,
           permit_end_date,
           permit_message: `${this.permitMessage} Yerine Bakacak Kişi: ${this.substitutePerson}`
