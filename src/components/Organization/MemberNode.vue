@@ -2,7 +2,16 @@
 import { ref, defineEmits, nextTick, watch, onMounted } from 'vue'
 import PersonBox from '@/components/PersonBox.vue'
 
-const props = defineProps(['member', 'parentId', 'firstChild'])
+const props = defineProps({
+  member: Object,
+  parentId: String,
+  firstChild: Boolean,
+  depth: {
+    type: Number,
+    default: 0
+  }
+})
+
 const collapse = ref(false)
 
 onMounted(() => {
@@ -83,9 +92,10 @@ const toggleSubMembers = () => {
     >
       <template v-for="subMember in member.subMembers" :key="subMember._id">
         <MemberNode
-          v-show="subMember && !subMember.collapse"
+          v-if="subMember && !subMember.collapse && props.depth < 100"
           :member="subMember"
           :parentId="member._id"
+          :depth="props.depth + 1"
         />
       </template>
     </div>

@@ -1,9 +1,4 @@
 <script setup>
-import FieldItem from '@/components/FieldItem.vue'
-import BottomNavigation from '@/components/BottomNavigation.vue'
-import { useFieldsStore } from '@/stores/fields'
-import PersonBox from '@/components/PersonBox.vue'
-import Input from '@/components/Input.vue'
 import { useAxios } from '@/plugins/axios'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useMeStore } from '@/stores/me'
@@ -27,11 +22,10 @@ const showUpperManager = () => {
   }
 }
 
-// Function to build the organization hierarchy
 const buildHierarchy = (members, managerId) => {
   const map = new Map()
+  const processed = new Set()
 
-  // Map all members
   members.forEach((member) => {
     map.set(member._id, {
       ...member,
@@ -40,19 +34,17 @@ const buildHierarchy = (members, managerId) => {
     })
   })
 
-  // Check each member's manager and add sub members
   members.forEach((member) => {
-    if (member.manager_person_id) {
+    if (member.manager_person_id && !processed.has(member._id)) {
+      processed.add(member._id)
       const manager = map.get(member.manager_person_id)
-      if (manager) {
+      if (manager && member._id !== manager._id) {
         manager.subMembers.push(map.get(member._id))
       }
     }
   })
 
-  // Return the top element with the specified managerId
   const hierarchy = map.get(managerId)
-
   allMembers.value = hierarchy ? [hierarchy] : []
 }
 
@@ -60,7 +52,6 @@ onMounted(async () => {
   try {
     const { data } = await axios.get('/organization')
     organizations.value = data
-
     buildHierarchy(data, managerId)
   } catch (error) {
     console.error('Error fetching team members:', error)
@@ -125,6 +116,7 @@ onMounted(async () => {
               :member="member"
               :parentId="managerId"
               :firstChild="true"
+              :depth="0"
             />
           </div>
         </div>
