@@ -294,7 +294,7 @@ onMounted(async () => {
           />
         </template>
       </InfoSlider>
-      <div v-if="upcomingEvents?.length > 0" class="bg-white rounded-2xl h-full order-4 p-2">
+      <div class="bg-white rounded-2xl h-full order-4 p-2">
         <InfoSliderItemUpcomingEvent :upcoming-events="upcomingEvents" />
       </div>
       <InfoSlider class="order-5">
@@ -402,7 +402,7 @@ onMounted(async () => {
           </template>
         </InfoSliderHeader>
         <div class="grid grid-cols-2 gap-x-2 flex-1 overflow-x-auto mt-2">
-          <div :key="video._id" v-for="video in videos" class="relative">
+          <div :key="video._id" v-for="video in videos.slice(0, 4)" class="relative">
             <VideoBox :title="video.title" :iframe="video.iframe" />
             <div
               @click="openModal(video)"

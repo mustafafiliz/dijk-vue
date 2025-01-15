@@ -30,12 +30,14 @@ export default {
       loading: false,
       showModal: false,
       submitted: false,
-      dateLocale: tr
+      dateLocale: tr,
+      isLoadingGroups: true
     }
   },
   methods: {
     async getPermitGroups() {
       const { axios } = useAxios()
+      this.isLoadingGroups = true
       try {
         const response = await axios.get('/permit-groups')
         this.permitGroups = response.data.map((item) => ({
@@ -47,6 +49,8 @@ export default {
         this.selectedPermit = response.data.find((item) => item?.is_annual_permit)._id
       } catch (error) {
         toast.error(error.response.data.message)
+      } finally {
+        this.isLoadingGroups = false
       }
     },
 
@@ -172,91 +176,103 @@ export default {
           İzin Oluştur
         </div>
       </div>
-
-      <div class="flex flex-col gap-y-5">
-        <div class="flex items-center justify-between text-night-sky">
-          <div class="font-semibold text-24">İzin Talebi</div>
-          <div class="text-20 font-medium">
-            Seçilen:
-            <span class="font-semibold text-gentian-flower text-24">{{ remainingDays }} Gün</span>
-          </div>
-        </div>
-
-        <div>
-          <div class="font-semibold mb-[10px]">İzin Türü <span class="text-red-500">*</span></div>
-          <div
-            class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
-          >
-            <select v-model="selectedPermit" class="w-full h-full outline-none">
-              <option v-for="group in permitGroups" :key="group.id" :value="group.id">
-                {{ group.title }}
-              </option>
-            </select>
-            <span class="absolute right-4 text-12 lg:text-sm pr-5 pointer-events-none">
-              Kalan:
-              {{ permitGroups?.find((group) => group.id === selectedPermit)?.available_day }} gün
-            </span>
-          </div>
-        </div>
-
-        <div>
-          <div class="font-semibold mb-[10px]">
-            Başlangıç Tarihi <span class="text-red-500">*</span>
-          </div>
-          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker
-              v-model="permitStartDate"
-              :locale="dateLocale"
-              class="outline-none w-full"
-            />
-            <Input
-              class="!text-12 !py-0 !px-0 !w-fit text-squant"
-              type="time"
-              v-model="permitStartTime"
-            />
-          </div>
-        </div>
-
-        <div>
-          <div class="font-semibold mb-[10px]">
-            Bitiş Tarihi <span class="text-red-500">*</span>
-          </div>
-          <div class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium">
-            <Datepicker v-model="permitEndDate" :locale="dateLocale" class="outline-none w-full" />
-            <Input
-              class="!text-12 !py-0 !px-0 !w-fit text-squant"
-              type="time"
-              v-model="permitEndTime"
-            />
-          </div>
-        </div>
-
-        <div>
-          <div class="font-semibold mb-[10px]">Mesaj <span class="text-red-500">*</span></div>
-          <Textarea
-            class="text-arch-grey"
-            placeholder="Eklemek istediğiniz bir şey var mı ?"
-            rows="5"
-            v-model="permitMessage"
-          />
-        </div>
-
-        <div>
-          <div class="flex items-center gap-x-[10px] font-semibold mb-[10px]">
-            Yerine Bakacak Kişi <span class="text-[10px] text-metal-armor">Opsiyonel</span>
-          </div>
-          <Input v-model="substitutePerson" class="!text-12" />
-        </div>
+      <div v-if="isLoadingGroups" class="flex items-center justify-center h-dvh">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
+      <template v-else>
+        <div class="flex flex-col gap-y-5">
+          <div class="flex items-center justify-between text-night-sky">
+            <div class="font-semibold text-24">İzin Talebi</div>
+            <div class="text-20 font-medium">
+              Seçilen:
+              <span class="font-semibold text-gentian-flower text-24">{{ remainingDays }} Gün</span>
+            </div>
+          </div>
 
-      <Button
-        class="rounded-none fixed left-0 right-0 bottom-0"
-        variant="primary"
-        :disabled="loading || permitMessage.length < 1 || remainingDays === 0"
-        @click="openModal"
-      >
-        Devam Et
-      </Button>
+          <div>
+            <div class="font-semibold mb-[10px]">İzin Türü <span class="text-red-500">*</span></div>
+            <div
+              class="relative flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
+            >
+              <select v-model="selectedPermit" class="w-full h-full outline-none">
+                <option v-for="group in permitGroups" :key="group.id" :value="group.id">
+                  {{ group.title }}
+                </option>
+              </select>
+              <span class="absolute right-4 text-12 lg:text-sm pr-5 pointer-events-none">
+                Kalan:
+                {{ permitGroups?.find((group) => group.id === selectedPermit)?.available_day }} gün
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-[10px]">
+              Başlangıç Tarihi <span class="text-red-500">*</span>
+            </div>
+            <div
+              class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
+            >
+              <Datepicker
+                v-model="permitStartDate"
+                :locale="dateLocale"
+                class="outline-none w-full"
+              />
+              <Input
+                class="!text-12 !py-0 !px-0 !w-fit text-squant"
+                type="time"
+                v-model="permitStartTime"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-[10px]">
+              Bitiş Tarihi <span class="text-red-500">*</span>
+            </div>
+            <div
+              class="flex items-center justify-between bg-white rounded-2xl py-3 px-4 font-medium"
+            >
+              <Datepicker
+                v-model="permitEndDate"
+                :locale="dateLocale"
+                class="outline-none w-full"
+              />
+              <Input
+                class="!text-12 !py-0 !px-0 !w-fit text-squant"
+                type="time"
+                v-model="permitEndTime"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="font-semibold mb-[10px]">Mesaj <span class="text-red-500">*</span></div>
+            <Textarea
+              class="text-arch-grey"
+              placeholder="Eklemek istediğiniz bir şey var mı ?"
+              rows="5"
+              v-model="permitMessage"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-center gap-x-[10px] font-semibold mb-[10px]">
+              Yerine Bakacak Kişi <span class="text-[10px] text-metal-armor">Opsiyonel</span>
+            </div>
+            <Input v-model="substitutePerson" class="!text-12" />
+          </div>
+        </div>
+
+        <Button
+          class="rounded-none fixed left-0 right-0 bottom-0"
+          variant="primary"
+          :disabled="loading || permitMessage.length < 1 || remainingDays === 0"
+          @click="openModal"
+        >
+          Devam Et
+        </Button>
+      </template>
     </div>
   </div>
 

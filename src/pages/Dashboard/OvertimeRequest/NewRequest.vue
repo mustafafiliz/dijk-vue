@@ -29,7 +29,8 @@ export default {
       overtime_code: '',
       isEndTimeUpdating: false,
       dateLocale:tr,
-      overtimeGroups:null
+      overtimeGroups:null,
+      isLoadingGroups:true
     }
   },
   mounted() {
@@ -66,6 +67,7 @@ export default {
     },
 
     async getOvertimeGroups() {
+      this.isLoadingGroups = true
       try {
         const { axios } = useAxios()
         const { data } = await axios.get('/overtime-groups')
@@ -76,6 +78,9 @@ export default {
         }
       } catch (error) {
         return error
+      }
+      finally{
+        this.isLoadingGroups = false
       }
     },
 
@@ -101,10 +106,12 @@ export default {
     },
  
     formatDateTime(date, time) {
-      const formattedDate = date.toISOString().split('T')[0]
-      return `${formattedDate} ${time}`  
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const formattedDate = `${year}-${month}-${day}`
+      return `${formattedDate} ${time}`
     }
-
   }
 }
 </script>
@@ -137,9 +144,12 @@ export default {
           Mesai Oluştur
         </div>
       </div>
-
+      <div v-if="isLoadingGroups" class="flex items-center justify-center h-dvh">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+     </div>
       <!-- Form Content -->
-      <div class="flex flex-col gap-y-5">
+      <template v-else>
+        <div class="flex flex-col gap-y-5">
         <div class="flex items-center justify-between text-night-sky">
           <div class="font-semibold text-24">Mesai Talebi</div>
         </div>
@@ -218,6 +228,7 @@ export default {
       >
         Devam Et
       </Button>
+      </template>
     </div>
   </div>
 
@@ -249,7 +260,7 @@ export default {
         <p class="mb-4 text-sm text-gray-700">Girdiğiniz bilgilere göre mesai oluşturulacak.</p>
         <div class="mb-2 text-xs text-gray-700">
           <strong class="text-gray-900 text-sm">Mesai tarihi:</strong>
-          <div class="mt-1">{{ overtimeDate.toISOString().split('T')[0] }}</div>
+          <div class="mt-1">{{ formatDateTime(overtimeDate).split(' ')[0] }}</div>
         </div>
         <div class="mb-2 text-xs text-gray-700">
           <strong class="text-gray-900 text-sm">Mesai aralığı:</strong>
@@ -285,7 +296,7 @@ export default {
         <p class="mb-4 text-sm text-gray-700">Mesai talebiniz başarıyla oluşturuldu.</p>
         <p class="mb-2 text-xs text-gray-700">
           <strong class="text-gray-900 text-sm">Mesai tarihi:</strong>
-          <div class="mt-2 text-xs">{{ overtimeDate.toISOString().split('T')[0] }}</div>
+          <div class="mt-2 text-xs">{{ formatDateTime(overtimeDate).split(' ')[0] }}</div>
         </p>
         <p class="mb-2 text-xs text-gray-700">
           <strong class="text-gray-900 text-sm">Mesai aralığı:</strong>
