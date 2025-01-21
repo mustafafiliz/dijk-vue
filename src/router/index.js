@@ -60,6 +60,11 @@ const routes = [
 
   // Dashboard Routes
   {
+    path: '/dashboard',
+    component: DashboardHome,
+    meta: { title: 'DijiPortal - Ana Sayfa' }
+  },
+  {
     path: '/dashboard/home',
     component: DashboardHome,
     meta: { title: 'DijiPortal - Ana Sayfa' }

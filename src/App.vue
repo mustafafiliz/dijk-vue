@@ -176,9 +176,7 @@ export default {
       this.userName = data?.name
       this.checkEvents(data?.birthday, data?.senior_date)
     } catch (error) {
-      if (router.currentRoute.value.path.includes('/auth')) {
-        router.push('/dashboard/home')
-      }
+      router.push('/auth/login')
     } finally {
       this.isLoading = false
     }
