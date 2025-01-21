@@ -52,7 +52,18 @@
           </svg>
         </VButton>
 
-        <div class="flex flex-col items-center justify-center h-full p-4">
+        <form
+          @submit.prevent="
+            () => {
+              if (isOpenOtp) {
+                changePassword()
+              } else {
+                getSmsCode()
+              }
+            }
+          "
+          class="flex flex-col items-center justify-center h-full p-4"
+        >
           <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80" />
           <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20" />
 
@@ -131,6 +142,7 @@
             <VButton
               v-if="isOpenOtp"
               :is-loading="isLoading"
+              :type="isOpenOtp ? 'submit' : 'button'"
               :disabled="isChangePasswordButtonDisabled"
               class="w-full mt-4"
               @click="changePassword"
@@ -144,11 +156,12 @@
               class="w-full mt-4"
               @click="getSmsCode"
               v-show="!isOpenOtp"
+              :type="!isOpenOtp ? 'submit' : 'button'"
             >
               Sıfırlama Kodu Gönder
             </VButton>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -220,6 +233,10 @@ export default {
     },
 
     getSmsCode() {
+      if (!this.isSmsFormValid) {
+        return
+      }
+
       this.isLoading = true
       const phone = this.phoneNumber.replace(/\D/g, '')
       this.$axios
@@ -240,6 +257,10 @@ export default {
     },
 
     changePassword() {
+      if (!this.isChangePasswordButtonDisabled) {
+        return
+      }
+
       this.isLoading = true
       const phone = this.phoneNumber.replace(/\D/g, '')
 

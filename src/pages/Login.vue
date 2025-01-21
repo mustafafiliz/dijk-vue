@@ -55,7 +55,18 @@
             />
           </svg>
         </VButton>
-        <div class="flex flex-col items-center justify-center h-full p-4">
+        <form
+          @submit.prevent="
+            () => {
+              if (!isOpenOtp) {
+                sendOTP()
+              } else {
+                getSmsCode()
+              }
+            }
+          "
+          class="flex flex-col items-center justify-center h-full p-4"
+        >
           <img src="/images/logo.png" alt="dijiportal" class="md:flex hidden w-80 mb-10" />
           <img src="/favicon.ico" alt="dijiportal" class="md:hidden w-20 mb-10" />
 
@@ -120,6 +131,7 @@
               Şifremi Unuttum
             </router-link>
             <VButton
+              :type="!isOpenOtp ? 'submit' : 'button'"
               :is-loading="isLoading"
               :disabled="!isSmsFormValid"
               class="w-full mt-4"
@@ -133,12 +145,13 @@
               :disabled="!isOtpFormValid || countdown === 0"
               class="w-full mt-4"
               @click="sendOTP"
+              :type="isActiveLoginButton ? 'submit' : 'button'"
               v-show="isActiveLoginButton"
             >
               Giriş Yap
             </VButton>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -207,6 +220,10 @@ export default {
     },
 
     getSmsCode() {
+      if (!this.isSmsFormValid) {
+        return
+      }
+
       const sessionStore = useSessionStore()
 
       this.isLoading = true
@@ -235,6 +252,10 @@ export default {
     },
 
     sendOTP() {
+      if (!this.isOtpFormValid) {
+        return
+      }
+
       this.isLoading = true
       const sessionStore = useSessionStore()
       const phone = this.phoneNumber.replace(/\D/g, '')
