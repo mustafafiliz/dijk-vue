@@ -139,6 +139,10 @@
             <div class="pl-3">
               <ErrorLabel v-for="message in errorMessages" :text="message" />
             </div>
+            <router-link to="/auth/login" class="underline font-medium text-12 mt-4 ml-3">
+              Giriş Yap
+            </router-link>
+
             <VButton
               v-if="isOpenOtp"
               :is-loading="isLoading"
