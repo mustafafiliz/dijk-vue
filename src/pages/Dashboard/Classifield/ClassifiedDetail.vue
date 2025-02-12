@@ -2,7 +2,7 @@
   <div
     class="flex flex-col h-dvh bg-gradient-to-b from-cornflower via-lucid-dreams via-25% to-lynx-white overflow-y-auto md:flex-row-reverse md:justify-center"
   >
-    <div class="relative flex flex-col p-4 pb-20 flex-1 max-w-5xl">
+    <div class="relative flex flex-col pb-20 flex-1 max-w-5xl">
       <button class="py-2" type="button" @click="$router.go(-1)">
         <svg
           width="36"
@@ -68,7 +68,7 @@
         </div>
 
         <!-- Image Gallery -->
-        <div class="max-w-[calc(100vw-28px)] lg:max-w-4xl">
+        <div class="max-w-[calc(100vw-50px)] lg:max-w-4xl">
           <swiper
             :modules="[Navigation, Pagination]"
             :navigation="{

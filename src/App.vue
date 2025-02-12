@@ -169,7 +169,8 @@ export default {
         data?.missing_documents?.some((doc) => doc.statu === 0) &&
         !router.currentRoute.value.path.includes('/dashboard/documents')
       ) {
-        router.push('/dashboard/documents')
+        window.location.href = '/dashboard/documents'
+
         return
       }
 
