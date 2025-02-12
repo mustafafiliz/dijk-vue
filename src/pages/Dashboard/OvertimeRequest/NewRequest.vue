@@ -39,6 +39,11 @@ export default {
     this.startTime = user?.value?.work_end_hour || '18:00'
   },
   watch: {
+    overtimeDate(newValue) {
+      setTimeout(() => {
+        document.activeElement?.blur()
+      }, 0)
+    },
     endTime(newValue) {
       if (this.isEndTimeUpdating) {
         this.isEndTimeUpdating = false

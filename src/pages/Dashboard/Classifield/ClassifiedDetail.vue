@@ -114,6 +114,9 @@
               {{ classified.statu_text }}
             </div>
           </div>
+          <p class="mt-4 text-gray-500">
+            {{ classified.description }}
+          </p>
           <div class="mt-4 text-gray-500">İlan Tarihi: {{ formatDate(classified.created_at) }}</div>
         </div>
 

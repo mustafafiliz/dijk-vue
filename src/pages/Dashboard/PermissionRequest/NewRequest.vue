@@ -98,6 +98,11 @@ export default {
       if (endDateTime < startDateTime) {
         this.permitEndTime = this.permitStartTime
       }
+
+      setTimeout(() => {
+        document.activeElement?.blur()
+        this.calculateRemainingDays()
+      }, 0)
     },
 
     openModal() {
