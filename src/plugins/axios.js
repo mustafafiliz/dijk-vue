@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { useSessionStore } from '@/stores/session'
+import { constants } from '@/constants/config'
+
+//vite env usage => import.meta.env.API_BASE_URL
 
 const api = axios.create({
-  baseURL: 'https://dijiportalapi.dedas.local/api/v1',
+  baseURL: constants.API_BASE_URL,
   timeout: 900000,
   headers: {
     'Content-Type': 'application/json'

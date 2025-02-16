@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import Cookies from 'js-cookie'
 import CryptoJS from 'crypto-js'
 import axios from 'axios'
-
-const SECRET_KEY = 'PKAMVrB7XHiZJCbqVrvtszSk1ntpKa6b'
+import { constants } from '@/constants/config'
 
 export const useSessionStore = defineStore('session', {
   state: () => ({
@@ -25,7 +24,10 @@ export const useSessionStore = defineStore('session', {
     setSession(sessionData) {
       this.session = sessionData
       // Encrypt data before storing in cookie
-      const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(sessionData), SECRET_KEY).toString()
+      const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(sessionData),
+        constants.SECRET
+      ).toString()
       Cookies.set('session', encryptedData)
     },
 
@@ -54,8 +56,10 @@ export const useSessionStore = defineStore('session', {
       if (!refreshToken) return null
 
       try {
+        //vite env usage => import.meta.env.API_BASE_URL
+
         const response = await axios.post(
-          'https://dijik.maverabilisim.com/api/v1/auth/refresh',
+          `${constants.API_BASE_URL}/auth/refresh`,
           {
             refresh_token: refreshToken
           },
