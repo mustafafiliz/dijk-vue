@@ -57,11 +57,13 @@
         </VButton>
         <form
           @submit.prevent="
-            () => {
+            async () => {
               if (!isOpenOtp) {
-                sendOTP()
+                await sendOTP()
+                return
               } else {
-                getSmsCode()
+                await getSmsCode()
+                return
               }
             }
           "
@@ -136,7 +138,7 @@
               :disabled="!isSmsFormValid"
               class="w-full mt-4"
               @click="getSmsCode"
-              v-show="!isOpenOtp"
+              v-if="!isOpenOtp"
             >
               Giriş Kodu Gönder
             </VButton>
@@ -146,7 +148,7 @@
               class="w-full mt-4"
               @click="sendOTP"
               :type="isActiveLoginButton ? 'submit' : 'button'"
-              v-show="isActiveLoginButton"
+              v-else
             >
               Giriş Yap
             </VButton>
@@ -220,7 +222,7 @@ export default {
     },
 
     getSmsCode() {
-      if (!this.isSmsFormValid) {
+      if (!this.isSmsFormValid || this.isOpenOtp) {
         return
       }
 
@@ -252,7 +254,7 @@ export default {
     },
 
     sendOTP() {
-      if (!this.isOtpFormValid) {
+      if (!this.isOtpFormValid || !this.isOpenOtp) {
         return
       }
 
